@@ -1,0 +1,15 @@
+#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr "\tCUDA 7.0"
+}
+ 
+module-whatis "CUDA 7.0"
+
+conflict cuda
+
+setenv CUDA_HOME /packages/cuda/7.0
+prepend-path PATH /packages/cuda/7.0/bin
+prepend-path LD_LIBRARY_PATH /packages/cuda/7.0/lib64
+

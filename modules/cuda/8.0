@@ -1,0 +1,15 @@
+#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr "\tCUDA 8.0"
+}
+ 
+module-whatis "CUDA 8.0"
+
+conflict cuda
+
+setenv CUDA_HOME /packages/cuda/8.0
+prepend-path PATH /packages/cuda/8.0/bin
+prepend-path LD_LIBRARY_PATH /packages/cuda/8.0/lib64
+
