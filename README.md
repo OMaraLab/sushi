@@ -99,7 +99,7 @@ lily@gavle$ conda activate myenv
 lily@gavle$ conda install ipykernel
 lily@gavle$ python -m ipykernel install --user --name myenv --display-name "Python (myenv)"
 ```
-If you have the bash aliases in this repo **(TO DO: UPLOAD)**, this is also available as the command
+If you have the omara bash aliases (please download from shared drive), this is also available as the command
 ```console
 lily@gavle$ jupyterkernel myenv
 ```
