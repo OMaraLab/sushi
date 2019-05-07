@@ -122,13 +122,9 @@ dependencies:
   - libcurl=7.64.1
   - libedit=3.1.20181209
   - libffi=3.2.1
-  - libgcc=7.2.0
-  - libgcc-ng=8.2.0
-  - libgfortran-ng=7.3.0
   - libpng=1.6.37
   - libsodium=1.0.16
   - libssh2=1.8.2
-  - libstdcxx-ng=8.2.0
   - libtiff=4.0.10
   - libtool=2.4.6
   - libuuid=1.0.3
@@ -240,7 +236,6 @@ dependencies:
   - scikit-learn=0.20.3
   - scipy=1.2.1
   - seaborn=0.9.0
-  - secretstorage=3.1.1
   - send2trash=1.5.0
   - setuptools=41.0.1
   - simplegeneric=0.8.1
@@ -296,5 +291,13 @@ dependencies:
   - zipp=0.3.3
   - zlib=1.2.11
   - zstd=1.3.7
+  - pip:
+    - libgcc
+    - libgcc-ng
+    - libgfortran-ng
+    - secretstorage
+    - libstdcxx-ng
+
+
 prefix: /home/lily/anaconda3/envs/ccdash
 
