@@ -7,7 +7,7 @@ Computer set-ups, shell environments, installation notes, etc.
 
 ```console
 lily@gavle$ sudo apt-get update
-lily@gavle$ sudo apt-get install build-essential git vim gcc-multilib g++-multilib checkinstall sublime openssh-server
+lily@gavle$ sudo apt-get install build-essential git vim gcc-multilib g++-multilib checkinstall sublime openssh-server tmux
 ```
 
 **Usually a good idea**:
@@ -67,3 +67,39 @@ lily@gavle$ sudo ln -s /usr/local/Modules/init/profile.sh /etc/profile.d/modules
 lily@gavle$ sudo ln -s /usr/local/Modules/init/profile.csh /etc/profile.d/modules.csh
 ```
 Now, when you install applications, try to install them into /packages. Modulefiles are included in the repo for your convenience.
+
+### Anaconda and Python
+Download and install Anaconda **before** you do anything with Python. This will likely install Visual Studio Code as well, which is super helpful. Open a folder in VS Code with
+
+```console
+lily@gavle$ code .
+```
+
+#### Environments
+Create a new environment with 
+```console
+lily@gavle$ conda create --name myenv [python=3.6] [scipy=0.15.0]
+```
+Use the options in brackets if you need a specific version of Python and/or specific packages. You can also activate it and install directly into it.
+
+**To do**
+I'll add an environment.yml file for my computational chemistry environment here soon.
+
+```console
+lily@gavle$ conda activate myenv
+```
+
+If you have a conda environment activated, running `pip install` will install that package into your current environment. This is very useful! Isolate your virtual environments and never let the twain meet. I also don't modify the base environment that is installed by default.
+
+#### Jupyter
+Often you want to be developing in a specific environment in a Jupyter notebook. Unfortunately, kernels are not automatically created with your environment. Create a kernel by installing `ipykernel` and running the command below:
+
+```console
+lily@gavle$ conda activate myenv
+lily@gavle$ conda install ipykernel
+lily@gavle$ python -m ipykernel install --user --name myenv --display-name "Python (myenv)"
+```
+If you have the bash aliases in this repo **(TO DO: UPLOAD)**, this is also available as the command
+```console
+lily@gavle$ jupyterkernel myenv
+```
