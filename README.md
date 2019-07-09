@@ -3,11 +3,51 @@ Computer set-ups, shell environments, installation notes, etc.
 
 ## Setting up a new computer
 
+Setting up with Ubuntu 19.04 can be unexpectedly tricky. Upon installing:
+- apt-get upgrade
+- ubuntu-drivers autoinstall
+
+Edit `/etc/gdm3/custom.conf` by uncommenting `# WaylandEnable=false`.
+This will forces the computer to use the Xorg display server, ie the one that actually works.
+
+```console
+lily@gavle$ sudo apt install linux-headers-$(uname -r)
+```
+Edit `/etc/default/grub`. Replace:
+```console
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
+```
+with
+```console
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash nomodeset"
+```
+This will disable video drivers until the kernel has started.
+Update with:
+```console
+lily@gavle$ sudo update-grub
+```
+
+Before you reboot, set up SSH so you can get in if your displays die. This installs openssh-server, enables the service and starts the service.
+```console
+lily@gavle$ sudo apt install openssh-server
+lily@gavle$ sudo systemctl enable ssh
+lily@gavle$ sudo systemctl allow ssh
+```
+Test your access by ssh-ing in. To set up a firewall, first check that this line `IPV6=yes` is in `/etc/default/ufw`. 
+```console
+lily@gavle$ sudo ufw default deny incoming
+lily@gavle$ sudo ufw default allow outgoing
+lily@gavle$ sudo ufw allow ssh
+lily@gavle$ sudo systemctl start ufw
+lily@gavle$ sudo systemctl enable ufw
+```
+
+
 ### Essentials
 
 ```console
 lily@gavle$ sudo apt-get update
-lily@gavle$ sudo apt-get install build-essential git vim gcc-multilib g++-multilib checkinstall sublime openssh-server tmux
+lily@gavle$ sudo apt-get install build-essential git vim gcc-multilib g++-multilib checkinstall sublime tmux
 ```
 
 **Usually a good idea**:
