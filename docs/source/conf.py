@@ -74,3 +74,4 @@ html_theme_options = {
     'titles_only': False,
 }
 
+site_url = "omaralab.github.io/sushi"

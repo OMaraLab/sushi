@@ -34,7 +34,8 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Set-ups, shell environments, installations" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -78,49 +79,51 @@
               
             
             
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">Installing Ubuntu 19.04+</a><ul>
-<li><a class="reference internal" href="#obtain-a-usb-drive-with-ubuntu">Obtain a USB drive with Ubuntu</a></li>
-<li><a class="reference internal" href="#install-ubuntu-and-drivers">Install Ubuntu and drivers</a></li>
-<li><a class="reference internal" href="#updates">Updates</a></li>
-<li><a class="reference internal" href="#reconfiguring-grub-and-the-display-server">Reconfiguring grub and the display server</a></li>
-<li><a class="reference internal" href="#configure-ssh">Configure SSH</a><ul>
-<li><a class="reference internal" href="#ssh-keys">SSH keys</a></li>
+              <p class="caption"><span class="caption-text">Docs</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installing Ubuntu 19.04+</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#obtain-a-usb-drive-with-ubuntu">Obtain a USB drive with Ubuntu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install-ubuntu-and-drivers">Install Ubuntu and drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#updates">Updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reconfiguring-grub-and-the-display-server">Reconfiguring grub and the display server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configure-ssh">Configure SSH</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ssh-keys">SSH keys</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#store">Store</a></li>
-<li><a class="reference internal" href="#checkinstall">Checkinstall</a></li>
-<li><a class="reference internal" href="#environment-modules">Environment modules</a><ul>
-<li><a class="reference internal" href="#installation">Installation</a></li>
-<li><a class="reference internal" href="#modulefiles">Modulefiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#store">Store</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#checkinstall">Checkinstall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#environment-modules">Environment modules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modulefiles">Modulefiles</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#anaconda">Anaconda</a></li>
-<li><a class="reference internal" href="#gcc">GCC</a><ul>
-<li><a class="reference internal" href="#id1">Installation</a></li>
-<li><a class="reference internal" href="#switching-between-versions">Switching between versions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#anaconda">Anaconda</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gcc">GCC</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#switching-between-versions">Switching between versions</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#cuda">CUDA</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cuda-8">CUDA 8</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cuda-10">CUDA 10</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#cuda">CUDA</a><ul>
-<li><a class="reference internal" href="#gromacs">GROMACS</a><ul>
-<li><a class="reference internal" href="#id2">2016.1</a></li>
-<li><a class="reference internal" href="#id3">2018.3</a></li>
-<li><a class="reference internal" href="#other-versions">Other versions</a></li>
-<li><a class="reference internal" href="#g-mydensity-4-5-7">g_mydensity (4.5.7)</a><ul>
-<li><a class="reference internal" href="#install-fftw-3">Install fftw-3</a></li>
-<li><a class="reference internal" href="#gromacs-4-5-7">GROMACS 4.5.7</a></li>
-<li><a class="reference internal" href="#id4">g_mydensity</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#gromacs">GROMACS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">2016.1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">2018.3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#other-versions">Other versions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#g-mydensity-4-5-7">g_mydensity (4.5.7)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#install-fftw-3">Install fftw-3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gromacs-4-5-7">GROMACS 4.5.7</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">g_mydensity</a></li>
 </ul>
 </li>
 </ul>
-</div>
+</li>
+</ul>
+</li>
+</ul>
+
             
           
         </div>
@@ -208,7 +211,7 @@
 }
 </style>
 <div class="section" id="installing-ubuntu-19-04">
-<span id="ubuntu-label"></span><h1>Installing Ubuntu 19.04+<a class="headerlink" href="#installing-ubuntu-19-04" title="Permalink to this headline">¶</a></h1>
+<span id="new-computer-label"></span><h1>Installing Ubuntu 19.04+<a class="headerlink" href="#installing-ubuntu-19-04" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="obtain-a-usb-drive-with-ubuntu">
 <h2>Obtain a USB drive with Ubuntu<a class="headerlink" href="#obtain-a-usb-drive-with-ubuntu" title="Permalink to this headline">¶</a></h2>
 <p>You need to somehow create a bootable USB stick. This is easiest in Ubuntu and there are many tutorials already, so I won’t clutter it up.</p>
@@ -393,9 +396,10 @@
 </div>
 </div>
 </div>
-</div>
 <div class="section" id="cuda">
-<span id="install-cuda-label"></span><h1>CUDA<a class="headerlink" href="#cuda" title="Permalink to this headline">¶</a></h1>
+<span id="install-cuda-label"></span><h2>CUDA<a class="headerlink" href="#cuda" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="cuda-8">
+<h3>CUDA 8<a class="headerlink" href="#cuda-8" title="Permalink to this headline">¶</a></h3>
 <p>This is necessary for GROMACS 2016.1.</p>
 <p>Make sure you have the patched version of <code class="docutils literal notranslate"><span class="pre">cuda_8.0.61_375.26_linux.run</span></code>. It’s too big to put on the repo, but it is on our shared drive in <code class="docutils literal notranslate"><span class="pre">SHARED/cuda/</span></code>. External users can download the unpatched version and patch it themselves.</p>
 <p>Unpack and copy <code class="docutils literal notranslate"><span class="pre">InstallUtils.pm</span></code> to your computer. Then install the toolkit.</p>
@@ -406,9 +410,14 @@
 </pre></div>
 </div>
 <p>Check that <code class="docutils literal notranslate"><span class="pre">/store/packages/cuda/cuda-8.0/bin/nvcc</span></code> exists.</p>
+</div>
+<div class="section" id="cuda-10">
+<h3>CUDA 10<a class="headerlink" href="#cuda-10" title="Permalink to this headline">¶</a></h3>
 <p>This shouldn’t need the extra copying and exporting, I think.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo sh cuda_10.1.105_418.39_linux.run --toolkit --toolkitpath=/store/packages/cuda/cuda-10.1 --silent</span>
 </pre></div>
+</div>
+</div>
 </div>
 <div class="section" id="gromacs">
 <span id="install-gromacs-label"></span><h2>GROMACS<a class="headerlink" href="#gromacs" title="Permalink to this headline">¶</a></h2>
@@ -501,6 +510,13 @@
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Set-ups, shell environments, installations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

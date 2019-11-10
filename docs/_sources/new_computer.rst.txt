@@ -1,5 +1,5 @@
 .. -*- coding: utf-8 -*-
-.. _ubuntu-label:
+.. _new-computer-label:
 
 ========================
 Installing Ubuntu 19.04+
@@ -264,7 +264,7 @@ To switch between them, run:
 
 .. _install-cuda-label:
 
-====
+
 CUDA
 ====
 
