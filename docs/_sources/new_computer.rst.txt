@@ -8,7 +8,7 @@ Installing Ubuntu 19.04+
 Obtain a USB drive with Ubuntu
 ===============================
 
-You need to somehow create a bootable USB stick. This is easiest in Ubuntu and there are many tutorials already, so I won’t clutter it up.
+You need to somehow create a bootable USB stick. This is easiest in Ubuntu and there are many tutorials already, so I won’t clutter it up. (Katie has one).
 
 Install Ubuntu and drivers
 ==========================
@@ -145,6 +145,24 @@ As noted, ``sudo checkinstall`` replaces ``sudo make install`` in the installati
 
     Do not name your package a default name that can be found when running ``sudo apt install mypackagename``. Otherwise, it is likely to get replaced by whatever is in the apt repository. e.g. GROMACS 2018.3 should always be called ``gromacs-2018.3``, not ``gromacs``.
 
+
+Shared .bashrcs
+===============
+
+This might be awful practice, but I get tired of getting everyone to source the right stuff. Usually at this point I make a ``shared/`` folder in ``/home`` with ``.bashrc``, ``.bash_aliases``, and other useful files. I then edit ``/etc/skel/.bashrc`` and place these lines at the end:
+
+.. code-block:: console
+
+    if [ -f /home/shared/.bashrc ]; then
+        . /home/shared/.bashrc
+    fi
+
+    if [ -f /home/shared/.bash_aliases ]; then
+        . /home/shared/.bash_aliases
+    fi
+
+The computer uses the skeleton files in ``/etc/skel/`` to populate the home directory of a new user. This way they all source the same files, so they have relatively the same environment, and when you update something it gets propagated to all accounts.
+
 Environment modules
 ===================
 
@@ -185,6 +203,18 @@ If ``/etc/profile.d/modules.sh`` and ``/etc/profile.d/modules.csh`` already exis
 Note that the default path for modulefiles is ``/usr/local/Modules/modulefiles``. Edit ``/usr/local/Modules/init/modulerc`` and add ``module use /store/modules`` to use the directory you made above.
 
 From now on, install packages into ``/store/packages``. 
+
+----------------
+Sourcing modules
+----------------
+
+You need to place the following either into your ``.bashrc``, or a shared ``.bashrc``:
+
+.. code-block::
+
+    if [ -f /usr/local/Modules/init/bash ]; then
+        . /usr/local/Modules/init/bash
+    fi
 
 ------------
 Modulefiles
