@@ -1,0 +1,539 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Installing Ubuntu 19.04+ &mdash; Environment setups  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Environment setups
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Installing Ubuntu 19.04+</a><ul>
+<li><a class="reference internal" href="#obtain-a-usb-drive-with-ubuntu">Obtain a USB drive with Ubuntu</a></li>
+<li><a class="reference internal" href="#install-ubuntu-and-drivers">Install Ubuntu and drivers</a></li>
+<li><a class="reference internal" href="#updates">Updates</a></li>
+<li><a class="reference internal" href="#reconfiguring-grub-and-the-display-server">Reconfiguring grub and the display server</a></li>
+<li><a class="reference internal" href="#configure-ssh">Configure SSH</a><ul>
+<li><a class="reference internal" href="#ssh-keys">SSH keys</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#store">Store</a></li>
+<li><a class="reference internal" href="#checkinstall">Checkinstall</a></li>
+<li><a class="reference internal" href="#environment-modules">Environment modules</a><ul>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#modulefiles">Modulefiles</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#anaconda">Anaconda</a></li>
+<li><a class="reference internal" href="#gcc">GCC</a><ul>
+<li><a class="reference internal" href="#id1">Installation</a></li>
+<li><a class="reference internal" href="#switching-between-versions">Switching between versions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#cuda">CUDA</a><ul>
+<li><a class="reference internal" href="#gromacs">GROMACS</a><ul>
+<li><a class="reference internal" href="#id2">2016.1</a></li>
+<li><a class="reference internal" href="#id3">2018.3</a></li>
+<li><a class="reference internal" href="#other-versions">Other versions</a></li>
+<li><a class="reference internal" href="#g-mydensity-4-5-7">g_mydensity (4.5.7)</a><ul>
+<li><a class="reference internal" href="#install-fftw-3">Install fftw-3</a></li>
+<li><a class="reference internal" href="#gromacs-4-5-7">GROMACS 4.5.7</a></li>
+<li><a class="reference internal" href="#id4">g_mydensity</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Environment setups</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Installing Ubuntu 19.04+</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/new_computer.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="installing-ubuntu-19-04">
+<span id="ubuntu-label"></span><h1>Installing Ubuntu 19.04+<a class="headerlink" href="#installing-ubuntu-19-04" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="obtain-a-usb-drive-with-ubuntu">
+<h2>Obtain a USB drive with Ubuntu<a class="headerlink" href="#obtain-a-usb-drive-with-ubuntu" title="Permalink to this headline">¶</a></h2>
+<p>You need to somehow create a bootable USB stick. This is easiest in Ubuntu and there are many tutorials already, so I won’t clutter it up.</p>
+</div>
+<div class="section" id="install-ubuntu-and-drivers">
+<h2>Install Ubuntu and drivers<a class="headerlink" href="#install-ubuntu-and-drivers" title="Permalink to this headline">¶</a></h2>
+<p>Stick the USB in and boot up the computer. You need to change the boot order to boot off the USB stick first. This differs across operating systems; on our old Ubuntu 16.04s, we hit F10 to bring up Boot Options.</p>
+<p>You can choose a normal installation or a minimal one. Out of convenience, we go with the normal installation; the only weirdly irritating thing it installs is Amazon. This shouldn’t take long – ours was under 10 min.</p>
+<p>The computer will reboot after this.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If your screen flickers and dies, this is due to the graphics drivers not working properly. Go into Advanced Options and boot into Recovery mode.</p>
+</div>
+<p><strong>Do not reboot before updating drivers and setting up SSH.</strong></p>
+</div>
+<div class="section" id="updates">
+<h2>Updates<a class="headerlink" href="#updates" title="Permalink to this headline">¶</a></h2>
+<p>Most of these should already be installed; check anyway.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo apt update</span>
+<span class="go">sudo ubuntu-drivers autoinstall</span>
+<span class="go">sudo apt install build-essential</span>
+<span class="go">sudo apt install linux-headers-$(uname -r)</span>
+<span class="go">sudo apt install vim git net-tools openssh-server checkinstall</span>
+</pre></div>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>This will install NVIDIA drivers. Check that it is working with <code class="docutils literal notranslate"><span class="pre">nvidia-smi</span></code>. If you see a table of performance numbers, all is well. If a message comes up that <code class="docutils literal notranslate"><span class="pre">nvidia-smi</span></code> cannot communicate with your card, you likely have Safe Boot on. Safe Boot does not allow third-party drivers; NVIDIA is a third party. Disable Safe Boot by typing:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo mok-utils --disable-validation</span>
+</pre></div>
+</div>
+<p>It will ask you for a password. When you reboot, a blue screen will show up. This is the MOK management screen. Press any key to perform MOK management and select <span class="menuselection">Change Secure Boot state</span>. It will ask you password questions.</p>
+<p>Alternatively, you can sign modules yourself.</p>
+</div>
+</div>
+<div class="section" id="reconfiguring-grub-and-the-display-server">
+<h2>Reconfiguring grub and the display server<a class="headerlink" href="#reconfiguring-grub-and-the-display-server" title="Permalink to this headline">¶</a></h2>
+<p>Edit <code class="docutils literal notranslate"><span class="pre">/etc/gdm3/custom.conf</span></code>. Uncomment:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">#</span> <span class="nv">WaylandEnable</span><span class="o">=</span><span class="nb">false</span>
+</pre></div>
+</div>
+<p>This forces the computer to use the Xorg display server.</p>
+<p>Then edit <code class="docutils literal notranslate"><span class="pre">/etc/default/grub</span></code>. Replace:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet splash&quot;</span>
+</pre></div>
+</div>
+<p>with:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet splash nomodeset&quot;</span>
+</pre></div>
+</div>
+<p>This will disable video drivers until the kernel has started. Update with:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo update-grub</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="configure-ssh">
+<h2>Configure SSH<a class="headerlink" href="#configure-ssh" title="Permalink to this headline">¶</a></h2>
+<p>You should have installed <code class="docutils literal notranslate"><span class="pre">openssh-server</span></code> above. Enable the service and start it.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo systemctl enable ssh</span>
+<span class="go">sudo systemctl start ssh</span>
+</pre></div>
+</div>
+<p>Test your access by ssh-ing in. To set up a firewall, first check that the line below is in <code class="docutils literal notranslate"><span class="pre">/etc/default/ufw</span></code>.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">IPV6=yes</span>
+</pre></div>
+</div>
+<div class="section" id="ssh-keys">
+<h3>SSH keys<a class="headerlink" href="#ssh-keys" title="Permalink to this headline">¶</a></h3>
+<p>Set up SSH keys to avoid typing your password all the time.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">ssh-keygen -t rsa -b 4096</span>
+</pre></div>
+</div>
+<p>Hit enter when it asks you to. Don’t create a passphrase, that really defeats the point.</p>
+<p>To copy your details to other places, type:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">ssh-copy-id username@destination</span>
+</pre></div>
+</div>
+<p>You can set up your <code class="docutils literal notranslate"><span class="pre">.ssh/config</span></code> file to avoid specifying usernames, IP addresses for hosts, etc. Have a look on the shared drive in <code class="docutils literal notranslate"><span class="pre">SHARED/ssh_config</span></code> for details, or just copy that file to <code class="docutils literal notranslate"><span class="pre">~/.ssh/config</span></code>.</p>
+</div>
+</div>
+<div class="section" id="store">
+<h2>Store<a class="headerlink" href="#store" title="Permalink to this headline">¶</a></h2>
+<p>On the computers with SSDs and HDDs, we call our HDDs <code class="docutils literal notranslate"><span class="pre">/store</span></code>. For now, we have been making a directory called <code class="docutils literal notranslate"><span class="pre">/store</span></code> on the computers without SSDs to maintain consistency. It’s important that all users can read, write, and execute files in <code class="docutils literal notranslate"><span class="pre">/store</span></code>.</p>
+<p>On a new computer, your HDD will likely not be mounted at <code class="docutils literal notranslate"><span class="pre">/store</span></code> automatically. Search (by hitting the windows button) for <span class="menuselection">Disks</span>. On the 2.0TB hard disk entry, click the gears button to bring up a menu of actions. Choose <span class="menuselection">Edit Mount Options…</span>, turn off <span class="menuselection">User Session Defaults</span>, and change the <span class="menuselection">Mount Point</span> to <code class="docutils literal notranslate"><span class="pre">/store</span></code>.</p>
+<p>Generally in <code class="docutils literal notranslate"><span class="pre">/store</span></code> there is an <code class="docutils literal notranslate"><span class="pre">opt/</span></code> directory, where programs are installed, and a <code class="docutils literal notranslate"><span class="pre">src/</span></code> directory, where the source code is. However, due to natural human disorganisation, it is likely to be missing one folder or another, or to have <code class="docutils literal notranslate"><span class="pre">packages/</span></code> and <code class="docutils literal notranslate"><span class="pre">modules/</span></code> directories (see below), or for programs to just be installed willy-nilly. Nonetheless for the sake of the future, it’s best to choose one scheme and stick to it (I recommend the module system).</p>
+</div>
+<div class="section" id="checkinstall">
+<h2>Checkinstall<a class="headerlink" href="#checkinstall" title="Permalink to this headline">¶</a></h2>
+<p>We go now into installing things. Here is where I recommend <code class="docutils literal notranslate"><span class="pre">checkinstall</span></code>. This replaces <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">install</span></code> in building packages. It builds a portable <code class="docutils literal notranslate"><span class="pre">.deb</span></code> package that can be installed on other computers with <code class="docutils literal notranslate"><span class="pre">dpkg</span> <span class="pre">-i</span> <span class="pre">my_package.deb</span></code>, and it can be easily removed with <code class="docutils literal notranslate"><span class="pre">dpkg</span> <span class="pre">-r</span> <span class="pre">my_package</span></code>. This solves problems with trying to remove packages when you can’t remember where they have installed files, e.g. when <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">uninstall</span></code> is not a possibility.</p>
+<p>You should have installed <code class="docutils literal notranslate"><span class="pre">checkinstall</span></code> earlier, but if not:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">checkinstall</span>
+</pre></div>
+</div>
+<p>As noted, <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">checkinstall</span></code> replaces <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">make</span> <span class="pre">install</span></code> in the installation process. It will bring up a menu of options to create the new package. The ‘name’ of the package is always the folder that it’s building from – for instance, GROMACS always has a default name of <code class="docutils literal notranslate"><span class="pre">build</span></code>. Type the number next to the option to change it.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Do not name your package a default name that can be found when running <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt</span> <span class="pre">install</span> <span class="pre">mypackagename</span></code>. Otherwise, it is likely to get replaced by whatever is in the apt repository. e.g. GROMACS 2018.3 should always be called <code class="docutils literal notranslate"><span class="pre">gromacs-2018.3</span></code>, not <code class="docutils literal notranslate"><span class="pre">gromacs</span></code>.</p>
+</div>
+</div>
+<div class="section" id="environment-modules">
+<h2>Environment modules<a class="headerlink" href="#environment-modules" title="Permalink to this headline">¶</a></h2>
+<p>On shared computers, and possibly your own, it’s a good idea to use Environment Modules. These let you switch between package versions with <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span></code> and <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">unload</span></code>. It’s also a good way to organise and keep track of where things are installed, as modulefiles contain paths.</p>
+<div class="section" id="installation">
+<h3>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h3>
+<p>Install dependencies:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo apt install tcl tcl8.6-dev</span>
+</pre></div>
+</div>
+<p>Make folders to store modulefiles and packages. Typically we put these on <code class="docutils literal notranslate"><span class="pre">/store</span></code>.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mkdir /store/modules /store/packages</span>
+</pre></div>
+</div>
+<p>Download and unzip the latest <cite>Environment modules &lt;http://modules.sourceforge.net/&gt;</cite>. Here, it’s 4.2.3. Navigate to the directory. Set up the build, make, and checkinstall it.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd modules-4.2.3</span>
+<span class="go">./configure</span>
+<span class="go">make</span>
+<span class="go">sudo checkinstall</span>
+</pre></div>
+</div>
+<p>If <code class="docutils literal notranslate"><span class="pre">/etc/profile.d/modules.sh</span></code> and <code class="docutils literal notranslate"><span class="pre">/etc/profile.d/modules.csh</span></code> already exist, skip this step. Otherwise, copy or symlink them.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo ln -s /usr/local/Modules/init/profile.sh /etc/profile.d/modules.sh</span>
+<span class="go">sudo ln -s /usr/local/Modules/init/profile.csh /etc/profile.d/modules.csh</span>
+</pre></div>
+</div>
+<p>Note that the default path for modulefiles is <code class="docutils literal notranslate"><span class="pre">/usr/local/Modules/modulefiles</span></code>. Edit <code class="docutils literal notranslate"><span class="pre">/usr/local/Modules/init/modulerc</span></code> and add <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">use</span> <span class="pre">/store/modules</span></code> to use the directory you made above.</p>
+<p>From now on, install packages into <code class="docutils literal notranslate"><span class="pre">/store/packages</span></code>.</p>
+</div>
+<div class="section" id="modulefiles">
+<h3>Modulefiles<a class="headerlink" href="#modulefiles" title="Permalink to this headline">¶</a></h3>
+<p>Module files are provided in this repo. Download them and copy the directory structure and files into <code class="docutils literal notranslate"><span class="pre">/store/modules</span></code>. For example, you should have a <code class="docutils literal notranslate"><span class="pre">gromacs</span></code> folder and a <code class="docutils literal notranslate"><span class="pre">cuda</span></code> folder in <code class="docutils literal notranslate"><span class="pre">/store/modules</span></code>. Depending on how you choose to install those packages, you may have to edit the paths of each file.</p>
+</div>
+</div>
+<div class="section" id="anaconda">
+<h2>Anaconda<a class="headerlink" href="#anaconda" title="Permalink to this headline">¶</a></h2>
+<p>It is a very good idea to download and install Anaconda before doing anyting else with Python. Conda allows you to separate packages into isolated Python environments, and handles package dependencies for you. Create a new environment with:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">conda create --name myenv [python=3.6] [scipy=0.15.0]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="gcc">
+<span id="install-gcc-label"></span><h2>GCC<a class="headerlink" href="#gcc" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>Installation<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>We often need multiple versions of GCC to compile older packages. Versions 6+ can be installed with <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt</span></code>.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo apt install gcc-6 g++-6 gcc-7 g++-7 gcc-8 g++-8</span>
+</pre></div>
+</div>
+<p>If you wish to install <a class="reference internal" href="#install-gromacs-label"><span class="std std-ref">GROMACS 2016.1</span></a>, you will need <a class="reference internal" href="#install-cuda-label"><span class="std std-ref">CUDA 8.0</span></a>. This in turn requires GCC 5.4, which needs to be installed manually.</p>
+<p>GCC 5.4 is a bit broken. We have a patched package on our shared drive, complete with built <code class="docutils literal notranslate"><span class="pre">.deb</span></code>. Note that if you wish to install into <code class="docutils literal notranslate"><span class="pre">/store/opt</span></code>, you can just run <code class="docutils literal notranslate"><span class="pre">dpkg</span> <span class="pre">-i</span>&#160; <span class="pre">gcc-5.4.0_5.4.0-patched-1_amd64.deb</span></code>. Alternatively, copy it and run:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd gcc-5.4.0</span>
+<span class="go">./contrib/download_prerequisites</span>
+<span class="go">cd ..</span>
+<span class="go">mkdir objdir &amp;&amp; cd objdir</span>
+<span class="gp">$</span>PWD/../gcc-5.4.0/configure --prefix<span class="o">=</span>/store/opt/gcc-5.4.0 --enable-languages<span class="o">=</span>c,c++,fortran --disable-multilib
+<span class="go">make</span>
+<span class="go">sudo checkinstall</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="switching-between-versions">
+<h3>Switching between versions<a class="headerlink" href="#switching-between-versions" title="Permalink to this headline">¶</a></h3>
+<p>At this point you may wish to set up <code class="docutils literal notranslate"><span class="pre">update-alternatives</span></code> for easy switching between compilers.</p>
+<p>Clear any options you may already have for gcc and g++.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo update-alternatives --remove-all gcc</span>
+<span class="go">sudo update-alternatives --remove-all g++</span>
+</pre></div>
+</div>
+<p>Then configure the program path (second last field, e.g. <code class="docutils literal notranslate"><span class="pre">/store/opt/gcc-5.4.0/bin/gcc</span></code>) to the first field (e.g. <code class="docutils literal notranslate"><span class="pre">/usr/bin/gcc</span></code>). The last number indicates priority. A larger number is higher.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo update-alternatives --install /usr/bin/gcc gcc /store/opt/gcc-5.4.0/bin/gcc 10</span>
+<span class="go">sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 20</span>
+<span class="go">sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 30</span>
+<span class="go">sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 40</span>
+<span class="go">sudo update-alternatives --install /usr/bin/g++ g++ /store/opt/gcc-5.4.0/bin/g++ 10</span>
+<span class="go">sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 20</span>
+<span class="go">sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 30</span>
+<span class="go">sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-8 40</span>
+</pre></div>
+</div>
+<p>To switch between them, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">update</span><span class="o">-</span><span class="n">alternatives</span> <span class="o">--</span><span class="n">config</span> <span class="n">gcc</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="cuda">
+<span id="install-cuda-label"></span><h1>CUDA<a class="headerlink" href="#cuda" title="Permalink to this headline">¶</a></h1>
+<p>This is necessary for GROMACS 2016.1.</p>
+<p>Make sure you have the patched version of <code class="docutils literal notranslate"><span class="pre">cuda_8.0.61_375.26_linux.run</span></code>. It’s too big to put on the repo, but it is on our shared drive in <code class="docutils literal notranslate"><span class="pre">SHARED/cuda/</span></code>. External users can download the unpatched version and patch it themselves.</p>
+<p>Unpack and copy <code class="docutils literal notranslate"><span class="pre">InstallUtils.pm</span></code> to your computer. Then install the toolkit.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">/cuda_8.0.61_375.25_linux.run --tar mxvf</span>
+<span class="go">sudo cp InstallUtils.pm /usr/lib/x86_64-linux-gnu/perl-base</span>
+<span class="go">export $PERL5LIB</span>
+<span class="go">sudo sh cuda_8.0.61_375.25_linux.run --toolkit --toolkitpath=/store/packages/cuda/cuda-8.0 --silent</span>
+</pre></div>
+</div>
+<p>Check that <code class="docutils literal notranslate"><span class="pre">/store/packages/cuda/cuda-8.0/bin/nvcc</span></code> exists.</p>
+<p>This shouldn’t need the extra copying and exporting, I think.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo sh cuda_10.1.105_418.39_linux.run --toolkit --toolkitpath=/store/packages/cuda/cuda-10.1 --silent</span>
+</pre></div>
+</div>
+<div class="section" id="gromacs">
+<span id="install-gromacs-label"></span><h2>GROMACS<a class="headerlink" href="#gromacs" title="Permalink to this headline">¶</a></h2>
+<p>You need <code class="docutils literal notranslate"><span class="pre">cmake</span></code> for this.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo apt install cmake</span>
+</pre></div>
+</div>
+<div class="section" id="id2">
+<h3>2016.1<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>Make sure you have GCC 5.4 running with <code class="docutils literal notranslate"><span class="pre">gcc</span> <span class="pre">--version</span></code>. If it’s another version, change it with <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">update-alternatives</span> <span class="pre">--config</span> <span class="pre">gcc</span></code>.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">tar xfz gromacs-2016.1.tar.gz</span>
+<span class="go">cd gromacs-2016.1</span>
+<span class="go">mkdir build &amp;&amp; cd build</span>
+<span class="go">cmake .. -DGMX_BUILD_OWN_FFTW=ON -DREGRESSIONTEST_DOWNLOAD=ON \</span>
+<span class="go">-DGMX_GPU=on -DCMAKE_INSTALL_PREFIX=/store/packages/gromacs/gromacs-2016.1 \</span>
+<span class="go">-DCMAKE_CXX_FLAGS=-fPIC -DCUDA_TOOLKIT_ROOT_DIR=/store/packages/cuda/cuda-8.0</span>
+<span class="go">make -j 6</span>
+<span class="go">make check</span>
+<span class="go">sudo checkinstall</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h3>2018.3<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>I think this works fine with CUDA 10 and GCC 8.3.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">tar xfz gromacs-2018.3.tar.gz</span>
+<span class="go">cd gromacs-2018.3</span>
+<span class="go">mkdir build &amp;&amp; cd build</span>
+<span class="go">cmake .. -DGMX_BUILD_OWN_FFTW=ON -DREGRESSIONTEST_DOWNLOAD=ON \</span>
+<span class="go">-DGMX_GPU=on -DCMAKE_INSTALL_PREFIX=/store/packages/gromacs/gromacs-2018.3 \</span>
+<span class="go">-DCMAKE_CXX_FLAGS=-fPIC -DCUDA_TOOLKIT_ROOT_DIR=/store/packages/cuda/cuda-10.1</span>
+<span class="go">make -j 6</span>
+<span class="go">make check</span>
+<span class="go">sudo checkinstall</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="other-versions">
+<h3>Other versions<a class="headerlink" href="#other-versions" title="Permalink to this headline">¶</a></h3>
+<p>Other versions will have largely the same commands. Remember to check which CUDA and GCC versions they should have.</p>
+</div>
+<div class="section" id="g-mydensity-4-5-7">
+<h3>g_mydensity (4.5.7)<a class="headerlink" href="#g-mydensity-4-5-7" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="http://perso.ibcp.fr/luca.monticelli/tools/index.html">g_mydensity</a> is a great tool with an extremely specific required environment. While it seems to have previously compiled with GROMACS 5.1.4, that may have been a fever dream because it definitely didn’t in 2019. The program is tested against GROMACS 4.5.x; we compiled 4.5.7 for this. GROMACS 4.5.7 requires <code class="docutils literal notranslate"><span class="pre">fftw-3</span></code>.</p>
+<p>Start by setting your compiler flags with <code class="docutils literal notranslate"><span class="pre">-fPIC</span></code>.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">export CXXFLAGS=-fPIC</span>
+<span class="go">export CFLAGS=-fPIC</span>
+</pre></div>
+</div>
+<div class="section" id="install-fftw-3">
+<h4>Install fftw-3<a class="headerlink" href="#install-fftw-3" title="Permalink to this headline">¶</a></h4>
+<p>We downloaded <a class="reference external" href="http://www.fftw.org/download.html">FFTE 3.3.8</a>.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">tar xvf fftw-3.3.8.tar</span>
+<span class="go">cd fftw-3.3.8</span>
+<span class="go">./configure --enable-threads --enable-float</span>
+<span class="go">make -j 12</span>
+<span class="go">sudo checkinstall</span>
+</pre></div>
+</div>
+<p>If something goes wrong here, enable fPIC, run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">clean</span></code>, and try again.</p>
+</div>
+<div class="section" id="gromacs-4-5-7">
+<h4>GROMACS 4.5.7<a class="headerlink" href="#gromacs-4-5-7" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd gromacs-4.5.7/</span>
+<span class="go">mkdir build &amp;&amp; cd build</span>
+<span class="go">cmake .. -DCMAKE_INSTALL_PREFIX=/store/packages/gromacs/gromacs-4.5.7</span>
+<span class="go">make -j 12</span>
+<span class="go">make test</span>
+<span class="go">sudo checkinstall</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h4>g_mydensity<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
+<p>We downloaded ours from <a class="reference external" href="http://perso.ibcp.fr/luca.monticelli/tools/index.html">Luca Monticelli’s website</a>. You must source GROMACS 4.5.7 for this to compile. We have chosen to symlink it to <code class="docutils literal notranslate"><span class="pre">/usr/local/bin</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">load</span> <span class="n">gromacs</span><span class="o">/</span><span class="mf">4.5</span><span class="o">.</span><span class="mi">7</span>
+<span class="n">mv</span> <span class="n">jbarnoud</span><span class="o">-</span><span class="n">g_mydensity</span><span class="o">-</span><span class="mi">4</span><span class="n">f9a93c151a9</span> <span class="n">g_mydensity</span> <span class="o">&amp;&amp;</span> <span class="n">cd</span> <span class="n">g_mydensity</span>
+<span class="n">make</span>
+<span class="n">sudo</span> <span class="n">chmod</span> <span class="n">a</span><span class="o">+</span><span class="n">x</span> <span class="n">g_mydensity</span>
+<span class="n">sudo</span> <span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">store</span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">g_mydensity</span><span class="o">/</span><span class="n">g_mydensity</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">g_mydensity</span>
+</pre></div>
+</div>
+<span class="target" id="install-amber-label"></span></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Lily Wang, Katie Wilson, Hugo MacDermott-Opeskin, Megan O&#39;Mara
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

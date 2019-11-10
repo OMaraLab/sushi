@@ -1,0 +1,480 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Lab 5: Force fields &mdash; CHEM3208  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Lab 6: Molecular dynamics" href="06_md.html" />
+    <link rel="prev" title="CHEM3208 resources" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> CHEM3208
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Molecular dynamics</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Lab 5: Force fields</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#aim">Aim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#setup-and-scripts">Setup and scripts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#vmd">VMD</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#functional-forms-of-classical-force-field-terms">Functional forms of classical force field terms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#taylor-series">Taylor series</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#morse-potential">Morse potential</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#iqmol-instructions">IQMol instructions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#potential-energy-scans">Potential energy scans</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#z-matrices">Z-matrices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#program-section">Program section</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scan-section">Scan section</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#ab-initio-molecular-dynamics"><em>Ab initio</em> molecular dynamics</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#parametrising-water">Parametrising water</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#parametrising-alanine">Parametrising alanine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#questions">Questions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="06_md.html">Lab 6: Molecular dynamics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="md_analysis.html">Lab 7: Molecular dynamics and analysis</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="atom_types.html">Atom types (GROMOS 54A7)</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CHEM3208</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Lab 5: Force fields</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/forcefields.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="lab-5-force-fields">
+<h1>Lab 5: Force fields<a class="headerlink" href="#lab-5-force-fields" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="aim">
+<h2>Aim<a class="headerlink" href="#aim" title="Permalink to this headline">¶</a></h2>
+<p>The aim of this lab is to:</p>
+<ol class="arabic simple">
+<li><p>Develop a force field for a molecule of water</p></li>
+<li><p>Look at dihedrals and assign atom types for alanine.</p></li>
+</ol>
+<p>First set up your computer environment by following the instructions in the Setup section. Then work through your Mathematica notebook, which you can download from Wattle. The information on this page is a supplement to the notebook.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p><strong>Submission:</strong>
+To submit this lab, please upload both your Mathematica notebook and a PDF including the questions in the Questions section.</p>
+</div>
+</div>
+<div class="section" id="setup-and-scripts">
+<h2>Setup and scripts<a class="headerlink" href="#setup-and-scripts" title="Permalink to this headline">¶</a></h2>
+<p>First download the Lab 5 folder on Wattle.</p>
+<p>Then open Terminal. You can find this by opening Spotlight (command + space) and typing “terminal”.</p>
+<p>Type the command below to go to the folder you have just downloaded.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> ~/Downloads/Lab<span class="se">\ </span><span class="m">5</span>*
+</pre></div>
+</div>
+<p>Then type the command below to install the Python library you need and the custom scripts. You may have to wait a while.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bash setup.sh
+</pre></div>
+</div>
+<p>When it is finished, close that Terminal window and open a new one. You will need a terminal to use the custom scripts. To use them, just type <code class="code docutils literal notranslate"><span class="pre">my_script_name</span> <span class="pre">my_file</span></code>. For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>out_to_xyz my_file.out
+</pre></div>
+</div>
+<div class="section" id="vmd">
+<h3>VMD<a class="headerlink" href="#vmd" title="Permalink to this headline">¶</a></h3>
+<p>Use VMD the same way as the scripts. The command is <code class="code docutils literal notranslate"><span class="pre">vmd</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>vmd my_file.xyz
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="functional-forms-of-classical-force-field-terms">
+<h2>Functional forms of classical force field terms<a class="headerlink" href="#functional-forms-of-classical-force-field-terms" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="taylor-series">
+<h3>Taylor series<a class="headerlink" href="#taylor-series" title="Permalink to this headline">¶</a></h3>
+<p>We can use a Taylor series to approximate a function <span class="math notranslate nohighlight">\(f(x)\)</span> at point <span class="math notranslate nohighlight">\(a\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[f(x) = f(a) + \frac{f'(a)}{1!}(x-a) + \frac{f''(a)}{2!}(x-a)^2 + \frac{f'''(a)}{3!}(x-a)^3 + ...\]</div>
+<p>We can approximate the energy function <span class="math notranslate nohighlight">\(E_{bond}\)</span> for stretching a bond between two atoms as a Taylor series around an equilibrium bond length <span class="math notranslate nohighlight">\(r_{eq}\)</span>. We can substitute this equilibrium bond length <span class="math notranslate nohighlight">\(r_{eq}\)</span> for <span class="math notranslate nohighlight">\(a\)</span> above, and the current bond length <span class="math notranslate nohighlight">\(r\)</span> for <span class="math notranslate nohighlight">\(x\)</span> to give:</p>
+<div class="math notranslate nohighlight">
+\[E_{bond}(r) = E(r_{eq}) + \frac{dE}{dR}(r_{eq}) + \frac{d^2E}{2}(r-r_{eq})^2 + \frac{d^3E}{6}(r-r_{eq})^3 + ...\]</div>
+<p><span class="math notranslate nohighlight">\(E(r_{eq})\)</span> is the energy associated with the equilibrium bond length. This is normally set to 0, as it is just the zero point of the energy scale.</p>
+<p>As the Taylor expansion is around the equilibrium value, the gradient of the energy is 0. Therefore, <span class="math notranslate nohighlight">\(\frac{dE}{dR}(r_{eq})\)</span> is set to zero.</p>
+<p>In molecular dynamics, a Taylor series expansion for bonds, angles, and improper angles normally truncates it at the second order. Without <span class="math notranslate nohighlight">\(E(r_{eq})\)</span> and <span class="math notranslate nohighlight">\(\frac{dE}{dR}(r_{eq})\)</span>, this gives:</p>
+<div class="math notranslate nohighlight">
+\[E_{bond}(r) = \frac{d^2E}{2}(r-r_{eq})^2\]</div>
+<p>Force fields usually represent the <span class="math notranslate nohighlight">\(d^2E\)</span> term as force constant <span class="math notranslate nohighlight">\(k_{bond}\)</span>, resulting in the quadratic equation:</p>
+<div class="math notranslate nohighlight">
+\[E_{bond}(r) = \frac{1}{2}k_{bond}(r-r_{eq})^2\]</div>
+<p>This is the same functional form as the potential energy stored in a spring, which why molecular dynamics is often described as systems of balls on springs.</p>
+</div>
+<div class="section" id="morse-potential">
+<h3>Morse potential<a class="headerlink" href="#morse-potential" title="Permalink to this headline">¶</a></h3>
+<p>The quadratic function above is the simplest possible, and is sometimes not enough to reproduce experimental observations. Another functional form that can be used to aproximate the energy function for stretching a bond is the Morse potential.</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}E_{bond} (r) &amp;= D(1 - e^{-a (r-r_{eq})})^2\\a &amp;= \sqrt{\frac{k}{2D}}\end{aligned}\end{align} \]</div>
+<p>Here, <span class="math notranslate nohighlight">\(D\)</span> is the dissociation energy and <span class="math notranslate nohighlight">\(a\)</span> is related to the force constant. The Morse potential reproduces bond behaviour quite accurately; however, it is computationally expensive to calculate. At ambient temperatures, e.g. 300 K, bond geometry does not vary much from its equilibrium value and a Taylor expression is sufficient.</p>
+</div>
+</div>
+<div class="section" id="iqmol-instructions">
+<h2>IQMol instructions<a class="headerlink" href="#iqmol-instructions" title="Permalink to this headline">¶</a></h2>
+<p>You may find it easier to download and edit files instead of constructing them yourselves.</p>
+<div class="section" id="potential-energy-scans">
+<h3>Potential energy scans<a class="headerlink" href="#potential-energy-scans" title="Permalink to this headline">¶</a></h3>
+<p>In this lab, we will use IQMol to submit the job. However, you will have create the file yourself, as IQMol has not actually implemented a way to create PES jobs via the Job Setup.</p>
+<p>A normal potential energy scan optimises the geometry of the molecule for each point in the surface. This can take quite a while. Instead, we will perform a “frozen scan”, which just computes the energy for each point.</p>
+<div class="section" id="z-matrices">
+<h4>Z-matrices<a class="headerlink" href="#z-matrices" title="Permalink to this headline">¶</a></h4>
+<p>Normally, your input coordinates are in a Cartesian format, with x, y, and z positions.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$molecule
+0 1
+O   - 0.0147820    0.0293097   - 0.0232867
+H    0.1429191   - 0.8319170   - 0.4820959
+H    0.0916809   - 0.4117318    0.8516712
+$end
+</pre></div>
+</div>
+<p>A frozen potential energy scan requires the input geometry to be in a Z-matrix format. A Z-matrix is a way to represent a molecule using “internal coordinates”, or by defining each atom by its relationship to another atom. Water is written in a Z-matrix format below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$molecule
+0 1
+ O
+ H  1  r2
+ H  1  r3  2  a3
+
+ r2= 0.1234
+ r3= 0.1234
+ a3= 0.1234
+$end
+</pre></div>
+</div>
+<p>In this Z-matrix, the oxygen atom is chosen as the fixed point that the other atoms orient around. It is given the number <code class="code docutils literal notranslate"><span class="pre">1</span></code>. The line <code class="code docutils literal notranslate"><span class="pre">H</span>&#160; <span class="pre">1</span>&#160; <span class="pre">r2</span></code> represents a H atom, with the distance <code class="code docutils literal notranslate"><span class="pre">r2</span></code> from atom 1 (i.e. oxygen). This H atom is given the number “2”.</p>
+<p>The third line, <code class="code docutils literal notranslate"><span class="pre">H</span>&#160; <span class="pre">1</span>&#160; <span class="pre">r3</span>&#160; <span class="pre">2</span>&#160; <span class="pre">a3</span></code>, represents another H atom, with the number #. <code class="code docutils literal notranslate"><span class="pre">r3</span></code> is the distance from H to atom 1 (oxygen). <code class="code docutils literal notranslate"><span class="pre">a3</span></code> is the angle H-1-2, i.e. H3-O1-H2.</p>
+<p>The values of the bond and angles are defined under the Z-matrix specification. Here they are placeholder values, but replace them with your equilibrium bond and angle values. You can copy these coordinates into your QChem Job builder file section for convenience. If you choose to make your own Z-matrix, please make sure the oxygen is first.</p>
+</div>
+<div class="section" id="program-section">
+<h4>Program section<a class="headerlink" href="#program-section" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$rem
+   BASIS  =  6-31G*
+   FROZEN_SCAN  =  TRUE
+   GUI  =  2
+   JOB_TYPE  =  PES_Scan
+   METHOD  =  MP2
+$end
+</pre></div>
+</div>
+<p>Choosing a PES Scan job to calculate, and select your Method and Basis sets appropriately. However, you will have to add <code class="code docutils literal notranslate"><span class="pre">FROZEN_SCAN</span>&#160; <span class="pre">=</span>&#160; <span class="pre">TRUE</span></code> in the job section manually. It can appear anywhere in this block, so long as it is in the section that starts with <code class="code docutils literal notranslate"><span class="pre">$rem</span></code>.</p>
+</div>
+<div class="section" id="scan-section">
+<h4>Scan section<a class="headerlink" href="#scan-section" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$scan
+$end
+</pre></div>
+</div>
+<p>This empty block appears when you choose a PES Scan job. This is where you specify which variables you wish to scan.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$scan
+stre  atom1  atom2  value1 value2 incr
+...
+bend  atom1  atom2  atom3  value1 value2 incr
+...
+tors  atom1  atom2  atom3  atom4  value1 value2 incr
+...
+$end
+</pre></div>
+</div>
+<p>The available keywords are <code class="code docutils literal notranslate"><span class="pre">stre</span></code> for a bond, <code class="code docutils literal notranslate"><span class="pre">bend</span></code> for an angle, and <code class="code docutils literal notranslate"><span class="pre">tors</span></code> for a dihedral angle. <strong>Only scan across one variable per job, i.e. your input file should only have one line in this section.</strong> Ask a demonstrator if you’re uncertain.</p>
+<p>Specify the atoms by number. <code class="code docutils literal notranslate"><span class="pre">value1</span></code> and <code class="code docutils literal notranslate"><span class="pre">value2</span></code> are your starting and ending values, respectively. <code class="code docutils literal notranslate"><span class="pre">incr</span></code> stands for “increment”, or the step size. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$scan
+stre  1  2  0.1 0.9 0.05
+$end
+</pre></div>
+</div>
+<p>This section would specify that QChem should calculate the energy of the water molecule for 17 structures: when the bond between O1-H2 is 0.1, 0.15, 0.2, 0.15, …, 0.85, 0.9.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>When you define your angle, make sure the central point of the angle is in the middle. e.g. for your H-O-H angle, your <code class="code docutils literal notranslate"><span class="pre">$scan</span></code> line should start off with <code class="code docutils literal notranslate"><span class="pre">bend</span>&#160; <span class="pre">2</span>&#160; <span class="pre">1</span>&#160; <span class="pre">3</span></code>.</p>
+</div>
+<p>Here is <a class="reference download internal" download="" href="_downloads/ec0804fa4c95f18979c95ae81034d04e/h2o_bond.inp"><code class="xref download docutils literal notranslate"><span class="pre">an</span> <span class="pre">example</span> <span class="pre">bond</span> <span class="pre">file</span></code></a> and <a class="reference download internal" download="" href="_downloads/758c3d13f655564ca46934ee1c039d6a/h2o_angle.inp"><code class="xref download docutils literal notranslate"><span class="pre">an</span> <span class="pre">example</span> <span class="pre">angle</span> <span class="pre">file</span></code></a>.</p>
+</div>
+</div>
+<div class="section" id="ab-initio-molecular-dynamics">
+<h3><em>Ab initio</em> molecular dynamics<a class="headerlink" href="#ab-initio-molecular-dynamics" title="Permalink to this headline">¶</a></h3>
+<p>This course largely focuses on classical molecular dynamics, where empirical potentials are used to calculate the potential energy of the system. When a more accurate representation is required, quantum chemistry methods can be used to calculate the energy instead. This is called <em>ab initio</em> molecular dynamics (AIMD).</p>
+<p>To set up an AIMD job, select <code class="code docutils literal notranslate"><span class="pre">Ab</span> <span class="pre">Initio</span> <span class="pre">MD</span></code> from the <strong>Calculate</strong> dropdown. We will set the <code class="code docutils literal notranslate"><span class="pre">Initial</span> <span class="pre">Velocities</span></code> to <code class="code docutils literal notranslate"><span class="pre">Thermal</span></code>, with a temperature of 300K.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Make sure your file includes this line in the <code class="code docutils literal notranslate"><span class="pre">$rem</span></code> section: <code class="code docutils literal notranslate"><span class="pre">AIMD_TEMP</span>&#160; <span class="pre">=</span>&#160; <span class="pre">300</span></code>. You may have to add it manually.</p>
+</div>
+<p>The time step is defined in atomic units. We want the simulation to have a time step of 0.5 femtoseconds (1 fs is <span class="math notranslate nohighlight">\(10^{-15}\)</span> seconds), which is approximately equal to 21 atomic units.</p>
+<p>Set the number of steps to 500 and submit the job.</p>
+<p>Here is <a class="reference download internal" download="" href="_downloads/ea68e030cb7468295e5d31ebe59c015b/h2o_aimd.inp"><code class="xref download docutils literal notranslate"><span class="pre">an</span> <span class="pre">example</span> <span class="pre">file</span></code></a>.</p>
+</div>
+</div>
+<div class="section" id="parametrising-water">
+<h2>Parametrising water<a class="headerlink" href="#parametrising-water" title="Permalink to this headline">¶</a></h2>
+<p>In this part of the lab, you will explore the functional forms of force field terms, and build a force field for a water molecule.</p>
+<ol class="arabic simple">
+<li><p>Use MP2/6-31G* to optimise the geometry of a water molecule to obtain equilibrium bond and angle values.</p></li>
+<li><p>Scan the potential energy surface of water over a range of bond lengths, and angle values, at MP2/6-31G*.</p>
+<ul class="simple">
+<li><p>Bond lengths: from 0.5 Å below your equilibrium bond value to 1.5 Å above your equilibrium bond value, in increments of 0.05 Å. Note that you only need to scan one O-H bond.</p></li>
+<li><p>Angle values: from 30 ° below your equilibrium angle value, to 30 ° above, in increments of 2 °.</p></li>
+</ul>
+</li>
+<li><p>Plot these points to see the shape of the potential energy for these force field terms.</p></li>
+<li><p>Define functions for these common force field functional forms:</p>
+<ul class="simple">
+<li><p>a Taylor expansion to the second order</p></li>
+<li><p>a Taylor expansion to the third order</p></li>
+<li><p>a Morse potential</p></li>
+</ul>
+</li>
+<li><p>Use <code class="code docutils literal notranslate"><span class="pre">NonlinearModelFit</span></code> to fit your functions to your bond data, and plot each function. Then plot them all together, over your data points. <strong>(3 marks)</strong></p></li>
+<li><p>Use MP2/6-31G* to simulate water at 300 K with an <em>Ab initio</em> molecular dynamics job, for 250 femtoseconds. Initiate with thermal velocities.</p></li>
+<li><p>Use the <code class="code docutils literal notranslate"><span class="pre">out_to_xyz</span></code> script to convert the output file to a xyz format. View your trajectory with VMD.</p></li>
+<li><p>Use the <code class="code docutils literal notranslate"><span class="pre">water_geometry</span></code> script to extract the bond lengths and angle values for each frame of the trajectory. Plot the values of the bonds and angles.</p></li>
+<li><p>Calculate the mean and standard deviation for the O-H bond length and the H-O-H angle value over the AIMD trajectory.</p></li>
+<li><p>Select the data points of your bond and angle potential energy scans within 3 standard deviations of the mean of the AIMD trajectory.</p></li>
+<li><p>Re-fit the functions from #4 to this subset of data. Compare the standard errors and the p-values with your earlier fits to the complete dataset.</p></li>
+<li><p>Plot the new fitted functions together, over the subset of the data points from the potential energy scan. <strong>(3 marks)</strong></p></li>
+<li><p>Fit a second order Taylor expansion the subset of your angle PES data.</p></li>
+<li><p>Combine your second-order Taylor expansions for your bonds and angle to create a potential energy function for water. Plot the potential energy surface (z-axis) created by the second order Taylor expansions over the change in O-H bond length (x-axis) and change in H-O-H angle value (y-axis).</p></li>
+<li><p>Calculate the potential energy of each frame of the AIMD trajectory with your function. Compare the shape of the plot to the MP2/6-31G* energy plot.</p></li>
+<li><p>Calculate the average difference between your calculated energy and the MP2 energy. What does this difference represent?</p></li>
+<li><p>Assign atom types, equilibrium bond values, bond force constants, equilibrium angle values, and equilibrium force constants to water. You have now created your own force field for a water molecule. <strong>(3 marks)</strong></p></li>
+</ol>
+</div>
+<div class="section" id="parametrising-alanine">
+<h2>Parametrising alanine<a class="headerlink" href="#parametrising-alanine" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Use <code class="code docutils literal notranslate"><span class="pre">Manipulate</span></code> for an interactive plot of the Fourier series function for a dihedral term. What does the <code class="code docutils literal notranslate"><span class="pre">k</span></code> parameter correspond to?</p></li>
+<li><p>Use MP2/6-31G* to optimise the geometry of an alanine molecule. Calculate the phase shift of the O=C-CA-N dihedral.</p></li>
+<li><p>Rotate the O=C-CA-N dihedral and calculate a single-point energy in order to determine the force constant of that dihedral term. How much did you rotate it by, and why?</p></li>
+<li><p>Assign atom types to alanine. Calculate the number of non-bonded equations required for 3 alanine molecules.</p></li>
+<li><p>Assign united-atom atom types to alanine. Calculate the number of non-bonded equations required for 3 alanine molecules.</p></li>
+<li><p>Calculate the number of non-bonded equations required for 3 coarse-grained alanine molecules.</p></li>
+</ol>
+</div>
+<div class="section" id="questions">
+<h2>Questions<a class="headerlink" href="#questions" title="Permalink to this headline">¶</a></h2>
+<p>This is the total list of questions you should answer, which also includes the questions that were asked within the workbook. Please answer these in a text document and submit it as a PDF. Include your two graphs where you compare the fits of functional forms to the bond data. (#5 and #12) <strong>(6 marks)</strong></p>
+<ol class="arabic simple">
+<li><p>Which functional form had the best fit to your overall bond data in the Parametrising Water section? Did this change once you fitted the function to a subset of the data? Which functional form do most force fields use, and why? <strong>(4 marks)</strong></p></li>
+<li><p>What does the average difference between your calculated energy for water and the MP2 energy for water represent? <strong>(1 mark)</strong></p></li>
+<li><p>What does the <code class="code docutils literal notranslate"><span class="pre">k</span></code> parameter define in a dihedral function? What is the phase shift and force constant of the O=CA-C-N dihedral in an alanine molecule? How did you find the force constant of the O=CA-C-N dihedral? <strong>(4 marks)</strong></p></li>
+<li><p>How many non-bonded calculations do you have to complete for 3 molecules of alanine, when they are: all-atom, united-atom, or coarse-grained? What are the atom types for the all-atom and united-atom representations? <strong>(7 marks)</strong></p></li>
+<li><p>There are two approaches to force field parametrisation. Which was followed in this lab? What is the other approach, and what is one reason we did not use that one? <strong>(3 marks)</strong></p></li>
+<li><p>In this lab you used <em>ab initio</em> molecular dynamics (AIMD) simulations to help you choose parameters. Why is it infeasible to use <em>ab initio</em> methods for protein simulations? Make reference to the scaling of the computations required. What is one situation when you would need AIMD rather than classical MD, apart from when you need more accurate representations? <strong>(3 marks)</strong></p></li>
+<li><p>List the 4 bonded and 2 non-bonded interactions that contribute to the potential energy function of a classical molecular dynamics simulation. Give the functional form that is most commonly used for each. <strong>(6 marks)</strong></p></li>
+<li><p>Explain the concept of additivity as it applies to classical force fields. <strong>(2 marks)</strong></p></li>
+<li><p>Explain the concept of transferability as it applies to classical force fields. <strong>(2 marks)</strong></p></li>
+</ol>
+<p><strong>(Total 38 marks)</strong></p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="06_md.html" class="btn btn-neutral float-right" title="Lab 6: Molecular dynamics" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="CHEM3208 resources" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Lily Wang, Andrew Gilbert, Megan O&#39;Mara
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
