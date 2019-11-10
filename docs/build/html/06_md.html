@@ -1,0 +1,1544 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Lab 6: Molecular dynamics &mdash; CHEM3208  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Lab 7: Molecular dynamics and analysis" href="md_analysis.html" />
+    <link rel="prev" title="Lab 5: Force fields" href="forcefields.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> CHEM3208
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Molecular dynamics</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="forcefields.html">Lab 5: Force fields</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Lab 6: Molecular dynamics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Python">Python</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Functions">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Jupyter">Jupyter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Markdown-cell">Markdown cell</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Helpful-text-formatting">Helpful text formatting</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Code-cell">Code cell</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Non-bonded-potentials">Non-bonded potentials</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Cut-off-schemes-and-values">Cut-off schemes and values</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#PDB-File">PDB File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Reaction-field-cutoff-scheme">Reaction-field cutoff scheme</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#The-NVE-ensemble">The NVE ensemble</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Setup">Setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Defining-an-integrator">Defining an integrator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Simulating">Simulating</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Plotting-simulation-properties">Plotting simulation properties</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#The-NVT-ensemble">The NVT ensemble</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Setup">Setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Rescaling-velocities-with-the-Berendsen-thermostat">Rescaling velocities with the Berendsen thermostat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Simulating">Simulating</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Plotting">Plotting</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Questions">Questions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#References">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="md_analysis.html">Lab 7: Molecular dynamics and analysis</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="atom_types.html">Atom types (GROMOS 54A7)</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CHEM3208</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Lab 6: Molecular dynamics</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/06_md.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Lab-6:-Molecular-dynamics">
+<h1>Lab 6: Molecular dynamics<a class="headerlink" href="#Lab-6:-Molecular-dynamics" title="Permalink to this headline">¶</a></h1>
+<p>The aim of this lab is to create molecular dynamics simulations by defining your own cutoff-scheme, molecular dynamics integrator, and thermostat.</p>
+<div class="alert alert-block alert-info"><p>Things to do will be in blue boxes.</p>
+</div><div class="alert alert-block alert-warning"><p>Things to take note for questions are in yellow.</p>
+</div><p>To make things easier, much of the code in this lab is hidden away in “widgets”: the things with text boxes etc.</p>
+<div class="alert alert-block alert-danger"><p>Important: Your widget states do not save automatically. You can go to Widgets &gt; Save Notebook Widget State, but this is prone to failure. To avoid losing work, download your charts as a .png and write down chosen values for things like epsilon and sigma if you need to reproduce them.</p>
+</div><div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">pymd</span> <span class="k">import</span> <span class="p">(</span><span class="n">lj_potential</span><span class="p">,</span> <span class="n">coulomb_potential</span><span class="p">,</span>
+                  <span class="n">nb_potential</span><span class="p">,</span> <span class="n">nb_rf_potential</span><span class="p">,</span>
+                  <span class="n">MolWidget</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "e23ec8ce98794228b388d3b96e63c5ba", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="section" id="Python">
+<h2>Python<a class="headerlink" href="#Python" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Functions">
+<h3>Functions<a class="headerlink" href="#Functions" title="Permalink to this headline">¶</a></h3>
+<p>In Mathematica, you defined functions like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">my_function</span><span class="p">[</span><span class="n">x_</span><span class="p">,</span> <span class="n">y_</span><span class="p">,</span> <span class="n">z_</span><span class="p">]</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">+</span> <span class="n">z</span>
+</pre></div>
+</div>
+<p>Python has a different syntax. In Python, that same function would look like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">+</span> <span class="n">z</span>
+</pre></div>
+</div>
+<p>There are several key differences. First, functions always begin with <code class="docutils literal notranslate"><span class="pre">def</span></code> and usually <code class="docutils literal notranslate"><span class="pre">return</span></code> an output. Secondly, everything “inside” the function must be indented. You can use spaces to indent, but tabs are easier. This means that you can include multiple lines in a function, which is often handy. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">my_complicated_function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">^</span><span class="n">z</span> <span class="o">-</span> <span class="n">a</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="n">z</span> <span class="o">+</span> <span class="n">x</span><span class="o">^</span><span class="n">a</span>
+
+    <span class="k">return</span> <span class="n">b</span> <span class="o">+</span> <span class="n">c</span>
+</pre></div>
+</div>
+<p>The brackets <code class="docutils literal notranslate"><span class="pre">()</span></code> are used for passing in arguments. To call the complicated function, you could write:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">answer</span> <span class="o">=</span> <span class="n">my_complicated_function</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Function and variable names should always start with alphabet character. They can include underscores and numbers, but numbers should never be the first letter. Do not use punctuation other than underscores. The following are valid names:</p>
+<ul class="simple">
+<li><p>name</p></li>
+<li><p>NaMe</p></li>
+<li><p>_name</p></li>
+<li><p>name_</p></li>
+<li><p>name2</p></li>
+</ul>
+<p>The following are not valid names:</p>
+<ul class="simple">
+<li><p>2name</p></li>
+<li><p>.name</p></li>
+<li><p>nam,e</p></li>
+</ul>
+</div>
+<div class="section" id="Jupyter">
+<h3>Jupyter<a class="headerlink" href="#Jupyter" title="Permalink to this headline">¶</a></h3>
+<p>This document is a Jupyter notebook, much like a Mathematica notebook. If you can see an Autosave dropdown on the toolbar, turn that to 2 minutes. Otherwise, you can save manually with <code class="docutils literal notranslate"><span class="pre">command+s</span></code>.</p>
+<p>Jupyter has 2 kinds of cells:</p>
+<ol class="arabic simple">
+<li><p>Markdown cells</p></li>
+<li><p>Code cells.</p></li>
+</ol>
+</div>
+<div class="section" id="Markdown-cell">
+<h3>Markdown cell<a class="headerlink" href="#Markdown-cell" title="Permalink to this headline">¶</a></h3>
+<p>This cell is a Markdown cell. This is what you use if you want to type text that won’t be evaluated like code. You can double click on every cell in this notebook to see how it was created. To get out of editing mode, execute a cell with shift+enter.</p>
+<div class="alert alert-block alert-info"><p>Double-click the cell below for formatting tips.</p>
+</div><div class="section" id="Helpful-text-formatting">
+<h4>Helpful text formatting<a class="headerlink" href="#Helpful-text-formatting" title="Permalink to this headline">¶</a></h4>
+<p><em>Single asterisks for italics.</em></p>
+<p><strong>Double asterisks for bold.</strong></p>
+<ul class="simple">
+<li><p>Single left asterisk</p></li>
+<li><p>for a list</p></li>
+<li><p>of items</p></li>
+</ul>
+<p>Use just one <code class="docutils literal notranslate"><span class="pre">backtick</span> <span class="pre">for</span> <span class="pre">code</span> <span class="pre">formatting</span></code> in a sentence.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Use</span> <span class="n">three</span>
+ <span class="n">backticks</span> <span class="k">for</span>
+       <span class="n">multiline</span> <span class="n">code</span> <span class="n">formatting</span>
+</pre></div>
+</div>
+<p>Use just one <span class="math notranslate nohighlight">\(dollar\ sign\)</span> for inline <span class="math notranslate nohighlight">\(\LaTeX\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[Two\ dollar\ signs\ for\ \LaTeX~by\ itself\]</div>
+<p>Just one newline won’t make a new paragraph.</p>
+<p>You need two.</p>
+</div>
+</div>
+<div class="section" id="Code-cell">
+<h3>Code cell<a class="headerlink" href="#Code-cell" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># This cell is a code cell.</span>
+<span class="c1"># The hash is the comment character.</span>
+<span class="c1"># Everything after a hash won&#39;t be evaluated as Python.</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;This is how to print a string&#39;</span><span class="p">)</span>
+<span class="mi">3</span> <span class="o">+</span> <span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+This is how to print a string
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>5
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Non-bonded-potentials">
+<h2>Non-bonded potentials<a class="headerlink" href="#Non-bonded-potentials" title="Permalink to this headline">¶</a></h2>
+<p>First, let’s look at non-bonded potentials. The Lennard-Jones potential approximates an interaction between a pair of neutral atoms. It represents a combination of Pauli repulsion and van der Waals’ interactions. The typical expression of a Lennard-Jones potential between atoms A and B is:</p>
+<div class="math notranslate nohighlight">
+\[U_{LJ, AB} = 4\epsilon \left[ \left( \frac{\sigma}{r_{AB}} \right)^{12} - \left( \frac{\sigma}{r_{AB}} \right)^6 \right]\]</div>
+<div class="alert alert-block alert-info"><p>Define a Lennard-Jones potential between atoms A and B in the following cell using the terms <code class="docutils literal notranslate"><span class="pre">epsilon</span></code>, <code class="docutils literal notranslate"><span class="pre">sigma</span></code> and <code class="docutils literal notranslate"><span class="pre">r</span></code>. (Replace the <code class="docutils literal notranslate"><span class="pre">return</span> <span class="pre">r</span></code> that is already there).</p>
+</div><div class="alert alert-block alert-warning"><p>Save a picture of your graph with labelled axes and note the values of epsilon and sigma you used to get the picture.</p>
+</div><p><code class="docutils literal notranslate"><span class="pre">r</span></code> represents the distance between atom A and atom B: <span class="math notranslate nohighlight">\(r_{AB}\)</span>.</p>
+<p>Hit shift+enter on the cell when you have defined your function to see the effect of your changes. You may have to drag a slider to update the plot as well.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">calculate_lj</span><span class="p">(</span><span class="n">epsilon</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">r</span>
+
+<span class="n">lj_potential</span><span class="o">.</span><span class="n">calculate</span> <span class="o">=</span> <span class="n">calculate_lj</span>
+
+<span class="n">lj_potential</span><span class="o">.</span><span class="n">widget</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "3e3fc3ddf0f5423a9331da26a8b05864", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>A Coulomb potential between atoms A and B is defined:</p>
+<div class="math notranslate nohighlight">
+\[U_{elec, AB} = \frac{1}{4\pi \epsilon_0}\frac{q_Aq_B}{r_{AB}}\]</div>
+<p><span class="math notranslate nohighlight">\(q\)</span> represents the charge of the respective atom. The vacuum permittivity <span class="math notranslate nohighlight">\(\epsilon_0=8.854 \times 10^{-12}C^2N^{-1}m^{-2}\)</span>. A charge is in Coulomb units. Convert these to nanometers for your function.</p>
+<div class="alert alert-block alert-info"><p>Define a Coulomb potential between atoms A and B in the following cell using <code class="docutils literal notranslate"><span class="pre">qa</span></code> to represent the charge of atom A, and <code class="docutils literal notranslate"><span class="pre">qb</span></code> to represent the charge of atom B. <code class="docutils literal notranslate"><span class="pre">r</span></code> represents the distance between them.</p>
+</div><div class="alert alert-block alert-warning"><p>Save a picture of your graph with labelled axes and note the values of qa and qb you used to get the picture.</p>
+</div><div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">calculate_coulomb</span><span class="p">(</span><span class="n">qa</span><span class="p">,</span> <span class="n">qb</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">r</span>
+
+<span class="n">coulomb_potential</span><span class="o">.</span><span class="n">calculate</span> <span class="o">=</span> <span class="n">calculate_coulomb</span>
+
+<span class="n">coulomb_potential</span><span class="o">.</span><span class="n">widget</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "343f7c6654b940728be79505cc2510b3", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="alert alert-block alert-info"><p>Add your Lennard-Jones and Coulomb potentials together in the cell below for a unified non-bonded potential. (Hint: you can call the functions you’ve defined earlier.)</p>
+</div><div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">calculate_nb</span><span class="p">(</span><span class="n">epsilon</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">qa</span><span class="p">,</span> <span class="n">qb</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">r</span>
+
+<span class="n">nb_potential</span><span class="o">.</span><span class="n">calculate</span> <span class="o">=</span> <span class="n">calculate_nb</span>
+
+<span class="n">nb_potential</span><span class="o">.</span><span class="n">widget</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "1ef1c802f78f41ebb9433b21ede94393", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="section" id="Cut-off-schemes-and-values">
+<h3>Cut-off schemes and values<a class="headerlink" href="#Cut-off-schemes-and-values" title="Permalink to this headline">¶</a></h3>
+<p>Computing non-bonded interactions is the most expensive part of a molecular dynamics simulation. In a normal simulation, the number of computations scales at <span class="math notranslate nohighlight">\(N^2\)</span> where <span class="math notranslate nohighlight">\(N\)</span> is the number of atoms involved. It is common to attempt to decrease this cost by limiting the number of computed non-bonded interactions using cutoff schemes, or by transforming long-range interactions into Fourier space.</p>
+<p>Cutoff schemes are particularly useful for electrostatic interactions. On the premise that atoms very far away have little effect on each other, these schemes only compute interactions within a given radius <code class="docutils literal notranslate"><span class="pre">nb_cutoff</span></code> around each atom. This effectively reduces the cost of a simulation to linear time.</p>
+<p>Choosing a suitable cutoff radius is a balance between keeping an accurate representation of inter-atomic interactions, but keeping computational cost as low as possible.</p>
+<div class="alert alert-block alert-info"><p>Considering the values of epsilon and sigma below, choose a cut-off value for your long-ranged non-bonded interactions.</p>
+</div><p><strong>Sigma values</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 10%" />
+<col style="width: 12%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><span class="math notranslate nohighlight">\(\sigma_{LJ}\)</span></p></th>
+<th class="head"><p>H (bonded to O)</p></th>
+<th class="head"><p>H (bonded to C)</p></th>
+<th class="head"><p>H (bonded to N)</p></th>
+<th class="head"><p>O (water)</p></th>
+<th class="head"><p>O (protein)</p></th>
+<th class="head"><p>C</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>H (bonded to O)</strong></p></td>
+<td><p>0</p></td>
+<td><p>0.1324765</p></td>
+<td><p>0.053454</p></td>
+<td><p>0.1575305</p></td>
+<td><p>0.1533235</p></td>
+<td><p>0.1699835</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>H (bonded to C)</strong></p></td>
+<td><p>0.1324765</p></td>
+<td><p>0.264953</p></td>
+<td><p>0.1859305</p></td>
+<td><p>0.290007</p></td>
+<td><p>0.2858</p></td>
+<td><p>0.30246</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>H (bonded to N)</strong></p></td>
+<td><p>0.053454</p></td>
+<td><p>0.1859305</p></td>
+<td><p>0.106908</p></td>
+<td><p>0.2109845</p></td>
+<td><p>0.2067775</p></td>
+<td><p>0.2234375</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>O (water)</strong></p></td>
+<td><p>0.1575305</p></td>
+<td><p>0.290007</p></td>
+<td><p>0.2109845</p></td>
+<td><p>0.315061</p></td>
+<td><p>0.310854</p></td>
+<td><p>0.327514</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>O (protein)</strong></p></td>
+<td><p>0.1533235</p></td>
+<td><p>0.2858</p></td>
+<td><p>0.2067775</p></td>
+<td><p>0.310854</p></td>
+<td><p>0.306647</p></td>
+<td><p>0.323307</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>C</strong></p></td>
+<td><p>0.1699835</p></td>
+<td><p>0.30246</p></td>
+<td><p>0.2234375</p></td>
+<td><p>0.327514</p></td>
+<td><p>0.323307</p></td>
+<td><p>0.339967</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Epsilon values</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><span class="math notranslate nohighlight">\(\epsilon_{LJ}\)</span></p></th>
+<th class="head"><p>H (bonded to O)</p></th>
+<th class="head"><p>H (bonded to C)</p></th>
+<th class="head"><p>H (bonded to N)</p></th>
+<th class="head"><p>O (water)</p></th>
+<th class="head"><p>O (protein)</p></th>
+<th class="head"><p>C</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>H (bonded to O)</strong></p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>H (bonded to C)</strong></p></td>
+<td><p>0</p></td>
+<td><p>0.0656888</p></td>
+<td><p>0.0656888</p></td>
+<td><p>0.204458878</p></td>
+<td><p>0.240471974</p></td>
+<td><p>0.173400503</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>H (bonded to N)</strong></p></td>
+<td><p>0</p></td>
+<td><p>0.0656888</p></td>
+<td><p>0.0656888</p></td>
+<td><p>0.204458878</p></td>
+<td><p>0.240471974</p></td>
+<td><p>0.173400503</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>O (water)</strong></p></td>
+<td><p>0</p></td>
+<td><p>0.204458878</p></td>
+<td><p>0.204458878</p></td>
+<td><p>0.636386</p></td>
+<td><p>0.748478126</p></td>
+<td><p>0.539715632</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>O (protein)</strong></p></td>
+<td><p>0</p></td>
+<td><p>0.240471974</p></td>
+<td><p>0.240471974</p></td>
+<td><p>0.748478126</p></td>
+<td><p>0.880314</p></td>
+<td><p>0.634780377</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>C</strong></p></td>
+<td><p>0</p></td>
+<td><p>0.173400503</p></td>
+<td><p>0.173400503</p></td>
+<td><p>0.539715632</p></td>
+<td><p>0.634780377</p></td>
+<td><p>0.45773</p></td>
+</tr>
+</tbody>
+</table>
+<div class="alert alert-block alert-warning"><p>Justify your choice by referring to general scale of <span class="math notranslate nohighlight">\(\sigma\)</span> and <span class="math notranslate nohighlight">\(\epsilon\)</span> and a graph of your non-bonded potential (in a text document).</p>
+</div><div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">nb_cutoff</span> <span class="o">=</span> <span class="o">...</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="PDB-File">
+<h3>PDB File<a class="headerlink" href="#PDB-File" title="Permalink to this headline">¶</a></h3>
+<div class="alert alert-block alert-info"><p>Load in alanine tripeptide in water by executing the cell below.</p>
+</div><div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">mw</span> <span class="o">=</span> <span class="n">MolWidget</span><span class="p">(</span><span class="s1">&#39;2beg_solv_ions.gro&#39;</span><span class="p">,</span> <span class="n">atom_index</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">mw</span><span class="o">.</span><span class="n">widget</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "37cb36733dea481f82d351a09c7f51f5", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="alert alert-block alert-warning"><p>Not including the central atom, how many atoms would you need to calculate non-bonded interactions with your non-bonded cutoff value?</p>
+</div><div class="alert alert-block alert-warning"><p>Add 0.3 nm to your cutoff value. How many atoms would you compute non-bonded interactions for with this higher value?</p>
+</div><div class="alert alert-block alert-warning"><p>Subtract 0.3 nm from your original cutoff. How many atoms would you compute non-bonded interactions for with this lower value?</p>
+</div></div>
+<div class="section" id="Reaction-field-cutoff-scheme">
+<h3>Reaction-field cutoff scheme<a class="headerlink" href="#Reaction-field-cutoff-scheme" title="Permalink to this headline">¶</a></h3>
+<p>Typically, the energy of a Lennard-Jones potential is cut to 0 at the cutoff radius. Reaction-field electrostatics use a relative dielectric constant to model the surrounding environment. This transforms the electrostatic term to:</p>
+<div class="math notranslate nohighlight">
+\[U_{elec, AB} = q_Aq_B \left[ \frac{1}{r_{AB}} + \frac{(\epsilon_{RF} - 1) r^2_{AB}} {(2\epsilon_{RF} + 1) r^3_c} \right]\]</div>
+<p>A dielectric term is defined for you below. Hit shift+enter to run the cell. If you choose to change your <code class="docutils literal notranslate"><span class="pre">nb_cutoff</span></code> value, you will have to re-run the cell below.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">calculate_coulomb_rf</span><span class="p">(</span><span class="n">qa</span><span class="p">,</span> <span class="n">qb</span><span class="p">,</span> <span class="n">nb_cutoff</span><span class="p">,</span> <span class="n">epsrf</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
+    <span class="n">rf_top</span> <span class="o">=</span> <span class="p">(</span><span class="n">epsrf</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span> <span class="o">*</span> <span class="n">r</span>
+    <span class="n">rf_bottom</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">epsrf</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">nb_cutoff</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">qa</span> <span class="o">*</span> <span class="n">qb</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">r</span> <span class="o">+</span> <span class="n">rf_top</span><span class="o">/</span><span class="n">rf_bottom</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">calculate_nb_rf</span><span class="p">(</span><span class="n">epsilon</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">qa</span><span class="p">,</span> <span class="n">qb</span><span class="p">,</span> <span class="n">nb_cutoff</span><span class="p">,</span> <span class="n">epsrf</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">calculate_lj</span><span class="p">(</span><span class="n">epsilon</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="o">+</span> <span class="n">calculate_coulomb_rf</span><span class="p">(</span><span class="n">qa</span><span class="p">,</span> <span class="n">qb</span><span class="p">,</span> <span class="n">nb_cutoff</span><span class="p">,</span> <span class="n">epsrf</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+
+<span class="n">nb_rf_potential</span><span class="o">.</span><span class="n">cutoff</span> <span class="o">=</span> <span class="n">nb_cutoff</span>
+
+<span class="n">nb_rf_potential</span><span class="o">.</span><span class="n">calculate</span> <span class="o">=</span> <span class="n">calculate_nb_rf</span>
+
+<span class="n">nb_rf_potential</span><span class="o">.</span><span class="n">widget</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "4d6d67a8619d48f08590a41bfd377f89", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="alert alert-block alert-warning"><p>What is one method for dealing with discontinuous jumps in energy when charge groups enter and leave the cut-off boundary? <strong>(1 mark)</strong></p>
+</div></div>
+</div>
+<div class="section" id="The-NVE-ensemble">
+<h2>The NVE ensemble<a class="headerlink" href="#The-NVE-ensemble" title="Permalink to this headline">¶</a></h2>
+<p>In this section you will define key steps in the molecular dynamics simulation algorithm, and use that to run a simulation in the microcanonical (NVE) ensemble. We will be following this schematic.</p>
+<p><img alt="title" src="_images/md_3.png" /></p>
+<div class="section" id="Setup">
+<h3>Setup<a class="headerlink" href="#Setup" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">pymd</span> <span class="k">import</span> <span class="n">NVE</span>
+<span class="kn">import</span> <span class="nn">ase.units</span> <span class="k">as</span> <span class="nn">units</span>
+<span class="kn">from</span> <span class="nn">ase.md.velocitydistribution</span> <span class="k">import</span> <span class="n">MaxwellBoltzmannDistribution</span>
+</pre></div>
+</div>
+</div>
+<p>We will start by creating a simulation framework and loading in an alanine tripeptide (without water to save computing time).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">md_nve</span> <span class="o">=</span> <span class="n">NVE</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;ala3.gro&#39;</span><span class="p">,</span>
+             <span class="n">timestep</span><span class="o">=</span><span class="mf">0.2</span><span class="o">*</span><span class="n">units</span><span class="o">.</span><span class="n">fs</span><span class="p">,</span>
+             <span class="n">cutoff</span><span class="o">=</span><span class="mf">1.4</span><span class="o">*</span><span class="n">units</span><span class="o">.</span><span class="n">nm</span><span class="p">)</span>
+<span class="n">md_nve</span><span class="o">.</span><span class="n">atom_view</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "0b0e6e5dfc6648a0b38b5734da0afdf2", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="alert alert-block alert-info"><p>Have a look at the energy of the system before we start by executing the cell below.</p>
+</div><div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">md_nve</span><span class="o">.</span><span class="n">print_energy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Energy per atom: Epot = 0.566eV  Ekin = 0.000eV (T=  0K)  Etot = 0.566eV
+</pre></div></div>
+</div>
+<p>Now we can begin our simulation. This is our first step.</p>
+<p><img alt="md_step_1" src="_images/md_2_c.png" /></p>
+<div class="alert alert-block alert-info"><p>Our system doesn’t currently have any movement. We need to set initial velocities. Usually we aim for a value around 298-300 K, or 25-27 °C.</p>
+</div><div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">md_nve</span><span class="o">.</span><span class="n">set_initial_velocities</span><span class="p">(</span><span class="n">MaxwellBoltzmannDistribution</span><span class="p">,</span>
+                              <span class="mi">300</span><span class="o">*</span><span class="n">units</span><span class="o">.</span><span class="n">kB</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="alert alert-block alert-info"><p>What is the energy now?</p>
+</div><div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">md_nve</span><span class="o">.</span><span class="n">print_energy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Energy per atom: Epot = 0.566eV  Ekin = 0.041eV (T=321K)  Etot = 0.608eV
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Defining-an-integrator">
+<h3>Defining an integrator<a class="headerlink" href="#Defining-an-integrator" title="Permalink to this headline">¶</a></h3>
+<p>Here we will define a function <code class="docutils literal notranslate"><span class="pre">next_step</span></code>, to propagate atom movement for one timestep. <strong>We are at the part highlighted in yellow, but we will not follow the equations exactly.</strong></p>
+<p><img alt="md_step_1" src="_images/md_2_c.png" /></p>
+<p>The above schematic describes the commonly used <em>leapfrog algorithm</em>, where velocities and positions are updated at alternating half time-steps. For simplicity, we are defining the <em>Velocity Verlet integrator</em> here, where velocities and positions are updated at the same time. Equations are below.</p>
+<p>The basic steps are this stage are:</p>
+<ol class="arabic simple">
+<li><p>calculate the velocities at <span class="math notranslate nohighlight">\(t+\frac{1}{2}dt\)</span> <code class="docutils literal notranslate"><span class="pre">v_half_step</span></code> as a function of the <code class="docutils literal notranslate"><span class="pre">timestep</span></code> <span class="math notranslate nohighlight">\(dt\)</span> and the acceleration</p></li>
+<li><p>calculate <code class="docutils literal notranslate"><span class="pre">new_positions</span></code> <span class="math notranslate nohighlight">\(r^{(i+1)}\)</span> as a function of the old <code class="docutils literal notranslate"><span class="pre">positions</span></code> <span class="math notranslate nohighlight">\(r^{(i)}\)</span>, <code class="docutils literal notranslate"><span class="pre">v_half_step</span></code>, and the <code class="docutils literal notranslate"><span class="pre">timestep</span></code> <span class="math notranslate nohighlight">\(dt\)</span></p></li>
+<li><p>update the atoms with the <code class="docutils literal notranslate"><span class="pre">new_positions</span></code></p></li>
+<li><p>calculate updated forces <code class="docutils literal notranslate"><span class="pre">new_forces</span></code></p></li>
+<li><p>calculate <code class="docutils literal notranslate"><span class="pre">new_velocities</span></code> from <code class="docutils literal notranslate"><span class="pre">new_forces</span></code></p></li>
+<li><p>update the atoms with <code class="docutils literal notranslate"><span class="pre">new_velocities</span></code>.</p></li>
+</ol>
+<p><strong>Variable meanings:</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 36%" />
+<col style="width: 64%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Variable</p></th>
+<th class="head"><p>Math expression</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">v_half_step</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(\vec{v}(t+\frac{1}{2}dt)\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">forces</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(\vec{F}(t)\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">velocities</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(\vec{v}(t)\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">masses</span></code></p></td>
+<td><p>$ m$</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dt</span></code></p></td>
+<td><p>$ dt$</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">positions</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(\vec{r}(t)\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">new_positions</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(\vec{r}(t+dt)\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">new_forces</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(\vec{F}(t+dt)\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">new_velocities</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(\vec{v}(t+dt)\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 1: getting v_half_step</strong></p>
+<div class="math notranslate nohighlight">
+\[\vec{v}(t+\frac{1}{2}dt) = v(t) + \frac{1}{2}\vec{a}(t)dt\]</div>
+<p>The velocities a half time-step in the future can be computed from the current velocities and the acceleration. The code below provides you with <code class="docutils literal notranslate"><span class="pre">forces</span></code> and <code class="docutils literal notranslate"><span class="pre">masses</span></code>; <span class="math notranslate nohighlight">\(\vec{F} = m\vec{a}\)</span>.</p>
+<p><strong>Step 2: getting new_positions</strong></p>
+<div class="math notranslate nohighlight">
+\[\vec{r}(t+dt) = \vec{r}(t) + \vec{v}(t+\frac{1}{2}dt)dt\]</div>
+<p>With <code class="docutils literal notranslate"><span class="pre">v_half_step</span></code> defined, you can now define <code class="docutils literal notranslate"><span class="pre">new_positions</span></code>.</p>
+<p><strong>Steps 3 and 4 are done for you.</strong></p>
+<p><strong>Step 5: getting new_velocities</strong></p>
+<div class="math notranslate nohighlight">
+\[\vec{v}(t+dt) = \vec{v}(t+\frac{1}{2}dt) + \frac{1}{2}\vec{a}(t+dt)dt\]</div>
+<div class="alert alert-block alert-info"><p>Finish the function below and execute the cell to link the integrator to your simulation.</p>
+</div><div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">next_step</span><span class="p">(</span><span class="n">md</span><span class="p">,</span> <span class="n">forces</span><span class="p">):</span>
+    <span class="n">velocities</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">get_velocities</span><span class="p">()</span>
+    <span class="n">masses</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">masses</span>
+    <span class="n">positions</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">get_positions</span><span class="p">()</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">dt</span>
+
+    <span class="n">v_half_step</span> <span class="o">=</span> <span class="o">...</span>
+
+    <span class="n">new_positions</span> <span class="o">=</span> <span class="o">...</span>
+    <span class="n">md</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">set_positions</span><span class="p">(</span><span class="n">new_positions</span><span class="p">)</span>
+    <span class="n">md</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">set_velocities</span><span class="p">(</span><span class="n">v_half_step</span><span class="p">)</span>
+
+    <span class="n">new_forces</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">get_forces</span><span class="p">(</span><span class="n">md</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">new_velocities</span> <span class="o">=</span> <span class="o">...</span>
+    <span class="n">md</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">set_velocities</span><span class="p">(</span><span class="n">new_velocities</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">new_forces</span>
+
+<span class="n">md_nve</span><span class="o">.</span><span class="n">next_step</span> <span class="o">=</span> <span class="n">next_step</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Simulating">
+<h3>Simulating<a class="headerlink" href="#Simulating" title="Permalink to this headline">¶</a></h3>
+<p>Now that an integrator is defined, we can run a simulation!</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">forces</span> <span class="o">=</span> <span class="n">md_nve</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">get_forces</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">forces</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[[ 3.74706729e+00  8.92805071e+00 -6.81900634e+00]
+ [ 4.21075705e+00 -6.53804693e+00 -3.53529728e+00]
+ [ 5.59587410e-01 -2.70588689e+00  1.10995476e+01]
+ [-8.04385231e+00  1.01468685e+00 -5.65664963e-01]
+ [ 9.12699531e-01 -1.91455376e+00  2.82267357e+00]
+ [-7.72326458e-01  1.55498294e+00 -2.66826164e+00]
+ [ 6.84952339e+00 -3.12797938e+00 -2.58403478e+00]
+ [-4.33354293e+00 -1.66984829e+01  1.40833532e+01]
+ [ 5.05643700e-01 -1.14096255e+00  2.15069022e+00]
+ [ 1.57620787e+00  2.85570273e+00  2.84986042e-01]
+ [ 8.65795892e-01 -3.11716944e-01  2.32273362e-01]
+ [-8.55722572e-01  1.10080204e+00 -1.02696664e+00]
+ [ 2.10338031e+00 -3.93100671e+00  3.62640141e+00]
+ [-1.43842184e+00  2.90072811e+00 -2.75294586e+00]
+ [-1.08130909e+00  1.72987116e+00 -4.19435797e+00]
+ [ 5.47429483e-01 -1.66443013e+00  3.53984228e+00]
+ [-8.33232750e-01  2.39268773e+00  2.44466405e+00]
+ [-1.24066580e+00 -1.76061977e+00  3.21935159e-02]
+ [-1.42857935e-01  7.85472400e-01 -2.00527480e+00]
+ [ 1.92702502e+00 -6.76330635e-01  1.96798286e-01]
+ [ 3.36286852e-01  8.52332125e-01 -3.25093596e-01]
+ [ 1.53007486e-02 -1.32534819e+00  1.20185208e+00]
+ [-9.44283844e-01  3.89282022e+00 -4.21294709e+00]
+ [ 7.37612532e-01 -2.81978297e+00  3.20364379e+00]
+ [-5.02464668e-01 -1.41302914e+00  4.09478269e+00]
+ [-3.16170678e-01  1.11003458e+00 -3.54444381e+00]
+ [ 1.38189296e+00 -2.39090097e+00 -2.16916585e+00]
+ [-2.01427605e+00  2.81804330e-01 -3.49048282e-01]
+ [ 2.09085241e-01 -4.57652186e-01  2.22868315e+00]
+ [ 8.28286823e-01  1.81783834e+00 -2.53778497e-01]
+ [-3.23742272e+00 -1.35456355e+00 -7.26131054e-03]
+ [ 2.15441313e+00  3.04840531e+00 -6.04318348e-01]
+ [-3.71144560e+00  1.59650740e+01 -1.36245182e+01]]
+</pre></div></div>
+</div>
+<p>As the schematic suggests, the simulation runs iterative steps over the integrator you have defined to move atoms. This is shown manually below.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">f_step_1</span> <span class="o">=</span> <span class="n">md_nve</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">forces</span><span class="p">)</span>
+<span class="n">md_nve</span><span class="o">.</span><span class="n">print_energy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-16-457c91e24732&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>f_step_1 <span class="ansi-blue-fg">=</span> md_nve<span class="ansi-blue-fg">.</span>step<span class="ansi-blue-fg">(</span>forces<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span> md_nve<span class="ansi-blue-fg">.</span>print_energy<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">~/OneDrive/CHEM3208/06_md/ase_prac/pymd/nve.py</span> in <span class="ansi-cyan-fg">step</span><span class="ansi-blue-fg">(self, f)</span>
+<span class="ansi-green-intense-fg ansi-bold">    114</span>         <span class="ansi-green-fg">if</span> f <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    115</span>             f <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>atoms<span class="ansi-blue-fg">.</span>get_forces<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">--&gt; 116</span><span class="ansi-red-fg">         </span>out <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>next_step<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> f<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    117</span>         self<span class="ansi-blue-fg">.</span>update_properties<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    118</span>         <span class="ansi-green-fg">return</span> out
+
+<span class="ansi-green-fg">&lt;ipython-input-14-da1d82885f31&gt;</span> in <span class="ansi-cyan-fg">next_step</span><span class="ansi-blue-fg">(md, forces)</span>
+<span class="ansi-green-intense-fg ansi-bold">      8</span>
+<span class="ansi-green-intense-fg ansi-bold">      9</span>     new_positions <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">...</span>
+<span class="ansi-green-fg">---&gt; 10</span><span class="ansi-red-fg">     </span>md<span class="ansi-blue-fg">.</span>atoms<span class="ansi-blue-fg">.</span>set_positions<span class="ansi-blue-fg">(</span>new_positions<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     11</span>     md<span class="ansi-blue-fg">.</span>atoms<span class="ansi-blue-fg">.</span>set_velocities<span class="ansi-blue-fg">(</span>v_half_step<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     12</span>
+
+<span class="ansi-green-fg">~/.local/lib/python3.7/site-packages/ase/atoms.py</span> in <span class="ansi-cyan-fg">set_positions</span><span class="ansi-blue-fg">(self, newpositions, apply_constraint)</span>
+<span class="ansi-green-intense-fg ansi-bold">    639</span>                 constraint<span class="ansi-blue-fg">.</span>adjust_positions<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> newpositions<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    640</span>
+<span class="ansi-green-fg">--&gt; 641</span><span class="ansi-red-fg">         </span>self<span class="ansi-blue-fg">.</span>set_array<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;positions&#39;</span><span class="ansi-blue-fg">,</span> newpositions<span class="ansi-blue-fg">,</span> shape<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">(</span><span class="ansi-cyan-fg">3</span><span class="ansi-blue-fg">,</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    642</span>
+<span class="ansi-green-intense-fg ansi-bold">    643</span>     <span class="ansi-green-fg">def</span> get_positions<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> wrap<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">False</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">~/.local/lib/python3.7/site-packages/ase/atoms.py</span> in <span class="ansi-cyan-fg">set_array</span><span class="ansi-blue-fg">(self, name, a, dtype, shape)</span>
+<span class="ansi-green-intense-fg ansi-bold">    455</span>                 <span class="ansi-green-fg">if</span> a<span class="ansi-blue-fg">.</span>shape <span class="ansi-blue-fg">!=</span> b<span class="ansi-blue-fg">.</span>shape<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    456</span>                     raise ValueError(&#39;Array &#34;%s&#34; has wrong shape %s != %s.&#39; %
+<span class="ansi-green-fg">--&gt; 457</span><span class="ansi-red-fg">                                      (name, a.shape, b.shape))
+</span><span class="ansi-green-intense-fg ansi-bold">    458</span>                 b<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">:</span><span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">=</span> a
+<span class="ansi-green-intense-fg ansi-bold">    459</span>
+
+<span class="ansi-red-fg">ValueError</span>: Array &#34;positions&#34; has wrong shape () != (33, 3).
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">f_step_2</span> <span class="o">=</span> <span class="n">md_nve</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">f_step_1</span><span class="p">)</span>
+<span class="n">md_nve</span><span class="o">.</span><span class="n">print_energy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">f_step_3</span> <span class="o">=</span> <span class="n">md_nve</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">f_step_2</span><span class="p">)</span>
+<span class="n">md_nve</span><span class="o">.</span><span class="n">print_energy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>However, most programs have a function to call the next_step function themselves, provided that a number of steps is specified. The cell below runs 300 steps, printing the energy after every 10 steps.</p>
+<div class="alert alert-block alert-info"><p>Run the cell below. Does the energy per atom change?</p>
+</div><div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">):</span>
+    <span class="n">md_nve</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">md_nve</span><span class="o">.</span><span class="n">print_energy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="alert alert-block alert-info"><p>View your trajectory below. What happens?</p>
+</div><div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">md_nve</span><span class="o">.</span><span class="n">traj_view</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Plotting-simulation-properties">
+<h3>Plotting simulation properties<a class="headerlink" href="#Plotting-simulation-properties" title="Permalink to this headline">¶</a></h3>
+<p>The simulation properties can be viewed in Python with the table below. Alternatively, you can look for nve.csv and make plots in Excel.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">nve_properties</span> <span class="o">=</span> <span class="n">md_nve</span><span class="o">.</span><span class="n">get_properties</span><span class="p">()</span>
+<span class="n">nve_properties</span>
+</pre></div>
+</div>
+</div>
+<p>From here you can create interactive plots like so:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">fig_nve_temp</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">nve_properties</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;Time (fs)&#39;</span><span class="p">,</span>
+                              <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Temperature (K)&#39;</span><span class="p">,</span>
+                              <span class="n">title</span><span class="o">=</span><span class="s1">&#39;my_title&#39;</span><span class="p">)</span>
+<span class="n">fig_nve_temp</span>
+</pre></div>
+</div>
+</div>
+<p>To change the Y-axis:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">fig_nve_temp</span><span class="o">.</span><span class="n">update_yaxes</span><span class="p">(</span><span class="nb">range</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3000</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<p>If you would like to add a new column with converted units, do it like below:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">nve_properties</span><span class="p">[</span><span class="s1">&#39;Time (ps)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nve_properties</span><span class="p">[</span><span class="s1">&#39;Time (fs)&#39;</span><span class="p">]</span><span class="o">/</span><span class="mi">1000</span>
+<span class="n">nve_properties</span>
+</pre></div>
+</div>
+</div>
+<div class="alert alert-block alert-info"><p>Plot the temperature over time. Is it what you expect?</p>
+</div><div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">px</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">nve_properties</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;Time (fs)&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Temperature (K)&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;NVE simulation&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="alert alert-block alert-warning"><p>Plot the kinetic energy, potential energy, and total energy over time. Save your plots and include them in your text document. Which energy is held constant in an NVE simulation? <strong>(2 marks)</strong></p>
+</div><div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">px</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">nve_properties</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;Time (fs)&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Total energy (eV)&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;NVE simulation&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="The-NVT-ensemble">
+<h2>The NVT ensemble<a class="headerlink" href="#The-NVT-ensemble" title="Permalink to this headline">¶</a></h2>
+<p>We often want to simulate systems where energy is allowed to vary, but the average temperature remains consistent. In an NVT ensemble, our molecular system is in thermal equilibrium with a heat bath at a fixed temperature. It can exchange energy with the heat bath. This mimics real-life experimental conditions much more than the closed-system of an NVE ensemble.</p>
+<p>In this section you will define a thermostat algorithm, and use that to run a simulation in the canonical (NVT) ensemble. We are now up to here in the schematic:</p>
+<p><img alt="title" src="_images/md_3.png" /></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">pymd</span> <span class="k">import</span> <span class="n">NVT</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="Setup">
+<h3>Setup<a class="headerlink" href="#Setup" title="Permalink to this headline">¶</a></h3>
+<p>We set up our simulation as before.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">md_nvt</span> <span class="o">=</span> <span class="n">NVT</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;ala3.gro&#39;</span><span class="p">,</span>
+             <span class="n">timestep</span><span class="o">=</span><span class="mf">0.2</span><span class="o">*</span><span class="n">units</span><span class="o">.</span><span class="n">fs</span><span class="p">,</span>
+             <span class="n">cutoff</span><span class="o">=</span><span class="mf">1.4</span><span class="o">*</span><span class="n">units</span><span class="o">.</span><span class="n">nm</span><span class="p">,</span>
+             <span class="n">temperature</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="c1"># Kelvin</span>
+             <span class="n">tau</span><span class="o">=</span><span class="mi">5</span><span class="o">*</span><span class="n">units</span><span class="o">.</span><span class="n">fs</span><span class="p">)</span> <span class="c1"># coupling constant</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">md_nvt</span><span class="o">.</span><span class="n">set_initial_velocities</span><span class="p">(</span><span class="n">MaxwellBoltzmannDistribution</span><span class="p">,</span>
+                              <span class="mi">300</span><span class="o">*</span><span class="n">units</span><span class="o">.</span><span class="n">kB</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Rescaling-velocities-with-the-Berendsen-thermostat">
+<h3>Rescaling velocities with the Berendsen thermostat<a class="headerlink" href="#Rescaling-velocities-with-the-Berendsen-thermostat" title="Permalink to this headline">¶</a></h3>
+<p>The temperature of a molecular system is proportional to the kinetic energy.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+E_{k} &amp;= \frac{1}{2}\sum^N_{i=1}m_iv^2_i\\
+E_{k} &amp;= \frac{1}{2}k_BTN_{df}\\
+\sum^N_{i=1}m_iv^2_i &amp;= k_BTN_{df}
+\end{align}\end{split}\]</div>
+<p><span class="math notranslate nohighlight">\(k_B\)</span> is Boltzmann’s constant and <span class="math notranslate nohighlight">\(N_{df}\)</span> is the number of degrees of freedom.</p>
+<div class="math notranslate nohighlight">
+\[N_{df} = 3N_{atoms} - N{constraints}\]</div>
+<p>Typically, <span class="math notranslate nohighlight">\(N_{constraints}=3\)</span>: the conservation of momentum in the x, y, and z directions.</p>
+<p>Modifying the velocities of the atoms can control the temperature of our simulations. From the above equations, we can see that:</p>
+<div class="math notranslate nohighlight">
+\[v \propto \sqrt{T}\]</div>
+<p><strong>Conserving temperature</strong></p>
+<p>One way to conserve temperature is to simply rescale velocities at every time step so that the temperature <span class="math notranslate nohighlight">\(T\)</span> is always our desired temperature <span class="math notranslate nohighlight">\(T_0\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[v_{scaled} = v_{current} \times \sqrt{\frac{T_0}{T}}\]</div>
+<p>However, this can result in rapid energy transfers to, from and among the degrees of freedom in the system, resulting in fun phenomena like the <a class="reference external" href="https://en.wikipedia.org/wiki/Flying_ice_cube">“flying ice cube” problem</a>.</p>
+<p><strong>Introducing the temperature coupling time constant</strong></p>
+<p>One way to reduce potential flying ice cubes is to reduce the amount of velocity rescaling. <span class="math notranslate nohighlight">\(\tau\)</span> controls the rate of heat transfer. Instead of</p>
+<div class="math notranslate nohighlight">
+\[\frac{dT}{dt} = T_0 - T\]</div>
+<p>we instead use</p>
+<div class="math notranslate nohighlight">
+\[\frac{dT}{dt} = \frac{1}{\tau}(T_0 - T)\]</div>
+<p>The above equation is the <strong>Berendsen thermostat</strong> algorithm. It gives rise to this velocity rescaling factor:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+scale&amp;=\sqrt{1 + \frac{dt}{\tau}\left(\frac{T_0}{T}-1\right)}\\
+v_{scaled} &amp;= v_{current} \times scale
+\end{align}\end{split}\]</div>
+<p><strong>Defining the Berendsen thermostat in Python</strong></p>
+<p>The goal of the function <code class="docutils literal notranslate"><span class="pre">rescale_velocities</span></code> is to set new <code class="docutils literal notranslate"><span class="pre">scaled_velocities</span></code> that use the Berendsen algorithm to keep a consistent average temperature.</p>
+<p><strong>Variable meanings:</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 53%" />
+<col style="width: 48%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Variable</p></th>
+<th class="head"><p>Math expression</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">tau</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(\tau\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">T0</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(T_0\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">T</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(T\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dt</span></code></p></td>
+<td><p>$ dt$</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">velocities</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(v_{current}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">scaled_velocities</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(v_{scaled}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<p>You may like to use <code class="docutils literal notranslate"><span class="pre">np.sqrt(things_to_square_root)</span></code> for your square root function.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">rescale_velocities</span><span class="p">(</span><span class="n">md</span><span class="p">):</span>
+
+    <span class="n">dt</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">dt</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">tau</span>
+    <span class="n">T0</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">target_temperature</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">get_temperature</span><span class="p">()</span>
+    <span class="n">velocities</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">get_velocities</span><span class="p">()</span>
+
+    <span class="n">scaled_velocities</span> <span class="o">=</span> <span class="o">...</span>
+    <span class="n">md</span><span class="o">.</span><span class="n">set_atom_velocities</span><span class="p">(</span><span class="n">scaled_velocities</span><span class="p">)</span>
+    <span class="k">return</span>
+
+<span class="n">md_nvt</span><span class="o">.</span><span class="n">next_step</span> <span class="o">=</span> <span class="n">next_step</span>
+<span class="n">md_nvt</span><span class="o">.</span><span class="n">rescale_velocities</span> <span class="o">=</span> <span class="n">rescale_velocities</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Simulating">
+<h3>Simulating<a class="headerlink" href="#Simulating" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">):</span>
+    <span class="n">md_nvt</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="c1"># to match the NVE simulation</span>
+    <span class="n">md_nvt</span><span class="o">.</span><span class="n">print_energy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Plotting">
+<h3>Plotting<a class="headerlink" href="#Plotting" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">nvt_properties</span> <span class="o">=</span> <span class="n">md_nvt</span><span class="o">.</span><span class="n">get_properties</span><span class="p">()</span>
+<span class="n">nvt_properties</span>
+</pre></div>
+</div>
+</div>
+<div class="alert alert-block alert-warning"><p>Plot the temperature and pressure of this simulation and compare to those of the NVE ensemble. Is it what you expect? <strong>(3 marks)</strong></p>
+</div><div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">fig_nvt_temp</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">nvt_properties</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;Time (fs)&#39;</span><span class="p">,</span>
+                              <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Temperature (K)&#39;</span><span class="p">,</span>
+                              <span class="n">title</span><span class="o">=</span><span class="s1">&#39;NVT&#39;</span><span class="p">)</span>
+<span class="n">fig_nvt_temp</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">fig_nvt_pres</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">nvt_properties</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;Time (fs)&#39;</span><span class="p">,</span>
+                              <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Pressure (bar)&#39;</span><span class="p">,</span>
+                              <span class="n">title</span><span class="o">=</span><span class="s1">&#39;NVT&#39;</span><span class="p">)</span>
+<span class="n">fig_nvt_pres</span>
+</pre></div>
+</div>
+</div>
+<div class="alert alert-block alert-warning"><p>Plot the total energy of this simulation. Compare it to the NVE ensemble simulation. <strong>(2 marks)</strong></p>
+</div><div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">fig_nvt_ener</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">nvt_properties</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;Time (fs)&#39;</span><span class="p">,</span>
+                              <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Total energy (eV)&#39;</span><span class="p">,</span>
+                              <span class="n">title</span><span class="o">=</span><span class="s1">&#39;NVT&#39;</span><span class="p">)</span>
+<span class="n">fig_nvt_ener</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Questions">
+<h2>Questions<a class="headerlink" href="#Questions" title="Permalink to this headline">¶</a></h2>
+<p>Please answer the following in a text document, with accompanying pictures etc., and submit as a PDF along with this notebook. <strong>Remember to check that you’ve saved your code, etc.! If in doubt, ask a demonstrator</strong></p>
+<div class="alert alert-block alert-warning"><p>Important: Your widget states do not save automatically. You can go to Widgets &gt; Save Notebook Widget State, but this is prone to failure. To avoid losing work, download your charts as a .png and write down chosen values for things like epsilon and sigma if you need to reproduce them.</p>
+</div><ol class="arabic simple">
+<li><p>Why are cut-off schemes used for truncating electrostatics? Outline the general concept of a cut-off scheme. <strong>(3 marks)</strong></p></li>
+<li><p>Which non-bonded cutoff radius did you pick? Justify your choice by referring to the general scale of the <span class="math notranslate nohighlight">\(\sigma\)</span> and <span class="math notranslate nohighlight">\(\epsilon\)</span> provided. Refer to a graph of your non-bonded potential. <strong>(2 marks)</strong></p></li>
+<li><p>Not including the central atom, how many atoms would you need to calculate non-bonded interactions with your non-bonded cutoff value? What if you subtracted 0.3 nm from it? What if you added 0.3 nm to it? <strong>(1 mark)</strong></p></li>
+<li><p>What is one method for dealing with discontinuous jumps in energy when charge groups enter and leave the cut-off boundary? <strong>(1 mark)</strong></p></li>
+<li><p>Plot the kinetic energy, potential energy, and total energy of your NVE simulation over time. Save your plots and include them in your text document. Which energy is held constant in an NVE simulation? <strong>(2 marks)</strong></p></li>
+<li><p>Plot the temperature and pressure of your NVT simulation and compare to those of the NVE ensemble. Is it what you expect? <strong>(3 marks)</strong></p></li>
+<li><p>Plot the total energy of your NVT simulation. Compare it to the NVE ensemble simulation. <strong>(2 marks)</strong></p></li>
+<li><p>Temperature is proportional to velocity, so a thermostat can control the temperature of a simulation by rescaling velocities of atoms. What property of a simulation can a barostat modify to maintain a constant pressure? <strong>(1 mark)</strong></p></li>
+</ol>
+<p><strong>Function marks</strong></p>
+<ul class="simple">
+<li><p>Lennard-Jones: 1 mark</p></li>
+<li><p>Coulomb: 1 mark</p></li>
+<li><p>Non-bonded potential: 1 mark</p></li>
+<li><p>Integrator: 3 marks</p></li>
+<li><p>Berendsen: 2 marks</p></li>
+</ul>
+<p><strong>Total 21 marks</strong></p>
+</div>
+<div class="section" id="References">
+<h2>References<a class="headerlink" href="#References" title="Permalink to this headline">¶</a></h2>
+<p>The molecular dynamics procedure image was adapted from the <a class="reference external" href="https://en.wikipedia.org/wiki/Molecular_dynamics#/media/File:Molecular_dynamics_algorithm.png">one by Kai Nordlund</a>. I added the highlights.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="md_analysis.html" class="btn btn-neutral float-right" title="Lab 7: Molecular dynamics and analysis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="forcefields.html" class="btn btn-neutral float-left" title="Lab 5: Force fields" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Lily Wang, Andrew Gilbert, Megan O&#39;Mara
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

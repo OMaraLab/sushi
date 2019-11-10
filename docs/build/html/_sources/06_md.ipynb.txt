@@ -1,0 +1,1561 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Lab 6: Molecular dynamics"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The aim of this lab is to create molecular dynamics simulations by defining your own cutoff-scheme, molecular dynamics integrator, and thermostat.\n",
+    "\n",
+    "<div class=\"alert alert-block alert-info\">\n",
+    "Things to do will be in blue boxes.\n",
+    "</div>\n",
+    "\n",
+    "<div class=\"alert alert-block alert-warning\">\n",
+    "Things to take note for questions are in yellow.\n",
+    "</div>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "To make things easier, much of the code in this lab is hidden away in \"widgets\": the things with text boxes etc. \n",
+    "\n",
+    "<div class=\"alert alert-block alert-danger\">\n",
+    "<b>Important:</b> Your widget states do not save automatically. You can go to <b>Widgets > Save Notebook Widget State</b>, but this is prone to failure. To avoid losing work, download your charts as a .png and write down chosen values for things like epsilon and sigma if you need to reproduce them.\n",
+    "</div>"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "application/vnd.jupyter.widget-view+json": {
+       "model_id": "e23ec8ce98794228b388d3b96e63c5ba",
+       "version_major": 2,
+       "version_minor": 0
+      },
+      "text/plain": [
+       "_ColormakerRegistry()"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "import plotly.express as px\n",
+    "import numpy as np\n",
+    "\n",
+    "from pymd import (lj_potential, coulomb_potential, \n",
+    "                  nb_potential, nb_rf_potential,\n",
+    "                  MolWidget)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Python"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Functions"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "In Mathematica, you defined functions like this:\n",
+    "\n",
+    "```\n",
+    "my_function[x_, y_, z_] := x + y + z\n",
+    "```\n",
+    "\n",
+    "Python has a different syntax. In Python, that same function would look like this:\n",
+    "\n",
+    "```\n",
+    "def my_function(x, y, z):\n",
+    "    return x + y + z\n",
+    "```\n",
+    "\n",
+    "There are several key differences. First, functions always begin with `def` and usually `return` an output. Secondly, everything \"inside\" the function must be indented. You can use spaces to indent, but tabs are easier. This means that you can include multiple lines in a function, which is often handy. For example:\n",
+    "\n",
+    "```\n",
+    "def my_complicated_function(x, y, z, a):\n",
+    "    b = x + y^z - a\n",
+    "    c = 3*z + x^a\n",
+    "    \n",
+    "    return b + c\n",
+    "```\n",
+    "\n",
+    "The brackets `()` are used for passing in arguments. To call the complicated function, you could write:\n",
+    "\n",
+    "```\n",
+    "answer = my_complicated_function(3, 2, 5, 1)\n",
+    "```\n",
+    "\n",
+    "Function and variable names should always start with alphabet character. They can include underscores and numbers, but numbers should never be the first letter. Do not use punctuation other than underscores. The following are valid names:\n",
+    "\n",
+    "* name\n",
+    "* NaMe\n",
+    "* _name\n",
+    "* name_\n",
+    "* name2\n",
+    "\n",
+    "The following are not valid names:\n",
+    "\n",
+    "* 2name\n",
+    "* .name\n",
+    "* nam,e\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Jupyter"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "This document is a Jupyter notebook, much like a Mathematica notebook. If you can see an Autosave dropdown on the toolbar, turn that to 2 minutes. Otherwise, you can save manually with `command+s`. \n",
+    "\n",
+    "Jupyter has 2 kinds of cells: \n",
+    "\n",
+    "1. Markdown cells\n",
+    "2. Code cells."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Markdown cell"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "This cell is a Markdown cell. This is what you use if you want to type text that won't be evaluated like code. You can double click on every cell in this notebook to see how it was created. To get out of editing mode, execute a cell with shift+enter.\n",
+    "\n",
+    "<div class=\"alert alert-block alert-info\">\n",
+    "Double-click the cell below for formatting tips.\n",
+    "</div>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### Helpful text formatting\n",
+    "\n",
+    "*Single asterisks for italics.*\n",
+    "\n",
+    "**Double asterisks for bold.**\n",
+    "\n",
+    "* Single left asterisk\n",
+    "* for a list\n",
+    "* of items\n",
+    "\n",
+    "Use just one `backtick for code formatting` in a sentence.\n",
+    "\n",
+    "```\n",
+    "Use three\n",
+    " backticks for\n",
+    "       multiline code formatting\n",
+    "```\n",
+    "\n",
+    "Use just one $dollar\\ sign$ for inline $\\LaTeX$.\n",
+    "\n",
+    "$$ Two\\ dollar\\ signs\\ for\\ \\LaTeX~by\\ itself$$\n",
+    "\n",
+    "Just one newline\n",
+    "won't make a new paragraph.\n",
+    "\n",
+    "You need two."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Code cell"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "This is how to print a string\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "5"
+      ]
+     },
+     "execution_count": 2,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# This cell is a code cell.\n",
+    "# The hash is the comment character.\n",
+    "# Everything after a hash won't be evaluated as Python.\n",
+    "\n",
+    "print('This is how to print a string')\n",
+    "3 + 2"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Non-bonded potentials"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "First, let's look at non-bonded potentials. The Lennard-Jones potential approximates an interaction between a pair of neutral atoms. It represents a combination of Pauli repulsion and van der Waals' interactions. The typical expression of a Lennard-Jones potential between atoms A and B is:\n",
+    "\n",
+    "$$U_{LJ, AB} = 4\\epsilon \\left[ \\left( \\frac{\\sigma}{r_{AB}} \\right)^{12} - \\left( \\frac{\\sigma}{r_{AB}} \\right)^6 \\right]$$"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<div class=\"alert alert-block alert-info\">\n",
+    "    \n",
+    "Define a Lennard-Jones potential between atoms A and B in the following cell using the terms `epsilon`, `sigma` and `r`. (Replace the `return r` that is already there).\n",
+    "\n",
+    "</div>\n",
+    "\n",
+    "<div class=\"alert alert-block alert-warning\">\n",
+    "Save a picture of your graph with labelled axes and note the values of epsilon and sigma you used to get the picture.\n",
+    "\n",
+    "</div>\n",
+    "\n",
+    "`r` represents the distance between atom A and atom B: $r_{AB}$. \n",
+    "\n",
+    "Hit shift+enter on the cell when you have defined your function to see the effect of your changes. You may have to drag a slider to update the plot as well."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "application/vnd.jupyter.widget-view+json": {
+       "model_id": "3e3fc3ddf0f5423a9331da26a8b05864",
+       "version_major": 2,
+       "version_minor": 0
+      },
+      "text/plain": [
+       "VBox(children=(HBox(children=(FloatSlider(value=1.0, description='epsilon:', max=2.0, min=-2.0), FloatSlider(v…"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "def calculate_lj(epsilon, sigma, r):\n",
+    "    return r\n",
+    "\n",
+    "lj_potential.calculate = calculate_lj\n",
+    "\n",
+    "lj_potential.widget"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "A Coulomb potential between atoms A and B is defined:\n",
+    "\n",
+    "$$U_{elec, AB} = \\frac{1}{4\\pi \\epsilon_0}\\frac{q_Aq_B}{r_{AB}}$$\n",
+    "\n",
+    "$q$ represents the charge of the respective atom. The vacuum permittivity $\\epsilon_0=8.854 \\times 10^{-12}C^2N^{-1}m^{-2}$. A charge is in Coulomb units. Convert these to nanometers for your function."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<div class=\"alert alert-block alert-info\">\n",
+    "\n",
+    "Define a Coulomb potential between atoms A and B in the following cell using `qa` to represent the charge of atom A, and `qb` to represent the charge of atom B. `r` represents the distance between them.\n",
+    "\n",
+    "</div>\n",
+    "\n",
+    "<div class=\"alert alert-block alert-warning\">\n",
+    "\n",
+    "Save a picture of your graph with labelled axes and note the values of qa and qb you used to get the picture.\n",
+    "\n",
+    "</div>"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "application/vnd.jupyter.widget-view+json": {
+       "model_id": "343f7c6654b940728be79505cc2510b3",
+       "version_major": 2,
+       "version_minor": 0
+      },
+      "text/plain": [
+       "VBox(children=(HBox(children=(FloatSlider(value=1.0, description='qa:', max=2.0, min=-2.0), FloatSlider(value=…"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "def calculate_coulomb(qa, qb, r):\n",
+    "    return r\n",
+    "\n",
+    "coulomb_potential.calculate = calculate_coulomb\n",
+    "\n",
+    "coulomb_potential.widget"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<div class=\"alert alert-block alert-info\">\n",
+    "    \n",
+    "Add your Lennard-Jones and Coulomb potentials together in the cell below for a unified non-bonded potential. (Hint: you can call the functions you've defined earlier.)\n",
+    "\n",
+    "</div>"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "application/vnd.jupyter.widget-view+json": {
+       "model_id": "1ef1c802f78f41ebb9433b21ede94393",
+       "version_major": 2,
+       "version_minor": 0
+      },
+      "text/plain": [
+       "VBox(children=(HBox(children=(FloatSlider(value=1.0, description='epsilon:', max=2.0, min=-2.0), FloatSlider(v…"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "def calculate_nb(epsilon, sigma, qa, qb, r):\n",
+    "    return r\n",
+    "\n",
+    "nb_potential.calculate = calculate_nb\n",
+    "\n",
+    "nb_potential.widget"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Cut-off schemes and values"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Computing non-bonded interactions is the most expensive part of a molecular dynamics simulation. In a normal simulation, the number of computations scales at $N^2$ where $N$ is the number of atoms involved. It is common to attempt to decrease this cost by limiting the number of computed non-bonded interactions using cutoff schemes, or by transforming long-range interactions into Fourier space.\n",
+    "\n",
+    "Cutoff schemes are particularly useful for electrostatic interactions. On the premise that atoms very far away have little effect on each other, these schemes only compute interactions within a given radius `nb_cutoff` around each atom. This effectively reduces the cost of a simulation to linear time.\n",
+    "\n",
+    "Choosing a suitable cutoff radius is a balance between keeping an accurate representation of inter-atomic interactions, but keeping computational cost as low as possible.\n",
+    "\n",
+    "<div class=\"alert alert-block alert-info\">\n",
+    "\n",
+    "Considering the values of epsilon and sigma below, choose a cut-off value for your long-ranged non-bonded interactions. \n",
+    "\n",
+    "</div>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Sigma values**\n",
+    "\n",
+    "| $\\sigma_{LJ}$       | H (bonded to O) | H (bonded to C) | H (bonded to N) | O (water) | O (protein) | C         |\n",
+    "|---------------------|-----------------|-----------------|-----------------|-----------|-------------|-----------|\n",
+    "| **H (bonded to O)** | 0               | 0.1324765       | 0.053454        | 0.1575305 | 0.1533235   | 0.1699835 |\n",
+    "| **H (bonded to C)** | 0.1324765       | 0.264953        | 0.1859305       | 0.290007  | 0.2858      | 0.30246   |\n",
+    "| **H (bonded to N)** | 0.053454        | 0.1859305       | 0.106908        | 0.2109845 | 0.2067775   | 0.2234375 |\n",
+    "| **O (water)**       | 0.1575305       | 0.290007        | 0.2109845       | 0.315061  | 0.310854    | 0.327514  |\n",
+    "| **O (protein)**     | 0.1533235       | 0.2858          | 0.2067775       | 0.310854  | 0.306647    | 0.323307  |\n",
+    "| **C**               | 0.1699835       | 0.30246         | 0.2234375       | 0.327514  | 0.323307    | 0.339967  |"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Epsilon values**\n",
+    "\n",
+    "\n",
+    "| $\\epsilon_{LJ}$       | H (bonded to O) | H (bonded to C) | H (bonded to N) | O (water)   | O (protein) | C           |\n",
+    "|---------------------|-----------------|-----------------|-----------------|-------------|-------------|-------------|\n",
+    "| **H (bonded to O)** | 0               | 0               | 0               | 0           | 0           | 0           |\n",
+    "| **H (bonded to C)** | 0               | 0.0656888       | 0.0656888       | 0.204458878 | 0.240471974 | 0.173400503 |\n",
+    "| **H (bonded to N)** | 0               | 0.0656888       | 0.0656888       | 0.204458878 | 0.240471974 | 0.173400503 |\n",
+    "| **O (water)**       | 0               | 0.204458878     | 0.204458878     | 0.636386    | 0.748478126 | 0.539715632 |\n",
+    "| **O (protein)**     | 0               | 0.240471974     | 0.240471974     | 0.748478126 | 0.880314    | 0.634780377 |\n",
+    "| **C**               | 0               | 0.173400503     | 0.173400503     | 0.539715632 | 0.634780377 | 0.45773     |"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "\n",
+    "<div class=\"alert alert-block alert-warning\">\n",
+    "Justify your choice by referring to general scale of $\\sigma$ and $\\epsilon$ and a graph of your non-bonded potential (in a text document).\n",
+    "\n",
+    "</div>"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "nb_cutoff = ..."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### PDB File"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<div class=\"alert alert-block alert-info\">\n",
+    "\n",
+    "Load in alanine tripeptide in water by executing the cell below.\n",
+    "\n",
+    "</div>"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "application/vnd.jupyter.widget-view+json": {
+       "model_id": "37cb36733dea481f82d351a09c7f51f5",
+       "version_major": 2,
+       "version_minor": 0
+      },
+      "text/plain": [
+       "VBox(children=(FloatText(value=0.0, description='Cutoff (nm):'), HBox(children=(Label(value='-1'), Label(value…"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "mw = MolWidget('2beg_solv_ions.gro', atom_index=3)\n",
+    "mw.widget"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<div class=\"alert alert-block alert-warning\">\n",
+    "\n",
+    "Not including the central atom, how many atoms would you need to calculate non-bonded interactions with your non-bonded cutoff value?\n",
+    "\n",
+    "</div>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": []
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<div class=\"alert alert-block alert-warning\">\n",
+    "\n",
+    "Add 0.3 nm to your cutoff value. How many atoms would you compute non-bonded interactions for with this higher value?\n",
+    "\n",
+    "</div>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": []
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<div class=\"alert alert-block alert-warning\">\n",
+    "\n",
+    "Subtract 0.3 nm from your original cutoff. How many atoms would you compute non-bonded interactions for with this lower value?\n",
+    "\n",
+    "</div>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": []
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Reaction-field cutoff scheme"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Typically, the energy of a Lennard-Jones potential is cut to 0 at the cutoff radius. Reaction-field electrostatics use a relative dielectric constant to model the surrounding environment. This transforms the electrostatic term to:\n",
+    "\n",
+    "$$ U_{elec, AB} = q_Aq_B \\left[ \\frac{1}{r_{AB}} + \\frac{(\\epsilon_{RF} - 1) r^2_{AB}} {(2\\epsilon_{RF} + 1) r^3_c} \\right]$$\n",
+    "\n",
+    "A dielectric term is defined for you below. Hit shift+enter to run the cell. If you choose to change your `nb_cutoff` value, you will have to re-run the cell below."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {
+    "scrolled": false
+   },
+   "outputs": [
+    {
+     "data": {
+      "application/vnd.jupyter.widget-view+json": {
+       "model_id": "4d6d67a8619d48f08590a41bfd377f89",
+       "version_major": 2,
+       "version_minor": 0
+      },
+      "text/plain": [
+       "VBox(children=(HBox(children=(FloatSlider(value=1.0, description='epsilon:', max=2.0, min=-2.0), FloatSlider(v…"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "def calculate_coulomb_rf(qa, qb, nb_cutoff, epsrf, r):\n",
+    "    rf_top = (epsrf - 1) * r * r\n",
+    "    rf_bottom = (2*epsrf + 1) * (nb_cutoff**3)\n",
+    "    return qa * qb * (1/r + rf_top/rf_bottom)\n",
+    "\n",
+    "def calculate_nb_rf(epsilon, sigma, qa, qb, nb_cutoff, epsrf, r):\n",
+    "    return calculate_lj(epsilon, sigma, r) + calculate_coulomb_rf(qa, qb, nb_cutoff, epsrf, r)\n",
+    "\n",
+    "nb_rf_potential.cutoff = nb_cutoff\n",
+    "\n",
+    "nb_rf_potential.calculate = calculate_nb_rf\n",
+    "\n",
+    "nb_rf_potential.widget"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<div class=\"alert alert-block alert-warning\">\n",
+    "\n",
+    "What is one method for dealing with discontinuous jumps in energy when charge groups enter and leave the cut-off boundary? **(1 mark)**\n",
+    "\n",
+    "</div>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": []
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## The NVE ensemble"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "In this section you will define key steps in the molecular dynamics simulation algorithm, and use that to run a simulation in the microcanonical (NVE) ensemble. We will be following this schematic.\n",
+    "\n",
+    "![title](img/md.png)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Setup"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from pymd import NVE\n",
+    "import ase.units as units\n",
+    "from ase.md.velocitydistribution import MaxwellBoltzmannDistribution"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We will start by creating a simulation framework and loading in an alanine tripeptide (without water to save computing time)."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "application/vnd.jupyter.widget-view+json": {
+       "model_id": "0b0e6e5dfc6648a0b38b5734da0afdf2",
+       "version_major": 2,
+       "version_minor": 0
+      },
+      "text/plain": [
+       "NGLWidget()"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "md_nve = NVE(filename='ala3.gro',\n",
+    "             timestep=0.2*units.fs,\n",
+    "             cutoff=1.4*units.nm)\n",
+    "md_nve.atom_view"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<div class=\"alert alert-block alert-info\">\n",
+    "\n",
+    "Have a look at the energy of the system before we start by executing the cell below.\n",
+    "</div>"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Energy per atom: Epot = 0.566eV  Ekin = 0.000eV (T=  0K)  Etot = 0.566eV\n"
+     ]
+    }
+   ],
+   "source": [
+    "md_nve.print_energy()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now we can begin our simulation. This is our first step.\n",
+    "\n",
+    "![md_step_1](img/md_1_c.png)\n",
+    "\n",
+    "<div class=\"alert alert-block alert-info\">\n",
+    "\n",
+    "Our system doesn't currently have any movement. We need to set initial velocities. Usually we aim for a value around 298-300 K, or 25-27 °C.\n",
+    "\n",
+    "</div>"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "md_nve.set_initial_velocities(MaxwellBoltzmannDistribution,\n",
+    "                              300*units.kB)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<div class=\"alert alert-block alert-info\">\n",
+    "\n",
+    "What is the energy now?\n",
+    "\n",
+    "</div>"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Energy per atom: Epot = 0.566eV  Ekin = 0.041eV (T=321K)  Etot = 0.608eV\n"
+     ]
+    }
+   ],
+   "source": [
+    "md_nve.print_energy()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Defining an integrator"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Here we will define a function `next_step`, to propagate atom movement for one timestep. **We are at the part highlighted in yellow, but we will not follow the equations exactly.**\n",
+    "\n",
+    "![md_step_1](img/md_2_c.png)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The above schematic describes the commonly used *leapfrog algorithm*, where velocities and positions are updated at alternating half time-steps. For simplicity, we are defining the *Velocity Verlet integrator* here, where velocities and positions are updated at the same time. Equations are below.\n",
+    "\n",
+    "The basic steps are this stage are:\n",
+    "\n",
+    "1. calculate the velocities at $t+\\frac{1}{2}dt$ `v_half_step` as a function of the `timestep` $dt$ and the acceleration \n",
+    "2. calculate `new_positions` $r^{(i+1)}$ as a function of the old `positions` $r^{(i)}$, `v_half_step`, and the `timestep` $dt$\n",
+    "3. update the atoms with the `new_positions`\n",
+    "4. calculate updated forces `new_forces`\n",
+    "5. calculate `new_velocities` from `new_forces`\n",
+    "6. update the atoms with `new_velocities`.\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Variable meanings:**\n",
+    "\n",
+    "| Variable | Math expression |\n",
+    "| -------- | --------------- |\n",
+    "| `v_half_step`| $\\vec{v}(t+\\frac{1}{2}dt)$ |\n",
+    "| `forces`| $\\vec{F}(t)$ |\n",
+    "| `velocities`| $\\vec{v}(t)$ |\n",
+    "| `masses`| $ m$ |\n",
+    "| `dt`| $ dt$ |\n",
+    "| `positions`| $\\vec{r}(t)$ |\n",
+    "| `new_positions`| $\\vec{r}(t+dt)$ |\n",
+    "| `new_forces`| $\\vec{F}(t+dt)$ |\n",
+    "| `new_velocities`| $\\vec{v}(t+dt)$ |\n",
+    "\n",
+    "\n",
+    "\n",
+    "**Step 1: getting v_half_step**\n",
+    "\n",
+    "$$\\vec{v}(t+\\frac{1}{2}dt) = v(t) + \\frac{1}{2}\\vec{a}(t)dt$$\n",
+    "\n",
+    "The velocities a half time-step in the future can be computed from the current velocities and the acceleration. The code below provides you with `forces` and `masses`; $\\vec{F} = m\\vec{a}$.\n",
+    "\n",
+    "**Step 2: getting new_positions**\n",
+    "\n",
+    "$$\\vec{r}(t+dt) = \\vec{r}(t) + \\vec{v}(t+\\frac{1}{2}dt)dt$$\n",
+    "\n",
+    "With `v_half_step` defined, you can now define `new_positions`. \n",
+    "\n",
+    "**Steps 3 and 4 are done for you.**\n",
+    "\n",
+    "**Step 5: getting new_velocities**\n",
+    "$$\\vec{v}(t+dt) = \\vec{v}(t+\\frac{1}{2}dt) + \\frac{1}{2}\\vec{a}(t+dt)dt$$\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<div class=\"alert alert-block alert-info\">\n",
+    "\n",
+    "Finish the function below and execute the cell to link the integrator to your simulation.\n",
+    "\n",
+    "</div>"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def next_step(md, forces):\n",
+    "    velocities = md.atoms.get_velocities()\n",
+    "    masses = md.masses\n",
+    "    positions = md.atoms.get_positions()\n",
+    "    dt = md.dt\n",
+    "    \n",
+    "    v_half_step = ...\n",
+    "    \n",
+    "    new_positions = ...\n",
+    "    md.atoms.set_positions(new_positions)\n",
+    "    md.atoms.set_velocities(v_half_step)\n",
+    "    \n",
+    "    new_forces = md.atoms.get_forces(md=True)\n",
+    "    \n",
+    "    new_velocities = ...\n",
+    "    md.atoms.set_velocities(new_velocities)\n",
+    "    return new_forces\n",
+    "\n",
+    "md_nve.next_step = next_step"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Simulating"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now that an integrator is defined, we can run a simulation!"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[[ 3.74706729e+00  8.92805071e+00 -6.81900634e+00]\n",
+      " [ 4.21075705e+00 -6.53804693e+00 -3.53529728e+00]\n",
+      " [ 5.59587410e-01 -2.70588689e+00  1.10995476e+01]\n",
+      " [-8.04385231e+00  1.01468685e+00 -5.65664963e-01]\n",
+      " [ 9.12699531e-01 -1.91455376e+00  2.82267357e+00]\n",
+      " [-7.72326458e-01  1.55498294e+00 -2.66826164e+00]\n",
+      " [ 6.84952339e+00 -3.12797938e+00 -2.58403478e+00]\n",
+      " [-4.33354293e+00 -1.66984829e+01  1.40833532e+01]\n",
+      " [ 5.05643700e-01 -1.14096255e+00  2.15069022e+00]\n",
+      " [ 1.57620787e+00  2.85570273e+00  2.84986042e-01]\n",
+      " [ 8.65795892e-01 -3.11716944e-01  2.32273362e-01]\n",
+      " [-8.55722572e-01  1.10080204e+00 -1.02696664e+00]\n",
+      " [ 2.10338031e+00 -3.93100671e+00  3.62640141e+00]\n",
+      " [-1.43842184e+00  2.90072811e+00 -2.75294586e+00]\n",
+      " [-1.08130909e+00  1.72987116e+00 -4.19435797e+00]\n",
+      " [ 5.47429483e-01 -1.66443013e+00  3.53984228e+00]\n",
+      " [-8.33232750e-01  2.39268773e+00  2.44466405e+00]\n",
+      " [-1.24066580e+00 -1.76061977e+00  3.21935159e-02]\n",
+      " [-1.42857935e-01  7.85472400e-01 -2.00527480e+00]\n",
+      " [ 1.92702502e+00 -6.76330635e-01  1.96798286e-01]\n",
+      " [ 3.36286852e-01  8.52332125e-01 -3.25093596e-01]\n",
+      " [ 1.53007486e-02 -1.32534819e+00  1.20185208e+00]\n",
+      " [-9.44283844e-01  3.89282022e+00 -4.21294709e+00]\n",
+      " [ 7.37612532e-01 -2.81978297e+00  3.20364379e+00]\n",
+      " [-5.02464668e-01 -1.41302914e+00  4.09478269e+00]\n",
+      " [-3.16170678e-01  1.11003458e+00 -3.54444381e+00]\n",
+      " [ 1.38189296e+00 -2.39090097e+00 -2.16916585e+00]\n",
+      " [-2.01427605e+00  2.81804330e-01 -3.49048282e-01]\n",
+      " [ 2.09085241e-01 -4.57652186e-01  2.22868315e+00]\n",
+      " [ 8.28286823e-01  1.81783834e+00 -2.53778497e-01]\n",
+      " [-3.23742272e+00 -1.35456355e+00 -7.26131054e-03]\n",
+      " [ 2.15441313e+00  3.04840531e+00 -6.04318348e-01]\n",
+      " [-3.71144560e+00  1.59650740e+01 -1.36245182e+01]]\n"
+     ]
+    }
+   ],
+   "source": [
+    "forces = md_nve.atoms.get_forces()\n",
+    "print(forces)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "As the schematic suggests, the simulation runs iterative steps over the integrator you have defined to move atoms. This is shown manually below."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "ValueError",
+     "evalue": "Array \"positions\" has wrong shape () != (33, 3).",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mValueError\u001b[0m                                Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-16-457c91e24732>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0mf_step_1\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mmd_nve\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mstep\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mforces\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      2\u001b[0m \u001b[0mmd_nve\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mprint_energy\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m~/OneDrive/CHEM3208/06_md/ase_prac/pymd/nve.py\u001b[0m in \u001b[0;36mstep\u001b[0;34m(self, f)\u001b[0m\n\u001b[1;32m    114\u001b[0m         \u001b[0;32mif\u001b[0m \u001b[0mf\u001b[0m \u001b[0;32mis\u001b[0m \u001b[0;32mNone\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    115\u001b[0m             \u001b[0mf\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0matoms\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mget_forces\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 116\u001b[0;31m         \u001b[0mout\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mnext_step\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mf\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    117\u001b[0m         \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mupdate_properties\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    118\u001b[0m         \u001b[0;32mreturn\u001b[0m \u001b[0mout\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m<ipython-input-14-da1d82885f31>\u001b[0m in \u001b[0;36mnext_step\u001b[0;34m(md, forces)\u001b[0m\n\u001b[1;32m      8\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      9\u001b[0m     \u001b[0mnew_positions\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0;34m...\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m---> 10\u001b[0;31m     \u001b[0mmd\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0matoms\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mset_positions\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mnew_positions\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m     11\u001b[0m     \u001b[0mmd\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0matoms\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mset_velocities\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mv_half_step\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     12\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m~/.local/lib/python3.7/site-packages/ase/atoms.py\u001b[0m in \u001b[0;36mset_positions\u001b[0;34m(self, newpositions, apply_constraint)\u001b[0m\n\u001b[1;32m    639\u001b[0m                 \u001b[0mconstraint\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0madjust_positions\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mnewpositions\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    640\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 641\u001b[0;31m         \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mset_array\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m'positions'\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mnewpositions\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mshape\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;36m3\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    642\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    643\u001b[0m     \u001b[0;32mdef\u001b[0m \u001b[0mget_positions\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mwrap\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;32mFalse\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m~/.local/lib/python3.7/site-packages/ase/atoms.py\u001b[0m in \u001b[0;36mset_array\u001b[0;34m(self, name, a, dtype, shape)\u001b[0m\n\u001b[1;32m    455\u001b[0m                 \u001b[0;32mif\u001b[0m \u001b[0ma\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mshape\u001b[0m \u001b[0;34m!=\u001b[0m \u001b[0mb\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mshape\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    456\u001b[0m                     raise ValueError('Array \"%s\" has wrong shape %s != %s.' %\n\u001b[0;32m--> 457\u001b[0;31m                                      (name, a.shape, b.shape))\n\u001b[0m\u001b[1;32m    458\u001b[0m                 \u001b[0mb\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m]\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0ma\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    459\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;31mValueError\u001b[0m: Array \"positions\" has wrong shape () != (33, 3)."
+     ]
+    }
+   ],
+   "source": [
+    "f_step_1 = md_nve.step(forces)\n",
+    "md_nve.print_energy()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "f_step_2 = md_nve.step(f_step_1)\n",
+    "md_nve.print_energy()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "f_step_3 = md_nve.step(f_step_2)\n",
+    "md_nve.print_energy()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "However, most programs have a function to call the next_step function themselves, provided that a number of steps is specified. The cell below runs 300 steps, printing the energy after every 10 steps. \n",
+    "\n",
+    "<div class=\"alert alert-block alert-info\">\n",
+    "\n",
+    "Run the cell below. Does the energy per atom change?\n",
+    "\n",
+    "</div>"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "for i in range(30):\n",
+    "    md_nve.run(10)\n",
+    "    md_nve.print_energy()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<div class=\"alert alert-block alert-info\">\n",
+    "\n",
+    "View your trajectory below. What happens?\n",
+    "\n",
+    "</div>"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "md_nve.traj_view"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Plotting simulation properties"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The simulation properties can be viewed in Python with the table below. Alternatively, you can look for nve.csv and make plots in Excel."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "nve_properties = md_nve.get_properties()\n",
+    "nve_properties"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "From here you can create interactive plots like so:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "scrolled": false
+   },
+   "outputs": [],
+   "source": [
+    "fig_nve_temp = px.line(nve_properties, x='Time (fs)', \n",
+    "                              y='Temperature (K)', \n",
+    "                              title='my_title')\n",
+    "fig_nve_temp"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "To change the Y-axis:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig_nve_temp.update_yaxes(range=[0, 3000])"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "If you would like to add a new column with converted units, do it like below:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "nve_properties['Time (ps)'] = nve_properties['Time (fs)']/1000\n",
+    "nve_properties"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<div class=\"alert alert-block alert-info\">\n",
+    "\n",
+    "Plot the temperature over time. Is it what you expect?\n",
+    "\n",
+    "</div> "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "px.line(nve_properties, x='Time (fs)', y='Temperature (K)', title='NVE simulation')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": []
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<div class=\"alert alert-block alert-warning\">\n",
+    "    \n",
+    "Plot the kinetic energy, potential energy, and total energy over time. Save your plots and include them in your text document. Which energy is held constant in an NVE simulation? **(2 marks)**\n",
+    "    \n",
+    "</div>"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "px.line(nve_properties, x='Time (fs)', y='Total energy (eV)', title='NVE simulation')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## The NVT ensemble"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We often want to simulate systems where energy is allowed to vary, but the average temperature remains consistent. In an NVT ensemble, our molecular system is in thermal equilibrium with a heat bath at a fixed temperature. It can exchange energy with the heat bath. This mimics real-life experimental conditions much more than the closed-system of an NVE ensemble.\n",
+    "\n",
+    "In this section you will define a thermostat algorithm, and use that to run a simulation in the canonical (NVT) ensemble. We are now up to here in the schematic:\n",
+    "\n",
+    "![title](img/md_3.png)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from pymd import NVT"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Setup"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We set up our simulation as before."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "md_nvt = NVT(filename='ala3.gro',\n",
+    "             timestep=0.2*units.fs,\n",
+    "             cutoff=1.4*units.nm,\n",
+    "             temperature=300, # Kelvin\n",
+    "             tau=5*units.fs) # coupling constant"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "md_nvt.set_initial_velocities(MaxwellBoltzmannDistribution,\n",
+    "                              300*units.kB)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Rescaling velocities with the Berendsen thermostat"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The temperature of a molecular system is proportional to the kinetic energy.\n",
+    "\n",
+    "$$\n",
+    "\\begin{align}\n",
+    "E_{k} &= \\frac{1}{2}\\sum^N_{i=1}m_iv^2_i\\\\\n",
+    "E_{k} &= \\frac{1}{2}k_BTN_{df}\\\\\n",
+    "\\sum^N_{i=1}m_iv^2_i &= k_BTN_{df}\n",
+    "\\end{align}\n",
+    "$$\n",
+    "\n",
+    "$k_B$ is Boltzmann's constant and $N_{df}$ is the number of degrees of freedom.\n",
+    "$$N_{df} = 3N_{atoms} - N{constraints}$$\n",
+    "\n",
+    "Typically, $N_{constraints}=3$: the conservation of momentum in the x, y, and z directions.\n",
+    "\n",
+    "Modifying the velocities of the atoms can control the temperature of our simulations. From the above equations, we can see that:\n",
+    "\n",
+    "$$v \\propto \\sqrt{T}$$"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Conserving temperature**\n",
+    "\n",
+    "One way to conserve temperature is to simply rescale velocities at every time step so that the temperature $T$ is always our desired temperature $T_0$. \n",
+    "\n",
+    "$$v_{scaled} = v_{current} \\times \\sqrt{\\frac{T_0}{T}}$$\n",
+    "\n",
+    "However, this can result in rapid energy transfers to, from and among the degrees of freedom in the system, resulting in fun phenomena like the [\"flying ice cube\" problem](https://en.wikipedia.org/wiki/Flying_ice_cube).\n",
+    "\n",
+    "**Introducing the temperature coupling time constant**\n",
+    "\n",
+    "One way to reduce potential flying ice cubes is to reduce the amount of velocity rescaling. $\\tau$ controls the rate of heat transfer. Instead of\n",
+    "$$\\frac{dT}{dt} = T_0 - T$$\n",
+    "\n",
+    "we instead use\n",
+    "\n",
+    "$$\\frac{dT}{dt} = \\frac{1}{\\tau}(T_0 - T)$$\n",
+    "\n",
+    "The above equation is the **Berendsen thermostat** algorithm. It gives rise to this velocity rescaling factor:\n",
+    "\n",
+    "$$\n",
+    "\\begin{align}\n",
+    "scale&=\\sqrt{1 + \\frac{dt}{\\tau}\\left(\\frac{T_0}{T}-1\\right)}\\\\\n",
+    "v_{scaled} &= v_{current} \\times scale\n",
+    "\\end{align}\n",
+    "$$"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Defining the Berendsen thermostat in Python**\n",
+    "\n",
+    "The goal of the function `rescale_velocities` is to set new `scaled_velocities` that use the Berendsen algorithm to keep a consistent average temperature.\n",
+    "\n",
+    "**Variable meanings:**\n",
+    "\n",
+    "| Variable | Math expression |\n",
+    "| -------- | --------------- |\n",
+    "| `tau`| $\\tau$ |\n",
+    "| `T0`| $T_0$ |\n",
+    "| `T`| $T$ |\n",
+    "| `dt`| $ dt$ |\n",
+    "| `velocities`| $v_{current}$ |\n",
+    "| `scaled_velocities`| $v_{scaled}$ |\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "You may like to use `np.sqrt(things_to_square_root)` for your square root function."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def rescale_velocities(md):\n",
+    "\n",
+    "    dt = md.dt\n",
+    "    tau = md.tau\n",
+    "    T0 = md.target_temperature\n",
+    "    T = md.atoms.get_temperature()\n",
+    "    velocities = md.atoms.get_velocities()\n",
+    "    \n",
+    "    scaled_velocities = ...\n",
+    "    md.set_atom_velocities(scaled_velocities)\n",
+    "    return\n",
+    "\n",
+    "md_nvt.next_step = next_step\n",
+    "md_nvt.rescale_velocities = rescale_velocities"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Simulating"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "for i in range(30):\n",
+    "    md_nvt.run(11) # to match the NVE simulation\n",
+    "    md_nvt.print_energy()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Plotting"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "nvt_properties = md_nvt.get_properties()\n",
+    "nvt_properties"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<div class=\"alert alert-block alert-warning\">\n",
+    "\n",
+    "Plot the temperature and pressure of this simulation and compare to those of the NVE ensemble. Is it what you expect? **(3 marks)**\n",
+    "\n",
+    "</div>"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig_nvt_temp = px.line(nvt_properties, x='Time (fs)', \n",
+    "                              y='Temperature (K)', \n",
+    "                              title='NVT')\n",
+    "fig_nvt_temp"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig_nvt_pres = px.line(nvt_properties, x='Time (fs)', \n",
+    "                              y='Pressure (bar)', \n",
+    "                              title='NVT')\n",
+    "fig_nvt_pres"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<div class=\"alert alert-block alert-warning\">\n",
+    "\n",
+    "Plot the total energy of this simulation. Compare it to the NVE ensemble simulation. **(2 marks)**\n",
+    "\n",
+    "</div>"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig_nvt_ener = px.line(nvt_properties, x='Time (fs)', \n",
+    "                              y='Total energy (eV)', \n",
+    "                              title='NVT')\n",
+    "fig_nvt_ener"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Questions"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Please answer the following in a text document, with accompanying pictures etc., and submit as a PDF along with this notebook. **Remember to check that you've saved your code, etc.! If in doubt, ask a demonstrator**\n",
+    "\n",
+    "<div class=\"alert alert-block alert-warning\">\n",
+    "<b>Important:</b> Your widget states do not save automatically. You can go to <b>Widgets > Save Notebook Widget State</b>, but this is prone to failure. To avoid losing work, download your charts as a .png and write down chosen values for things like epsilon and sigma if you need to reproduce them.\n",
+    "</div>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "1. Why are cut-off schemes used for truncating electrostatics? Outline the general concept of a cut-off scheme. **(3 marks)**\n",
+    "2. Which non-bonded cutoff radius did you pick? Justify your choice by referring to the general scale of the $\\sigma$ and $\\epsilon$ provided. Refer to a graph of your non-bonded potential. **(2 marks)**\n",
+    "3. Not including the central atom, how many atoms would you need to calculate non-bonded interactions with your non-bonded cutoff value? What if you subtracted 0.3 nm from it? What if you added 0.3 nm to it? **(1 mark)**\n",
+    "4. What is one method for dealing with discontinuous jumps in energy when charge groups enter and leave the cut-off boundary? **(1 mark)**\n",
+    "4. Plot the kinetic energy, potential energy, and total energy of your NVE simulation over time. Save your plots and include them in your text document. Which energy is held constant in an NVE simulation? **(2 marks)**\n",
+    "5. Plot the temperature and pressure of your NVT simulation and compare to those of the NVE ensemble. Is it what you expect? **(3 marks)**\n",
+    "6. Plot the total energy of your NVT simulation. Compare it to the NVE ensemble simulation. **(2 marks)**\n",
+    "7. Temperature is proportional to velocity, so a thermostat can control the temperature of a simulation by rescaling velocities of atoms. What property of a simulation can a barostat modify to maintain a constant pressure? **(1 mark)**"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Function marks**\n",
+    "\n",
+    "* Lennard-Jones: 1 mark\n",
+    "* Coulomb: 1 mark\n",
+    "* Non-bonded potential: 1 mark\n",
+    "* Integrator: 3 marks\n",
+    "* Berendsen: 2 marks\n",
+    "\n",
+    "\n",
+    "**Total 21 marks**"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## References"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The molecular dynamics procedure image was adapted from the [one by Kai Nordlund](https://en.wikipedia.org/wiki/Molecular_dynamics#/media/File:Molecular_dynamics_algorithm.png). I added the highlights."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python (chem3208)",
+   "language": "python",
+   "name": "chem3208"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.7.3"
+  },
+  "toc": {
+   "base_numbering": 1,
+   "nav_menu": {},
+   "number_sections": false,
+   "sideBar": true,
+   "skip_h1_title": false,
+   "title_cell": "Table of Contents",
+   "title_sidebar": "Contents",
+   "toc_cell": false,
+   "toc_position": {
+    "height": "calc(100% - 180px)",
+    "left": "10px",
+    "top": "150px",
+    "width": "191px"
+   },
+   "toc_section_display": true,
+   "toc_window_display": true
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}

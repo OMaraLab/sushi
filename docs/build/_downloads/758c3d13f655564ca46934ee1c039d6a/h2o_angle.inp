@@ -1,0 +1,24 @@
+$molecule
+0 1
+  O
+  H  1  r2
+  H  1  r3  2  a3
+
+  r2= 0.9687
+  r3= 0.9687
+  a3= 103.97
+$end
+
+$rem
+   BASIS  =  6-31G*
+   FROZEN_SCAN  =  TRUE
+   GUI  =  2
+   JOB_TYPE  =  PES_Scan
+   METHOD  =  MP2
+$end
+
+
+$scan
+bend 2 1 3 73.971 133.971 1.5
+$end
+

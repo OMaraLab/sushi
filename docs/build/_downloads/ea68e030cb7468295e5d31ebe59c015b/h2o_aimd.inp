@@ -1,0 +1,19 @@
+$molecule
+0 1
+  O    0.0000000    0.0179518   -0.0000000
+  H    0.0000000   -0.5316957   -0.7614781
+  H   -0.0000000   -0.5316957    0.7614781
+$end
+
+$rem
+   AIMD_INITIAL_VELOCITIES  =  Thermal
+   AIMD_STEPS  =  500
+   AIMD_TEMP  =  300
+   AIMD_TIME_STEP  =  21
+   BASIS  =  6-31G*
+   GUI  =  2
+   JOB_TYPE  =  AIMD
+   METHOD  =  MP2
+   SCF_CONVERGENCE  =  8
+$end
+

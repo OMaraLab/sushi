@@ -1,0 +1,961 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Lab 7: Molecular dynamics and analysis &mdash; CHEM3208  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Atom types (GROMOS 54A7)" href="atom_types.html" />
+    <link rel="prev" title="Lab 6: Molecular dynamics" href="06_md.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> CHEM3208
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Molecular dynamics</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="forcefields.html">Lab 5: Force fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_md.html">Lab 6: Molecular dynamics</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Lab 7: Molecular dynamics and analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#aim">Aim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#setup">Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#background">Background</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#proteins">Proteins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#amino-acids">Amino acids</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#terminal">Terminal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gromacs">GROMACS</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#method">Method</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#creating-a-peptide">Creating a peptide</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#generating-a-topology">Generating a topology</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#placing-your-molecule-in-a-box">Placing your molecule in a box</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vacuum">Vacuum</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#minimising-your-structure">Minimising your structure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#equilibrating-your-structure">Equilibrating your structure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#simulation">Simulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#analysis">Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#implicit-solvent">Implicit solvent</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id1">Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#explicit-solvent">Explicit solvent</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#solvating-your-box">Solvating your box</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2">Simulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#steered-molecular-dynamics">Steered molecular dynamics</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#creating-an-index-file">Creating an index file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#creating-a-position-restraint-file">Creating a position restraint file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#editing-your-topology-file">Editing your topology file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#creating-a-new-box">Creating a new box</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">Simulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">Analysis</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#report">Report</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#graphs">Graphs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#questions">Questions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="atom_types.html">Atom types (GROMOS 54A7)</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CHEM3208</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Lab 7: Molecular dynamics and analysis</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/md_analysis.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="lab-7-molecular-dynamics-and-analysis">
+<h1>Lab 7: Molecular dynamics and analysis<a class="headerlink" href="#lab-7-molecular-dynamics-and-analysis" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="aim">
+<h2>Aim<a class="headerlink" href="#aim" title="Permalink to this headline">¶</a></h2>
+<p>The aim of this lab is to investigate protein folding in vacuum, implicit solvent, and implicit solvent. You will then run a steered molecular dynamics simulation pulling your vacuum protein apart to look at the forces involved.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p><strong>Submission:</strong>
+To submit this lab, please answer the questions in a text document and submit a PDF.</p>
+</div>
+</div>
+<div class="section" id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h2>
+<p>First download the Lab 7 folder on Wattle.</p>
+<p>Then open Terminal. You can find this by opening Spotlight (command + space) and typing “terminal”.</p>
+<p>Type the command below to go to the folder you have just downloaded.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">~/</span><span class="n">Downloads</span><span class="o">/</span><span class="n">Lab</span>\ <span class="mi">7</span><span class="o">*</span>
+</pre></div>
+</div>
+<p>Then type the command below to install the Python library you need. You may have to wait a while.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bash</span> <span class="n">setup</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>When it is finished, close that Terminal window and open a new one.</p>
+</div>
+<div class="section" id="background">
+<h2>Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="proteins">
+<h3>Proteins<a class="headerlink" href="#proteins" title="Permalink to this headline">¶</a></h3>
+<p>Proteins play a number of important roles in the body, in areas such as cellular support, molecule transport, and catalysis of crucial metabolic reactions. A protein is a chain of amino acids bonded together by peptide bonds (its primary structure), which then form secondary structure motifs such as alpha helices and beta sheets, and fold into the tertiary 3D structure that determines its behaviour and function.</p>
+<p>Protein folding is this process of folding from an amino acid chain with a random coil structure, to its native 3D conformation with biological function. The thermodynamic hypothesis states that the native structure is determined only by the protein’s primary amino acid sequence. In general, the driving force of protein folding is the hydrophobic effect: where the number of hydrophobic side-chains exposed to water is minimized, and they are instead buried within the protein. The formation of intramolecular hydrogen bonds also stabilizes the 3D structure.</p>
+<p>The study of protein folding remains an active problem in computational chemistry. Questions center around three aspects: predicting protein stability, predicting the kinetics of folding, and predicting the native conformation of the protein. However, molecular dynamics simulations of proteins folding in explicit water are still prohibitively costly. Proteins typically fold on timescales of milliseconds, with even the smallest peptides requiring microseconds to fold. Using an implicit solvent model can reduce the cost of simulating a protein in water.</p>
+</div>
+<div class="section" id="amino-acids">
+<h3>Amino acids<a class="headerlink" href="#amino-acids" title="Permalink to this headline">¶</a></h3>
+<p>There are 20 amino acids found in eukaryotic systems such as the human body. These each have three-letter and one-letter amino acid codes. Using these one-letter codes, we can build a peptide sequence that spells a particular word or phrase.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 44%" />
+<col style="width: 30%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Amino acid</p></th>
+<th class="head"><p>Three letter code</p></th>
+<th class="head"><p>One letter code</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>alanine</p></td>
+<td><p>ala</p></td>
+<td><p>A</p></td>
+</tr>
+<tr class="row-odd"><td><p>arginine</p></td>
+<td><p>arg</p></td>
+<td><p>R</p></td>
+</tr>
+<tr class="row-even"><td><p>asparagine</p></td>
+<td><p>asn</p></td>
+<td><p>N</p></td>
+</tr>
+<tr class="row-odd"><td><p>aspartic acid</p></td>
+<td><p>asp</p></td>
+<td><p>D</p></td>
+</tr>
+<tr class="row-even"><td><p>asparagine or aspartic acid</p></td>
+<td><p>asx</p></td>
+<td><p>B</p></td>
+</tr>
+<tr class="row-odd"><td><p>cysteine</p></td>
+<td><p>cys</p></td>
+<td><p>C</p></td>
+</tr>
+<tr class="row-even"><td><p>glutamic acid</p></td>
+<td><p>glu</p></td>
+<td><p>E</p></td>
+</tr>
+<tr class="row-odd"><td><p>glutamine</p></td>
+<td><p>gln</p></td>
+<td><p>Q</p></td>
+</tr>
+<tr class="row-even"><td><p>glutamine or glutamic acid</p></td>
+<td><p>glx</p></td>
+<td><p>Z</p></td>
+</tr>
+<tr class="row-odd"><td><p>glycine</p></td>
+<td><p>gly</p></td>
+<td><p>G</p></td>
+</tr>
+<tr class="row-even"><td><p>histidine</p></td>
+<td><p>his</p></td>
+<td><p>H</p></td>
+</tr>
+<tr class="row-odd"><td><p>isoleucine</p></td>
+<td><p>ile</p></td>
+<td><p>I</p></td>
+</tr>
+<tr class="row-even"><td><p>leucine</p></td>
+<td><p>leu</p></td>
+<td><p>L</p></td>
+</tr>
+<tr class="row-odd"><td><p>lysine</p></td>
+<td><p>lys</p></td>
+<td><p>K</p></td>
+</tr>
+<tr class="row-even"><td><p>methionine</p></td>
+<td><p>met</p></td>
+<td><p>M</p></td>
+</tr>
+<tr class="row-odd"><td><p>phenylalanine</p></td>
+<td><p>phe</p></td>
+<td><p>F</p></td>
+</tr>
+<tr class="row-even"><td><p>proline</p></td>
+<td><p>pro</p></td>
+<td><p>P</p></td>
+</tr>
+<tr class="row-odd"><td><p>serine</p></td>
+<td><p>ser</p></td>
+<td><p>S</p></td>
+</tr>
+<tr class="row-even"><td><p>threonine</p></td>
+<td><p>thr</p></td>
+<td><p>T</p></td>
+</tr>
+<tr class="row-odd"><td><p>tryptophan</p></td>
+<td><p>trp</p></td>
+<td><p>W</p></td>
+</tr>
+<tr class="row-even"><td><p>tyrosine</p></td>
+<td><p>tyr</p></td>
+<td><p>Y</p></td>
+</tr>
+<tr class="row-odd"><td><p>valine</p></td>
+<td><p>val</p></td>
+<td><p>V</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="terminal">
+<h3>Terminal<a class="headerlink" href="#terminal" title="Permalink to this headline">¶</a></h3>
+<p>Throughout this lab, we will be primarily using the Terminal for our commands. Here are a list of common commands you may need:</p>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">man</span> <span class="pre">cd</span></code> : this will bring up the manual entry for <code class="code docutils literal notranslate"><span class="pre">cd</span></code>. Use <code class="code docutils literal notranslate"><span class="pre">man</span> <span class="pre">cmd</span></code> to look up the help text for any command.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">cd</span> <span class="pre">path/to/my/directory</span></code> : this will <strong>c</strong>hange <strong>d</strong>irectory – your terminal window will change to the directory that you specified.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">ls</span></code>: this stands for <strong>l</strong>i<strong>s</strong>t. This will list the files in your current directory.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">pwd</span></code>: this tells you the <strong>p</strong>ath of your <strong>w</strong>orking <strong>d</strong>irectory, i.e. where your Terminal window currently is.</p></li>
+</ul>
+</div>
+<div class="section" id="gromacs">
+<h3>GROMACS<a class="headerlink" href="#gromacs" title="Permalink to this headline">¶</a></h3>
+<p>The GROningen MAchine for Chemical Simulation (GROMACS) is the molecular dynamics engine that we will be using through this lab. It has no graphical interface – we interact with it through Terminal. GROMACS has its own file types:</p>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>File extension</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>.pdb</p></td>
+<td><p>coordinate file</p></td>
+</tr>
+<tr class="row-odd"><td><p>.gro</p></td>
+<td><p>coordinate file</p></td>
+</tr>
+<tr class="row-even"><td><p>.top</p></td>
+<td><p>topology file</p></td>
+</tr>
+<tr class="row-odd"><td><p>.itp</p></td>
+<td><p>topology file (in this lab, used mostly for position restraints)</p></td>
+</tr>
+<tr class="row-even"><td><p>.mdp</p></td>
+<td><p>Molecular Dynamics simulation Parameter file</p></td>
+</tr>
+<tr class="row-odd"><td><p>.xtc</p></td>
+<td><p>trajectory file</p></td>
+</tr>
+<tr class="row-even"><td><p>.edr</p></td>
+<td><p>file with simulation properties</p></td>
+</tr>
+<tr class="row-odd"><td><p>.ndx</p></td>
+<td><p>index file of atomic groups</p></td>
+</tr>
+<tr class="row-even"><td><p>.tpr</p></td>
+<td><p>run topology file (binary)</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="method">
+<h2>Method<a class="headerlink" href="#method" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="creating-a-peptide">
+<h3>Creating a peptide<a class="headerlink" href="#creating-a-peptide" title="Permalink to this headline">¶</a></h3>
+<p>We will first construct a peptide sequence of your choice. Aim for it to be around 25-35 amino acids long. For example, we used the peptide sequence below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MEGANQMARATHINKSCHEMISTRYISNEAT</span>
+</pre></div>
+</div>
+<p>The letters J, B, O, U, X, and Z are not covered by the eukaryotic amino acid alphabet. You may like to substitute O -&gt; Q, U -&gt; V, and J -&gt; I. The letter B is often used to mean “either asparagine (N) or aspartic acid (D)” and Z is often used to mean “either glutamine (Q) or glutamic acid (E)”. You could also choose a different phrase.</p>
+<p>Open Pymol by typing <code class="code docutils literal notranslate"><span class="pre">pymol</span></code> in a Terminal window.</p>
+<p>Turn on Display &gt; Sequence On.</p>
+<img alt="_images/pymol_sequence.png" src="_images/pymol_sequence.png" />
+<p>Then build your peptide by using the keyboard shortcuts Alt + (letter of your choice). Check your sequence to make sure you have correctly added the new amino acid. Sometimes this is not successful and you will have to use the Build &gt; Residue menu to choose the residue manually.</p>
+<img alt="_images/pymol_build.png" src="_images/pymol_build.png" />
+<p>Then choose File &gt; Export Molecule As. The default is to save with a cif extension – select PDB and save it as <code class="code docutils literal notranslate"><span class="pre">peptide.pdb</span></code> in your Lab 7 directory.</p>
+</div>
+<div class="section" id="generating-a-topology">
+<h3>Generating a topology<a class="headerlink" href="#generating-a-topology" title="Permalink to this headline">¶</a></h3>
+<p>In Terminal, navigate to your Lab 7 directory. For many of you, this command will look like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">~/</span><span class="n">Downloads</span><span class="o">/</span><span class="n">Lab</span>\ <span class="mi">7</span><span class="o">*</span>
+</pre></div>
+</div>
+<p>Convert your PDB to a GROMACS format and generate topology files with the command below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gmx</span> <span class="n">pdb2gmx</span> <span class="o">-</span><span class="n">f</span> <span class="n">peptide</span><span class="o">.</span><span class="n">pdb</span> <span class="o">-</span><span class="n">o</span> <span class="n">peptide</span><span class="o">.</span><span class="n">gro</span> <span class="o">-</span><span class="n">ignh</span> <span class="o">-</span><span class="n">ter</span>
+</pre></div>
+</div>
+<p>You will see this come up. Choose the CHARMM 27 force field by typing 8 and hitting enter.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Select the Force Field:</span>
+<span class="go">From &#39;/usr/local/gromacs/share/gromacs/top&#39;:</span>
+<span class="go">1: AMBER03 protein, nucleic AMBER94 (Duan et al., J. Comp. Chem. 24, 1999-2012, 2003)</span>
+<span class="go">2: AMBER94 force field (Cornell et al., JACS 117, 5179-5197, 1995)</span>
+<span class="go">3: AMBER96 protein, nucleic AMBER94 (Kollman et al., Acc. Chem. Res. 29, 461-469, 1996)</span>
+<span class="go">4: AMBER99 protein, nucleic AMBER94 (Wang et al., J. Comp. Chem. 21, 1049-1074, 2000)</span>
+<span class="go">5: AMBER99SB protein, nucleic AMBER94 (Hornak et al., Proteins 65, 712-725, 2006)</span>
+<span class="go">6: AMBER99SB-ILDN protein, nucleic AMBER94 (Lindorff-Larsen et al., Proteins 78, 1950-58, 2010)</span>
+<span class="go">7: AMBERGS force field (Garcia &amp; Sanbonmatsu, PNAS 99, 2782-2787, 2002)</span>
+<span class="go">8: CHARMM27 all-atom force field (CHARM22 plus CMAP for proteins)</span>
+<span class="go">9: GROMOS96 43a1 force field</span>
+<span class="go">10: GROMOS96 43a2 force field (improved alkane dihedrals)</span>
+<span class="go">11: GROMOS96 45a3 force field (Schuler JCC 2001 22 1205)</span>
+<span class="go">12: GROMOS96 53a5 force field (JCC 2004 vol 25 pag 1656)</span>
+<span class="go">13: GROMOS96 53a6 force field (JCC 2004 vol 25 pag 1656)</span>
+<span class="go">14: GROMOS96 54a7 force field (Eur. Biophys. J. (2011), 40,, 843-856, DOI: 10.1007/s00249-011-0700-9)</span>
+<span class="go">15: OPLS-AA/L all-atom force field (2001 aminoacid dihedrals)</span>
+</pre></div>
+</div>
+<p>For the following selections, choose the TIP3P water model and the charged termini (first options).</p>
+<p>Type <code class="code docutils literal notranslate"><span class="pre">ls</span></code> to list the files in your directory and confirm that you have the following files:</p>
+<ul class="simple">
+<li><p>peptide.gro</p></li>
+<li><p>topol.top</p></li>
+<li><p>posre.itp</p></li>
+</ul>
+</div>
+<div class="section" id="placing-your-molecule-in-a-box">
+<h3>Placing your molecule in a box<a class="headerlink" href="#placing-your-molecule-in-a-box" title="Permalink to this headline">¶</a></h3>
+<p>We now need to define a simulation box for our molecule with the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gmx</span> <span class="n">editconf</span> <span class="o">-</span><span class="n">f</span> <span class="n">peptide</span><span class="o">.</span><span class="n">gro</span> <span class="o">-</span><span class="n">o</span> <span class="n">box</span><span class="o">.</span><span class="n">gro</span> <span class="o">-</span><span class="n">c</span> <span class="o">-</span><span class="n">d</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>This creates a box at with at least 1 nm between the molecule and the side of the box.</p>
+<p>Open your file with VMD:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vmd</span> <span class="n">box</span><span class="o">.</span><span class="n">gro</span>
+</pre></div>
+</div>
+<p>In Extensions &gt; Tk Console, type <code class="code docutils literal notranslate"><span class="pre">pbc</span> <span class="pre">box</span></code>. You should be able to see the box that you defined.</p>
+<p>Copy these files into your <code class="code docutils literal notranslate"><span class="pre">vac/</span></code>, <code class="code docutils literal notranslate"><span class="pre">impsol/</span></code>, and <code class="code docutils literal notranslate"><span class="pre">expsol</span></code> directories:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>topol.top</p></li>
+<li><p>posre.itp</p></li>
+<li><p>box.itp</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="vacuum">
+<h3>Vacuum<a class="headerlink" href="#vacuum" title="Permalink to this headline">¶</a></h3>
+<p>After this we will be working in the <code class="code docutils literal notranslate"><span class="pre">vac</span></code> directory. Change directory by typing:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">vac</span><span class="o">/</span>
+</pre></div>
+</div>
+<div class="section" id="minimising-your-structure">
+<h4>Minimising your structure<a class="headerlink" href="#minimising-your-structure" title="Permalink to this headline">¶</a></h4>
+<p>We need to make sure that our system has no steric clashes or strained geometry. We can relax the structure through energy minimisation. To do this, we use an MDP file containing input parameters to generate a “run topology” TPR file, which GROMACS reads for the actual computation.</p>
+<p>To generate the run topology file <code class="code docutils literal notranslate"><span class="pre">em.tpr</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gmx</span> <span class="n">grompp</span> <span class="o">-</span><span class="n">f</span> <span class="n">minim</span><span class="o">.</span><span class="n">mdp</span> <span class="o">-</span><span class="n">c</span> <span class="n">box</span><span class="o">.</span><span class="n">gro</span> <span class="o">-</span><span class="n">p</span> <span class="n">topol</span><span class="o">.</span><span class="n">top</span> <span class="o">-</span><span class="n">o</span> <span class="n">em</span><span class="o">.</span><span class="n">tpr</span>
+</pre></div>
+</div>
+<p>And to run the actual computation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gmx</span> <span class="n">mdrun</span> <span class="o">-</span><span class="n">v</span> <span class="o">-</span><span class="n">deffnm</span> <span class="n">em</span>
+</pre></div>
+</div>
+<p>When the process is done, list your files with <code class="code docutils literal notranslate"><span class="pre">ls</span></code> and confirm that you have generated (among others) the files <code class="code docutils literal notranslate"><span class="pre">em.gro</span></code> and <code class="code docutils literal notranslate"><span class="pre">em.edr</span></code>.</p>
+<p>Explore your energies by looking at the <code class="code docutils literal notranslate"><span class="pre">em.edr</span></code> file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gmx</span> <span class="n">energy</span> <span class="o">-</span><span class="n">f</span> <span class="n">em</span><span class="o">.</span><span class="n">edr</span> <span class="o">-</span><span class="n">o</span> <span class="n">em_potential_energy</span><span class="o">.</span><span class="n">xvg</span>
+</pre></div>
+</div>
+<p>The following menu (or something similar) will come up:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Select the terms you want from the following list by</span>
+<span class="go">selecting either (part of) the name or the number or a combination.</span>
+<span class="go">End your selection with an empty line or a zero.</span>
+<span class="go">-------------------------------------------------------------------</span>
+<span class="go">1  Bond             2  U-B              3  Proper-Dih.      4  Improper-Dih.</span>
+<span class="go">5  CMAP-Dih.        6  LJ-14            7  Coulomb-14       8  LJ-(SR)</span>
+<span class="go">9  Coulomb-(SR)    10  Coul.-recip.    11  Potential       12  Pressure</span>
+<span class="go">13  Vir-XX          14  Vir-XY          15  Vir-XZ          16  Vir-YX</span>
+<span class="go">17  Vir-YY          18  Vir-YZ          19  Vir-ZX          20  Vir-ZY</span>
+<span class="go">21  Vir-ZZ          22  Pres-XX         23  Pres-XY         24  Pres-XZ</span>
+<span class="go">25  Pres-YX         26  Pres-YY         27  Pres-YZ         28  Pres-ZX</span>
+<span class="go">29  Pres-ZY         30  Pres-ZZ         31  #Surf*SurfTen   32  T-rest</span>
+</pre></div>
+</div>
+<p>Select the Potential energy by typing 11. (This may have a different number for you.) Then type 0 to exit.</p>
+<p>Look at your file in Xmgrace:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>xmgrace em_potential_energy.xvg
+</pre></div>
+</div>
+<p>Confirm that the potential energy decreases to a minimum.</p>
+<p>The x-axis is incorrect. It should not be ‘Time (ps)’, but ‘Steps’. To change your x-axis, go to Plot &gt; Axes properties and change the Axis Label string.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Save the plot as a PDF and submit it (labelled) with your report. <strong>(1 mark)</strong></p>
+</div>
+</div>
+<div class="section" id="equilibrating-your-structure">
+<h4>Equilibrating your structure<a class="headerlink" href="#equilibrating-your-structure" title="Permalink to this headline">¶</a></h4>
+<p>We now need to equilibrate our structure before collecting data. We often want to simulate our model in an isothermal (NVT) or isobaric-isothermal (NPT) ensemble. In this lab we are simulating in the NVT ensemble at 300 K. As you may remember from the last lab, we always start a simulation by generating velocities, and it often takes time for a system to converge to a set temperature. This simulation period is called the “equilibration”. It is followed by a “production” simulation that is already warmed up to 300K and does not generate new velocities. These two phases are distinct because we usually only use data from the production simulation.</p>
+<p>As with the minimisation, create a run topology TPR <code class="code docutils literal notranslate"><span class="pre">eq.tpr</span></code> file and then actually run the simulation with <code class="code docutils literal notranslate"><span class="pre">mdrun</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gmx</span> <span class="n">grompp</span> <span class="o">-</span><span class="n">f</span> <span class="n">nvt_vac</span><span class="o">.</span><span class="n">mdp</span> <span class="o">-</span><span class="n">c</span> <span class="n">em</span><span class="o">.</span><span class="n">gro</span> <span class="o">-</span><span class="n">p</span> <span class="n">topol</span><span class="o">.</span><span class="n">top</span> <span class="o">-</span><span class="n">r</span> <span class="n">em</span><span class="o">.</span><span class="n">gro</span> <span class="o">-</span><span class="n">o</span> <span class="n">eq</span><span class="o">.</span><span class="n">tpr</span>
+<span class="n">gmx</span> <span class="n">mdrun</span> <span class="o">-</span><span class="n">v</span> <span class="o">-</span><span class="n">deffnm</span> <span class="n">eq</span> <span class="o">-</span><span class="n">nt</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>Look at the energy file <code class="code docutils literal notranslate"><span class="pre">eq.edr</span></code>. This time select the temperature to plot in Xmgrace. The x-axis is correct this time.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gmx</span> <span class="n">energy</span> <span class="o">-</span><span class="n">f</span> <span class="n">eq</span><span class="o">.</span><span class="n">edr</span> <span class="o">-</span><span class="n">o</span> <span class="n">eq_temp</span><span class="o">.</span><span class="n">xvg</span>
+</pre></div>
+</div>
+<p>Verify that the energy has converged and is fluctuating around 300 K.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Save the plot as a PDF and submit it (labelled) with your report. <strong>(1 mark)</strong></p>
+</div>
+</div>
+<div class="section" id="simulation">
+<h4>Simulation<a class="headerlink" href="#simulation" title="Permalink to this headline">¶</a></h4>
+<p>We are now ready to collect data. The steps here are the same as previously: generate a TPR file and run it.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gmx</span> <span class="n">grompp</span> <span class="o">-</span><span class="n">f</span> <span class="n">md_vac</span><span class="o">.</span><span class="n">mdp</span> <span class="o">-</span><span class="n">c</span> <span class="n">eq</span><span class="o">.</span><span class="n">gro</span> <span class="o">-</span><span class="n">p</span> <span class="n">topol</span><span class="o">.</span><span class="n">top</span> <span class="o">-</span><span class="n">r</span> <span class="n">eq</span><span class="o">.</span><span class="n">gro</span> <span class="o">-</span><span class="n">o</span> <span class="n">production</span><span class="o">.</span><span class="n">tpr</span>
+<span class="n">gmx</span> <span class="n">mdrun</span> <span class="o">-</span><span class="n">v</span> <span class="o">-</span><span class="n">deffnm</span> <span class="n">production</span> <span class="o">-</span><span class="n">nt</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="analysis">
+<h4>Analysis<a class="headerlink" href="#analysis" title="Permalink to this headline">¶</a></h4>
+<p>Open your trajectory in VMD:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vmd</span> <span class="o">-</span><span class="n">f</span> <span class="n">eq</span><span class="o">.</span><span class="n">gro</span> <span class="n">production</span><span class="o">.</span><span class="n">xtc</span>
+</pre></div>
+</div>
+<p>Open the Representations window with Graphics &gt; Representations.</p>
+<a class="reference internal image-reference" href="_images/vmd_graphics.png"><img alt="_images/vmd_graphics.png" class="align-center" src="_images/vmd_graphics.png" style="width: 477.0px; height: 112.0px;" /></a>
+<p>In Drawing Method, select Cartoon.</p>
+<a class="reference internal image-reference" href="_images/vmd_cartoon.png"><img alt="_images/vmd_cartoon.png" class="align-center" src="_images/vmd_cartoon.png" style="width: 315.0px; height: 384.0px;" /></a>
+<p>Press play on the VMD Main menu. What do you see?</p>
+<p>If your peptide is tumbling around a lot, go to Extensions &gt; Analysis &gt; RMSD Trajectory Tool. Tick the Backbone box in Selection Modifiers and select ALIGN.</p>
+<p>The following few analysis tools are all in VMD.</p>
+<p><strong>RMSD</strong></p>
+<p>The Root Mean Square Deviation (RMSD) in atomic positions between two structures measures the average distance between atoms of superimposed proteins. In the RMSD Trajectory Tool, click ALIGN (if you haven’t already) to align the protein on the backbone atoms of the first frame.</p>
+<p>Tick the Plot box and the Save boxes in the Trajectory section.</p>
+<a class="reference internal image-reference" href="_images/vmd_rmsd.png"><img alt="_images/vmd_rmsd.png" class="align-center" src="_images/vmd_rmsd.png" style="width: 513.0px; height: 472.0px;" /></a>
+<p>Then click the RMSD button. You should see a plot come up. Does the RMSD value converge to a value, and if so, which value?</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Attach your RMSD plot to your text report. If you can’t save it, use the trajrmsd.dat file to make a new plot in Excel. <strong>(1 mark)</strong></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Comment on your RMSD and what it indicates about your peptide. If the RMSD fluctuates a lot, this indicates that the molecule has not stabilised into a conformation. <strong>(1 mark)</strong></p>
+</div>
+<p><strong>H-bonds</strong></p>
+<p>Protein folding is typically driven by the hydrophobic effect, but native conformations are usually stabilised by intramolecular hydrogen bonds. H-bonds also indicate the presence of secondary structure motifs, as both alpha-helices and beta-sheets depend on hydrogen bonds.</p>
+<p>In Extensions &gt; Analysis &gt; Hydrogen Bonds, check the ‘Write output to files?’ option in the Output options section. Then click “Find hydrogen bonds!”.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Attach your H-bond plot to your text report. If you can’t save it, use the hbonds.dat file to make a new plot in Excel. <strong>(1 mark)</strong></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Comment on the number of H-bonds formed in your molecule over time, and what it indicates. The presence of H-bonds indicates the presence of structure. <strong>(1 mark)</strong></p>
+</div>
+<p><strong>Secondary structure</strong></p>
+<p>The formation of characteristic secondary structure motifs is an important step in protein folding. In Extensions &gt; Analysis &gt; Timeline, select “Calc. Sec. Struc” from the Calculate dropdown to determine the secondary structure motifs of your molecule and which amino acids are involved.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Include the resulting plot in your report <strong>(1 mark)</strong> and comment on the secondary structure motifs that you can see <strong>(1 mark)</strong>.</p>
+</div>
+<p>Here is a key of the colours:</p>
+<a class="reference internal image-reference" href="_images/dssp_key.png"><img alt="_images/dssp_key.png" class="align-center" src="_images/dssp_key.png" style="width: 310.79999999999995px; height: 190.39999999999998px;" /></a>
+<p>Either screenshot your plot with command+shift+4 or save it with File &gt; Print to file.</p>
+<p><strong>Solvent-accessible surface area</strong></p>
+<p>This following analysis is done in Terminal with GROMACS commands:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gmx</span> <span class="n">sasa</span> <span class="o">-</span><span class="n">f</span> <span class="n">production</span><span class="o">.</span><span class="n">xtc</span> <span class="o">-</span><span class="n">s</span> <span class="n">eq</span><span class="o">.</span><span class="n">gro</span> <span class="o">-</span><span class="n">o</span> <span class="n">sasa_area</span><span class="o">.</span><span class="n">xvg</span>
+</pre></div>
+</div>
+<p>Select 1 for the protein. Visualise with xmgrace:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">xmgrace</span> <span class="n">sasa_area</span><span class="o">.</span><span class="n">xvg</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Attach this plot with your text report. <strong>(1 mark)</strong></p>
+</div>
+</div>
+</div>
+<div class="section" id="implicit-solvent">
+<h3>Implicit solvent<a class="headerlink" href="#implicit-solvent" title="Permalink to this headline">¶</a></h3>
+<p>The steps for simulating your structure in implicit solvent are the same as those for vacuum. This should be done in the <code class="code docutils literal notranslate"><span class="pre">impsol</span></code> directory. Remember to change the names of your MDP files to <code class="code docutils literal notranslate"><span class="pre">nvt_implicit.mdp</span></code> and <code class="code docutils literal notranslate"><span class="pre">md_implicit.mdp</span></code></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Open the <code class="code docutils literal notranslate"><span class="pre">md.mdp</span></code> files of the vacuum simulation and the implicit solvent simulation. Aside from the title, what is the one line that is different between them? <strong>(1 mark)</strong></p>
+</div>
+<div class="section" id="id1">
+<h4>Analysis<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
+<p>Repeat the analyses of the vacuum simulation.</p>
+</div>
+</div>
+<div class="section" id="explicit-solvent">
+<h3>Explicit solvent<a class="headerlink" href="#explicit-solvent" title="Permalink to this headline">¶</a></h3>
+<p>This should be done in the <code class="code docutils literal notranslate"><span class="pre">expsol</span></code> directory.</p>
+<div class="section" id="solvating-your-box">
+<h4>Solvating your box<a class="headerlink" href="#solvating-your-box" title="Permalink to this headline">¶</a></h4>
+<p>We need to add water to our box for an explicit solvent simulation.</p>
+<p>First, open <code class="code docutils literal notranslate"><span class="pre">topol.top</span></code> in a text editor such as TextWrangler. Scroll down to the bottom to the <code class="code docutils literal notranslate"><span class="pre">[</span> <span class="pre">molecules</span> <span class="pre">]</span></code> section and verify there are no solvent molecules there.</p>
+<p>To add water to your box:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gmx</span> <span class="n">solvate</span> <span class="o">-</span><span class="n">cp</span> <span class="n">newbox</span><span class="o">.</span><span class="n">gro</span> <span class="o">-</span><span class="n">o</span> <span class="n">solv</span><span class="o">.</span><span class="n">gro</span> <span class="o">-</span><span class="n">p</span> <span class="n">topol</span><span class="o">.</span><span class="n">top</span>
+</pre></div>
+</div>
+<p>Open your file in VMD to check that there are water molecules there.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vmd</span> <span class="n">solv</span><span class="o">.</span><span class="n">gro</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Open <code class="code docutils literal notranslate"><span class="pre">topol.top</span></code> in a text editor after solution. How many solvent molecules (SOL) have you added? <strong>(1 mark)</strong></p>
+</div>
+</div>
+<div class="section" id="id2">
+<h4>Simulation<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<p>Now follow the same minimisation-equilibration-simulation pathway as the vacuum and implicit solvation simulations. Make sure you use the file <code class="code docutils literal notranslate"><span class="pre">solv.gro</span></code> instead of <code class="code docutils literal notranslate"><span class="pre">box.gro</span></code> for your minimisation step.</p>
+<p>However, when you run <code class="code docutils literal notranslate"><span class="pre">mdrun</span></code>, do not add the <code class="code docutils literal notranslate"><span class="pre">-nt</span> <span class="pre">1</span></code> at the end (this will make your simulation much slower). Instead:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gmx</span> <span class="n">grompp</span> <span class="o">-</span><span class="n">f</span> <span class="n">nvt</span><span class="o">.</span><span class="n">mdp</span> <span class="o">-</span><span class="n">c</span> <span class="n">em</span><span class="o">.</span><span class="n">gro</span> <span class="o">-</span><span class="n">p</span> <span class="n">topol</span><span class="o">.</span><span class="n">top</span> <span class="o">-</span><span class="n">r</span> <span class="n">em</span><span class="o">.</span><span class="n">gro</span> <span class="o">-</span><span class="n">o</span> <span class="n">eq</span><span class="o">.</span><span class="n">tpr</span>
+<span class="n">gmx</span> <span class="n">mdrun</span> <span class="o">-</span><span class="n">v</span> <span class="o">-</span><span class="n">deffnm</span> <span class="n">eq</span>
+<span class="n">gmx</span> <span class="n">grompp</span> <span class="o">-</span><span class="n">f</span> <span class="n">md</span><span class="o">.</span><span class="n">mdp</span> <span class="o">-</span><span class="n">c</span> <span class="n">eq</span><span class="o">.</span><span class="n">gro</span> <span class="o">-</span><span class="n">p</span> <span class="n">topol</span><span class="o">.</span><span class="n">top</span> <span class="o">-</span><span class="n">r</span> <span class="n">eq</span><span class="o">.</span><span class="n">gro</span> <span class="o">-</span><span class="n">o</span> <span class="n">production</span><span class="o">.</span><span class="n">tpr</span>
+<span class="n">gmx</span> <span class="n">mdrun</span> <span class="o">-</span><span class="n">v</span> <span class="o">-</span><span class="n">deffnm</span> <span class="n">production</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h4>Analysis<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
+<p>When you open this file in VMD, you may notice a lot of water obscuring the motion of the peptide. You can change the selection in the Graphics &gt; Representation menu from “all” to “not water”.</p>
+<a class="reference internal image-reference" href="_images/vmd_selection.png"><img alt="_images/vmd_selection.png" class="align-center" src="_images/vmd_selection.png" style="width: 311.0px; height: 457.0px;" /></a>
+<p>Repeat the analyses of the vacuum simulation.</p>
+</div>
+</div>
+<div class="section" id="steered-molecular-dynamics">
+<h3>Steered molecular dynamics<a class="headerlink" href="#steered-molecular-dynamics" title="Permalink to this headline">¶</a></h3>
+<p>Enhanced sampling methods such as steered molecular dynamics can explore the force profiles along a reaction coordinate. An example of a reaction coordinate is the distance between the first and last amino acid of a protein sequence, when pulling a protein apart. In this lab we will be pulling the alpha-carbon of the first and last residue apart across the Z-axis.</p>
+<p>This simulation will be done for your folded protein in vacuum, due to time constraints and the complexity of your explicit solvent simulation.</p>
+<p>To start off, copy these files into your <code class="code docutils literal notranslate"><span class="pre">vac/pulling/</span></code> folder:</p>
+<ul class="simple">
+<li><p>production.gro</p></li>
+<li><p>topol.top</p></li>
+<li><p>posre.itp</p></li>
+</ul>
+<p>Change directory into your <code class="code docutils literal notranslate"><span class="pre">pulling</span></code> folder.</p>
+<div class="section" id="creating-an-index-file">
+<h4>Creating an index file<a class="headerlink" href="#creating-an-index-file" title="Permalink to this headline">¶</a></h4>
+<p>First we will need to create an index file so we can identify the alpha-carbons of the first and last residue. Begin by typing:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gmx</span> <span class="n">make_ndx</span> <span class="o">-</span><span class="n">f</span> <span class="n">production</span><span class="o">.</span><span class="n">gro</span>
+</pre></div>
+</div>
+<p>A menu will come up that resembles:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>0 System              :   473 atoms
+1 Protein             :   473 atoms
+2 Protein-H           :   241 atoms
+3 C-alpha             :    31 atoms
+4 Backbone            :    93 atoms
+5 MainChain           :   123 atoms
+6 MainChain+Cb        :   153 atoms
+7 MainChain+H         :   156 atoms
+8 SideChain           :   317 atoms
+9 SideChain-H         :   118 atoms
+
+nr : group       !   &#39;name&#39; nr name   &#39;splitch&#39; nr    Enter: list groups
+&#39;a&#39;: atom        &amp;   &#39;del&#39; nr         &#39;splitres&#39; nr   &#39;l&#39;: list residues
+&#39;t&#39;: atom type   |   &#39;keep&#39; nr        &#39;splitat&#39; nr    &#39;h&#39;: help
+&#39;r&#39;: residue         &#39;res&#39; nr         &#39;chain&#39; char
+&quot;name&quot;: group        &#39;case&#39;: case sensitive           &#39;q&#39;: save and quit
+&#39;ri&#39;: residue index
+</pre></div>
+</div>
+<p>The <code class="code docutils literal notranslate"><span class="pre">&amp;</span></code> (and) and <code class="code docutils literal notranslate"><span class="pre">|</span></code> (or) operators follow set logic: <code class="code docutils literal notranslate"><span class="pre">a</span> <span class="pre">&amp;</span> <span class="pre">b</span></code> is the intersection of the atomic groups a and b, while <code class="code docutils literal notranslate"><span class="pre">a</span> <span class="pre">|</span> <span class="pre">b</span></code> is the union. Select the alpha-carbon of residue 1 by typing the below (without the <code class="code docutils literal notranslate"><span class="pre">&gt;</span></code>). <code class="code docutils literal notranslate"><span class="pre">ri</span> <span class="pre">1</span></code> selects residue 1. The <code class="code docutils literal notranslate"><span class="pre">&amp;</span> <span class="pre">3</span></code> gives the intersection of the residue 1 atoms, and the group 3 atoms, which are the alpha-carbons.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;</span> ri <span class="m">1</span> <span class="p">&amp;</span> <span class="m">3</span>
+</pre></div>
+</div>
+<p>You will see this come up. Check that only 1 atom is selected.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Copied index group 3 &#39;C-alpha&#39;</span>
+<span class="go">Merged two groups with AND: 19 31 -&gt; 1</span>
+
+<span class="go">10 r_1_&amp;_C-alpha       :     1 atoms</span>
+</pre></div>
+</div>
+<p>At this point, your new group is called <code class="code docutils literal notranslate"><span class="pre">r_1_&amp;_C-alpha</span></code>. You can see on the left that the number of the group is 10. Rename this group to <code class="code docutils literal notranslate"><span class="pre">CA_first</span></code>.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;</span> name <span class="m">10</span> CA_first
+</pre></div>
+</div>
+<p>Now select the alpha-carbon of your last residue. The residue number will depend on how long your peptide chain is. For example, <code class="code docutils literal notranslate"><span class="pre">MEGANQMARATHINKSCHEMISTRYISNEAT</span></code> has 31 residues, so we select <code class="code docutils literal notranslate"><span class="pre">ri</span> <span class="pre">31</span> <span class="pre">&amp;</span> <span class="pre">3</span></code>.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;</span> ri <span class="m">31</span> <span class="p">&amp;</span> <span class="m">3</span>
+
+<span class="go">Copied index group 3 &#39;C-alpha&#39;</span>
+<span class="go">Merged two groups with AND: 15 31 -&gt; 1</span>
+
+<span class="go">11 r_31_&amp;_C-alpha      :     1 atoms</span>
+
+<span class="gp">&gt;</span> name <span class="m">11</span> CA_last
+</pre></div>
+</div>
+<p>Type enter to look at your full list of groups and check that you have both CA_first and CA_last.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="mi">0</span> <span class="n">System</span>              <span class="p">:</span>   <span class="mi">473</span> <span class="n">atoms</span>
+ <span class="mi">1</span> <span class="n">Protein</span>             <span class="p">:</span>   <span class="mi">473</span> <span class="n">atoms</span>
+ <span class="mi">2</span> <span class="n">Protein</span><span class="o">-</span><span class="n">H</span>           <span class="p">:</span>   <span class="mi">241</span> <span class="n">atoms</span>
+ <span class="mi">3</span> <span class="n">C</span><span class="o">-</span><span class="n">alpha</span>             <span class="p">:</span>    <span class="mi">31</span> <span class="n">atoms</span>
+ <span class="mi">4</span> <span class="n">Backbone</span>            <span class="p">:</span>    <span class="mi">93</span> <span class="n">atoms</span>
+ <span class="mi">5</span> <span class="n">MainChain</span>           <span class="p">:</span>   <span class="mi">123</span> <span class="n">atoms</span>
+ <span class="mi">6</span> <span class="n">MainChain</span><span class="o">+</span><span class="n">Cb</span>        <span class="p">:</span>   <span class="mi">153</span> <span class="n">atoms</span>
+ <span class="mi">7</span> <span class="n">MainChain</span><span class="o">+</span><span class="n">H</span>         <span class="p">:</span>   <span class="mi">156</span> <span class="n">atoms</span>
+ <span class="mi">8</span> <span class="n">SideChain</span>           <span class="p">:</span>   <span class="mi">317</span> <span class="n">atoms</span>
+ <span class="mi">9</span> <span class="n">SideChain</span><span class="o">-</span><span class="n">H</span>         <span class="p">:</span>   <span class="mi">118</span> <span class="n">atoms</span>
+<span class="mi">10</span> <span class="n">CA_first</span>            <span class="p">:</span>     <span class="mi">1</span> <span class="n">atoms</span>
+<span class="mi">11</span> <span class="n">CA_last</span>             <span class="p">:</span>     <span class="mi">1</span> <span class="n">atoms</span>
+</pre></div>
+</div>
+<p>Type <code class="code docutils literal notranslate"><span class="pre">q</span></code> to quit.</p>
+</div>
+<div class="section" id="creating-a-position-restraint-file">
+<h4>Creating a position restraint file<a class="headerlink" href="#creating-a-position-restraint-file" title="Permalink to this headline">¶</a></h4>
+<p>We will use our new index file to create a position restraint file for our last alpha-carbon. We want it to stay fixed while we pull on the first alpha-carbon. Create the file by typing:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gmx</span> <span class="n">genrestr</span> <span class="o">-</span><span class="n">f</span> <span class="n">production</span><span class="o">.</span><span class="n">gro</span> <span class="o">-</span><span class="n">o</span> <span class="n">posre_pulling</span><span class="o">.</span><span class="n">itp</span> <span class="o">-</span><span class="n">n</span> <span class="n">index</span><span class="o">.</span><span class="n">ndx</span>
+</pre></div>
+</div>
+<p>When the menu comes up, type 11 to choose the <code class="code docutils literal notranslate"><span class="pre">CA_last</span></code> group.</p>
+</div>
+<div class="section" id="editing-your-topology-file">
+<h4>Editing your topology file<a class="headerlink" href="#editing-your-topology-file" title="Permalink to this headline">¶</a></h4>
+<p>Now we want to tell our topology file to include these position restraints whenever the MDP file has a particular keyword in it. Open <code class="code docutils literal notranslate"><span class="pre">topol.top</span></code> in a text editor such as TextWrangler. Scroll down to the bottom and find the section of the file that looks like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">;</span> <span class="n">Include</span> <span class="n">Position</span> <span class="n">restraint</span> <span class="n">file</span>
+<span class="c1">#ifdef POSRES</span>
+<span class="c1">#include &quot;posre.itp&quot;</span>
+<span class="c1">#endif</span>
+
+<span class="p">;</span> <span class="n">Include</span> <span class="n">water</span> <span class="n">topology</span>
+<span class="c1">#include &quot;charmm27.ff/tip3p.itp&quot;</span>
+</pre></div>
+</div>
+<p>As you can see, GROMACS already has a default position restraint file that restrains all the heavy (non-hydrogen) atoms when the POSRES keyword is specified. We will add a new section after it that uses your newly created <code class="code docutils literal notranslate"><span class="pre">posre_pulling.itp</span></code> file when the POSRES_B keyword is specified. Your file should look like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">;</span> <span class="n">Include</span> <span class="n">Position</span> <span class="n">restraint</span> <span class="n">file</span>
+<span class="c1">#ifdef POSRES</span>
+<span class="c1">#include &quot;posre.itp&quot;</span>
+<span class="c1">#endif</span>
+
+<span class="c1">#ifdef POSRES_B</span>
+<span class="c1">#include &quot;posre_pulling.itp&quot;</span>
+<span class="c1">#endif</span>
+
+<span class="p">;</span> <span class="n">Include</span> <span class="n">water</span> <span class="n">topology</span>
+<span class="c1">#include &quot;charmm27.ff/tip3p.itp&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="creating-a-new-box">
+<h4>Creating a new box<a class="headerlink" href="#creating-a-new-box" title="Permalink to this headline">¶</a></h4>
+<p>We also need to create a new box. We previously defined a box with walls that were 1 nm away from the molecule at all times, but we now need a box long enough to allow the peptide to stretch out. A z-axis of 30 nm should be long enough:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gmx</span> <span class="n">editconf</span> <span class="o">-</span><span class="n">f</span> <span class="n">production</span><span class="o">.</span><span class="n">gro</span> <span class="o">-</span><span class="n">o</span> <span class="n">pull_box</span><span class="o">.</span><span class="n">gro</span> <span class="o">-</span><span class="n">noc</span> <span class="o">-</span><span class="n">box</span> <span class="mi">6</span> <span class="mi">6</span> <span class="mi">30</span>
+</pre></div>
+</div>
+<p>The <code class="code docutils literal notranslate"><span class="pre">noc</span></code> flag specifies no centering.</p>
+<p>Open your file in VMD and check that your box is long in the z-axis:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vmd</span> <span class="n">pull_box</span><span class="o">.</span><span class="n">gro</span>
+</pre></div>
+</div>
+<p>Type <code class="code docutils literal notranslate"><span class="pre">pbc</span> <span class="pre">box</span></code> in the Tk console.</p>
+</div>
+<div class="section" id="id4">
+<h4>Simulation<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
+<p>Follow the minimisation-equilibration-simulation steps of the other simulations. Remember to use your newly created <code class="code docutils literal notranslate"><span class="pre">pull_box.gro</span></code> instead of <code class="code docutils literal notranslate"><span class="pre">box.gro</span></code>, and the MDP files <code class="code docutils literal notranslate"><span class="pre">nvt_pull.mdp</span></code> and <code class="code docutils literal notranslate"><span class="pre">md_pull.mdp</span></code>. You also need to include your newly created index file when you get to the simulation stage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gmx</span> <span class="n">grompp</span> <span class="o">-</span><span class="n">f</span> <span class="n">md_pull</span><span class="o">.</span><span class="n">mdp</span> <span class="o">-</span><span class="n">c</span> <span class="n">eq</span><span class="o">.</span><span class="n">gro</span> <span class="o">-</span><span class="n">p</span> <span class="n">topol</span><span class="o">.</span><span class="n">top</span> <span class="o">-</span><span class="n">o</span> <span class="n">pull</span><span class="o">.</span><span class="n">tpr</span> <span class="o">-</span><span class="n">n</span> <span class="n">index</span><span class="o">.</span><span class="n">ndx</span>
+<span class="n">gmx</span> <span class="n">mdrun</span> <span class="o">-</span><span class="n">v</span> <span class="o">-</span><span class="n">deffnm</span> <span class="n">pull</span> <span class="o">-</span><span class="n">nt</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id5">
+<h4>Analysis<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
+<p>Create your H-bond graph and secondary structure graph. Attach these to your report and comment on them.</p>
+<p><strong>Force profile</strong></p>
+<p>Your simulation will have created two files:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>pull_pullf.xvg : The pull force over time (kJ/mol/nm)</p></li>
+<li><p>pull_pullx.xvg : The distance between your CA atom of the first and last residues over time (nm)</p></li>
+</ul>
+</div></blockquote>
+<p>Open these in a text editor. Copy the data into Excel and create a graph of the pull force (y-axis) over the distance (x-axis). This can be considered a force profile over the distance between the first and last residues.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Attach this labelled plot to your report <strong>(1 mark)</strong></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Are there any peaks in force? See if you can correlate peaks to changes in your secondary structure or number of hydrogen bonds. <strong>(2 marks)</strong></p>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="report">
+<h2>Report<a class="headerlink" href="#report" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="graphs">
+<h3>Graphs<a class="headerlink" href="#graphs" title="Permalink to this headline">¶</a></h3>
+<p>All graphs should be labelled with axis titles and graph titles (or captions).</p>
+<p>Vacuum:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Minimisation graph (1 mark)</p></li>
+<li><p>Equilibration graph (1 mark)</p></li>
+<li><p>RMSD graph and comment (2 marks)</p></li>
+<li><p>H-bond graph and comment (2 marks)</p></li>
+<li><p>Secondary structure graph and comment (2 marks)</p></li>
+<li><p>SASA graph (1 mark)</p></li>
+</ul>
+</div></blockquote>
+<p><strong>Subtotal: 9 marks</strong></p>
+<p>Implicit solvent:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>RMSD graph and comment (2 marks)</p></li>
+<li><p>H-bond graph and comment (2 marks)</p></li>
+<li><p>Secondary structure graph and comment (2 marks)</p></li>
+<li><p>SASA graph (1 mark)</p></li>
+</ul>
+</div></blockquote>
+<p><strong>Subtotal: 7 marks</strong></p>
+<p>Explicit solvent:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>RMSD graph and comment (2 marks)</p></li>
+<li><p>H-bond graph and comment (2 marks)</p></li>
+<li><p>Secondary structure graph and comment (2 marks)</p></li>
+<li><p>SASA graph (1 mark)</p></li>
+</ul>
+</div></blockquote>
+<p><strong>Subtotal: 7 marks</strong></p>
+<p>Pulling:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>H-bond graph and comment (2 marks)</p></li>
+<li><p>Secondary structure graph and comment (2 marks)</p></li>
+<li><p>Force profile graph and comments (3 marks)</p></li>
+</ul>
+</div></blockquote>
+<p><strong>Subtotal: 7 marks</strong></p>
+<p><strong>Graphs: 30 marks</strong></p>
+</div>
+<div class="section" id="questions">
+<h3>Questions<a class="headerlink" href="#questions" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Explain the thermodynamic hypothesis and relate it to this lab. <strong>(3 marks)</strong></p></li>
+<li><p>Compare your solvent-accessible surface area plots for your simulations in vacuum, implicit solvent, and explicit solvent. <strong>(2 marks)</strong></p></li>
+<li><p>Compare your secondary structures for your simulations in vacuum, implicit solvent, and explicit solvent. Are there any differences? <strong>(2 marks)</strong></p></li>
+<li><p>What is the one line that is different in the <code class="code docutils literal notranslate"><span class="pre">md.mdp</span></code> files between the vacuum and implicit solvent simulations? <strong>(1 mark)</strong></p></li>
+<li><p>How many solvent molecules did you add to your explicit solvation simulation? <strong>(1 mark)</strong></p></li>
+<li><p>You used the enhanced sampling method, steered molecular dynamics, to generate a force profile. This is not a potential of mean force. What is one technique that can generate a potential of mean force? <strong>(1 mark)</strong></p></li>
+</ol>
+</div></blockquote>
+<p><strong>Total: 40 marks</strong></p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="atom_types.html" class="btn btn-neutral float-right" title="Atom types (GROMOS 54A7)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="06_md.html" class="btn btn-neutral float-left" title="Lab 6: Molecular dynamics" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Lily Wang, Andrew Gilbert, Megan O&#39;Mara
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
