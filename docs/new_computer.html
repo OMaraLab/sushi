@@ -247,7 +247,10 @@
 <p class="admonition-title">Note</p>
 <p>If your screen flickers and dies, this is due to the graphics drivers not working properly. Go into Advanced Options and boot into Recovery mode.</p>
 </div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
 <p><strong>Do not reboot before updating drivers and setting up SSH.</strong></p>
+</div>
 </div>
 <div class="section" id="updates">
 <h2>Updates<a class="headerlink" href="#updates" title="Permalink to this headline">¶</a></h2>
@@ -571,11 +574,11 @@ sudo apt-get install flex bison libbz2-dev patch
 </pre></div>
 </div>
 <p>Download and untar AMBER:</p>
-<blockquote>
-<div><p>tar xvfj AmberTools19.tar.bz2  # should create an amber18 folder
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tar xvfj AmberTools19.tar.bz2  <span class="c1"># should create an amber18 folder</span>
 mv amber18 /store/packages/amber/
-cd /store/packages/amber/amber18</p>
-</div></blockquote>
+<span class="nb">cd</span> /store/packages/amber/amber18
+</pre></div>
+</div>
 <p>Set up your environment:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">AMBERHOME</span><span class="o">=</span>/store/packages/amber/amber18/
 <span class="nb">export</span> <span class="nv">CUDA_HOME</span><span class="o">=</span>/store/packages/cuda/cuda-10.0/
@@ -616,15 +619,15 @@ sudo apt install python-tk python-matplotlib  <span class="c1"># other packages 
 </div>
 <div class="section" id="install">
 <h4>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h4>
-<blockquote>
-<div><p>cd $AMBERHOME
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> <span class="nv">$AMBERHOME</span>
 ./configure -cuda gnu
-source /store/packages/amber/amber16/amber.sh
-export LD_LIBRARY_PATH=”/store/packages/cuda/cuda-9.0/lib64:${LD_LIBRARY_PATH}”
-make -j 12
+<span class="nb">source</span> /store/packages/amber/amber16/amber.sh
+<span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="s2">&quot;/store/packages/cuda/cuda-9.0/lib64:</span><span class="si">${</span><span class="nv">LD_LIBRARY_PATH</span><span class="si">}</span><span class="s2">&quot;</span>
+make -j <span class="m">12</span>
 sudo -E checkinstall
-make test</p>
-</div></blockquote>
+make <span class="nb">test</span>
+</pre></div>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>If you get an error message with <code class="docutils literal notranslate"><span class="pre">cudaGetDeviceCount</span> <span class="pre">failed</span> <span class="pre">unknown</span></code>, install this package:</p>
@@ -668,9 +671,9 @@ python setup.py install --prefix<span class="o">=</span>/store/packages/pymol/py
 </pre></div>
 </div>
 <p>And update your path.</p>
-<blockquote>
-<div><p>echo ‘PATH=/store/packages/pymol/pymol-open-source/bin:$PATH’ &gt;&gt; /home/shared/.bashrc</p>
-</div></blockquote>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s1">&#39;PATH=/store/packages/pymol/pymol-open-source/bin:$PATH&#39;</span> &gt;&gt; /home/shared/.bashrc
+</pre></div>
+</div>
 <p>(If you’re not root, replace <code class="docutils literal notranslate"><span class="pre">/home/shared.bashrc</span></code> with <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code>.)</p>
 </div>
 </div>

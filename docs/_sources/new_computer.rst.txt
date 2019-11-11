@@ -23,7 +23,9 @@ The computer will reboot after this.
 
     If your screen flickers and dies, this is due to the graphics drivers not working properly. Go into Advanced Options and boot into Recovery mode.
 
-**Do not reboot before updating drivers and setting up SSH.**
+.. warning::
+
+    **Do not reboot before updating drivers and setting up SSH.**
 
 Updates
 =======
@@ -403,7 +405,7 @@ This requires gcc 8 and cuda 10. Install dependencies::
     sudo apt-get install bc csh flex gfortran g++ xorg-dev zlib1g-dev
     sudo apt-get install flex bison libbz2-dev patch
 
-Download and untar AMBER:
+Download and untar AMBER::
 
     tar xvfj AmberTools19.tar.bz2  # should create an amber18 folder
     mv amber18 /store/packages/amber/
@@ -450,6 +452,8 @@ Use the version with netcdf already present. We have a working copy on iodine. M
 
 Install
 -------
+
+::
 
     cd $AMBERHOME
     ./configure -cuda gnu
@@ -503,7 +507,7 @@ Alternatively, build it from source. ::
     cd pymol-open-source
     python setup.py install --prefix=/store/packages/pymol/pymol-open-source
 
-And update your path.
+And update your path. ::
 
     echo 'PATH=/store/packages/pymol/pymol-open-source/bin:$PATH' >> /home/shared/.bashrc
 
