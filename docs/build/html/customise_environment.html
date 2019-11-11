@@ -1,0 +1,273 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Customising your environment &mdash; Environment setups  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="How to edit these docs" href="rest.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Environment setups
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Docs</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="new_computer.html">Setting up a new computer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rest.html">How to edit these docs</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Customising your environment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#user-profile">User profile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#shared-drive-credentials">Shared drive credentials</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Environment setups</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Customising your environment</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/customise_environment.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="customising-your-environment">
+<span id="environment-label"></span><h1>Customising your environment<a class="headerlink" href="#customising-your-environment" title="Permalink to this headline">¶</a></h1>
+<p>Customise your environment using your <code class="docutils literal notranslate"><span class="pre">.bashrc</span></code> and <code class="docutils literal notranslate"><span class="pre">.bash_aliases</span></code> files. I also get most users to source <code class="docutils literal notranslate"><span class="pre">/home/shared/.bashrc</span></code> and <code class="docutils literal notranslate"><span class="pre">/home/shared/.bash_aliases</span></code> for helpful scripts. These necessitate the use of some other helpful files.</p>
+<div class="section" id="user-profile">
+<h2>User profile<a class="headerlink" href="#user-profile" title="Permalink to this headline">¶</a></h2>
+<p>First off is the <code class="docutils literal notranslate"><span class="pre">.usr_profile</span></code> file. I use the information in this to set up useful shortcuts for the shared drive, supercomputer, etc.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># export SH_DRIVE_FOLDER= # your folder on the shared drive, e.g. LILY</span>
+<span class="c1"># export RJ_PROJECT= # project folder on Raijin</span>
+<span class="c1"># export RJ_USER= # username on Raijin</span>
+<span class="c1"># export RJ_HOME_DIR= # home directory on Raijin</span>
+</pre></div>
+</div>
+<p>Uncomment lines as they apply.</p>
+</div>
+<div class="section" id="shared-drive-credentials">
+<h2>Shared drive credentials<a class="headerlink" href="#shared-drive-credentials" title="Permalink to this headline">¶</a></h2>
+<p>One of the useful commands in <code class="docutils literal notranslate"><span class="pre">.bash_aliases</span></code> is:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> omara <span class="o">{</span>
+    <span class="nv">GROUP</span><span class="o">=</span><span class="sb">`</span>id -gn<span class="sb">`</span>
+        <span class="k">if</span> <span class="o">[</span> ! -d <span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/mnt/omara/</span><span class="nv">$SH_DRIVE_FOLDER</span><span class="s2">&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+                <span class="nb">echo</span> <span class="s2">&quot;Mounting omara shared drive.&quot;</span>
+                sudo mount -w -t cifs //ANUFILE01/Omara <span class="nv">$HOME</span>/mnt/omara -o rw,credentials<span class="o">=</span><span class="nv">$HOME</span>/.credentials,gid<span class="o">=</span><span class="nv">$GROUP</span>,file_mode<span class="o">=</span><span class="m">0777</span>,dir_mode<span class="o">=</span><span class="m">0777</span>,mfsymlinks
+        <span class="k">fi</span>
+        <span class="nb">cd</span> ~/mnt/omara/<span class="nv">$SH_DRIVE_FOLDER</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>This loads the shared drive, if it is not loaded, and goes to your directory. It requires the following:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt install cifs-utils
+</pre></div>
+</div>
+<p>You also need to make a <code class="docutils literal notranslate"><span class="pre">mnt</span></code> directory in home.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir -p mnt/omara
+</pre></div>
+</div>
+<p>However, it requires your (ANU email) login credentials. You can create a <code class="docutils literal notranslate"><span class="pre">~/.credentials</span></code> file and change permissions with <code class="docutils literal notranslate"><span class="pre">chmod</span> <span class="pre">000</span> <span class="pre">.credentials</span></code> so that other users can’t read it. <em>However</em>, root will always be able to override this. If this makes you feel uncomfortable, you can use the GUI to mount the drive instead.</p>
+<dl class="glossary simple">
+<dt id="term-username">username</dt><dd><p>Your u- number</p>
+</dd>
+<dt id="term-password">password</dt><dd><p>Your email password</p>
+</dd>
+<dt id="term-domain">domain</dt><dd><p>UDS</p>
+</dd>
+</dl>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="rest.html" class="btn btn-neutral float-left" title="How to edit these docs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Lily Wang, Katie Wilson, Hugo MacDermott-Opeskin, Megan O&#39;Mara
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

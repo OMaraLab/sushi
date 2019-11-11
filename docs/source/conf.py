@@ -75,3 +75,5 @@ html_theme_options = {
 }
 
 site_url = "omaralab.github.io/sushi"
+
+highlight_language = "bash"

@@ -8,3 +8,5 @@ Set-ups, shell environments, installations
    :caption: Docs
    
    new_computer
+   rest
+   customise_environment
