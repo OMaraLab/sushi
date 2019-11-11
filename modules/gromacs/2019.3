@@ -1,0 +1,22 @@
+#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr "\tGROMACS 2019.3"
+}
+ 
+module-whatis "GROMACS 2019.3"
+prereq cuda/10.1
+conflict gromacs
+
+setenv GMXPREFIX /store/packages/gromacs/gromacs-2019.3
+setenv GMXBIN /store/packages/gromacs/gromacs-2019.3/bin
+setenv GMXLDLIB /store/packages/gromacs/gromacs-2019.3/lib
+setenv GMXMAN /store/packages/gromacs/gromacs-2019.3/share/man
+setenv GMXDATA /store/packages/gromacs/gromacs-2019.3/share/gromacs
+setenv GROMACS_DIR /store/packages/gromacs/gromacs-2019.3
+
+prepend-path LD_LIBRARY_PATH /store/packages/gromacs/gromacs-2019.3/lib
+prepend-path PKG_CONFIG_PATH /store/packages/gromacs/gromacs-2019.3/lib/pkgconfig
+prepend-path PATH /store/packages/gromacs/gromacs-2019.3/bin
+prepend-path MANPATH /store/packages/gromacs/gromacs-2019.3/share/man

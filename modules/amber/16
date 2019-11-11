@@ -1,0 +1,18 @@
+#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+
+puts stderr "\tAmber 16"
+}
+
+module-whatis "Amber 16"
+
+prereq cuda/9.0
+conflict amber
+
+setenv AMBER_PREFIX /store/packages/amber/amber16
+setenv AMBERHOME /store/packages/amber/amber16
+prepend-path PATH /store/packages/amber/amber16/bin
+prepend-path PYTHONPATH /store/packages/amber/amber16/lib/python/site-store/packages
+prepend-path LD_LIBRARY_PATH /store/packages/amber/amber16/lib
+

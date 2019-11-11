@@ -6,16 +6,17 @@ puts stderr "\tGROMACS 2016.1"
 }
  
 module-whatis "GROMACS 2016.1"
+prereq cuda/8.0
 conflict gromacs
 
-setenv GMXPREFIX /packages/gromacs/2016.1
-setenv GMXBIN /packages/gromacs/2016.1/bin
-setenv GMXLDLIB /packages/gromacs/2016.1/lib
-setenv GMXMAN /packages/gromacs/2016.1/share/man
-setenv GMXDATA /packages/gromacs/2016.1/share/gromacs
-setenv GROMACS_DIR /packages/gromacs/2016.1
+setenv GMXPREFIX /store/packages/gromacs/gromacs-2016.1
+setenv GMXBIN /store/packages/gromacs/gromacs-2016.1/bin
+setenv GMXLDLIB /store/packages/gromacs/gromacs-2016.1/lib
+setenv GMXMAN /store/packages/gromacs/gromacs-2016.1/share/man
+setenv GMXDATA /store/packages/gromacs/gromacs-2016.1/share/gromacs
+setenv GROMACS_DIR /store/packages/gromacs/gromacs-2016.1
 
-prepend-path LD_LIBRARY_PATH /packages/gromacs/2016.1/lib
-prepend-path PKG_CONFIG_PATH /packages/gromacs/2016.1/lib/pkgconfig
-prepend-path PATH /packages/gromacs/2016.1/bin
-prepend-path MANPATH /packages/gromacs/2016.1/share/man
+prepend-path LD_LIBRARY_PATH /store/packages/gromacs/gromacs-2016.1/lib
+prepend-path PKG_CONFIG_PATH /store/packages/gromacs/gromacs-2016.1/lib/pkgconfig
+prepend-path PATH /store/packages/gromacs/gromacs-2016.1/bin
+prepend-path MANPATH /store/packages/gromacs/gromacs-2016.1/share/man

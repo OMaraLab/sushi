@@ -2,15 +2,16 @@
 proc ModulesHelp { } {
 global dotversion
 
-puts stderr "\tAMBER 18"
+puts stderr "\tAmberTools 19"
 }
 
-module-whatis "AMBER 18"
+module-whatis "AmberTools 19"
+prereq cuda/10.0
 conflict amber
 
-setenv AMBER_PREFIX /packages/amber/18
-setenv AMBERHOME /packages/amber/18
-prepend-path PATH /packages/amber/18/bin
-prepend-path PYTHONPATH /packages/amber/18/lib/python/site-packages
-prepend-path LD_LIBRARY_PATH /packages/amber/18/lib
+setenv AMBER_PREFIX /store/packages/amber/amber18
+setenv AMBERHOME /store/packages/amber/amber18
+prepend-path PATH /store/packages/amber/amber18/bin
+prepend-path PYTHONPATH /store/packages/amber/amber18/lib/python/site-store/packages
+prepend-path LD_LIBRARY_PATH /store/packages/amber/amber18/lib
 
