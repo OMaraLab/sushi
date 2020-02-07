@@ -10,3 +10,4 @@ Set-ups, shell environments, installations
    new_computer
    rest
    customise_environment
+   MemSurfer
