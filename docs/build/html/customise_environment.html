@@ -25,6 +25,7 @@
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
         <script type="text/javascript" src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -35,6 +36,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Making MemSurfer Work" href="MemSurfer.html" />
     <link rel="prev" title="How to edit these docs" href="rest.html" /> 
 </head>
 
@@ -88,6 +90,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#shared-drive-credentials">Shared drive credentials</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="MemSurfer.html">Making MemSurfer Work</a></li>
 </ul>
 
             
@@ -157,13 +160,13 @@
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -230,6 +233,8 @@
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="MemSurfer.html" class="btn btn-neutral float-right" title="Making MemSurfer Work" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="rest.html" class="btn btn-neutral float-left" title="How to edit these docs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

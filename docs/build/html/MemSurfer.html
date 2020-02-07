@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>&lt;no title&gt; &mdash; Environment setups  documentation</title>
+  <title>Making MemSurfer Work &mdash; Environment setups  documentation</title>
   
 
   
@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Making MemSurfer Work" href="MemSurfer.html" /> 
+    <link rel="prev" title="Customising your environment" href="customise_environment.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -81,13 +81,15 @@
             
             
               <p class="caption"><span class="caption-text">Docs</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="new_computer.html">Setting up a new computer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rest.html">How to edit these docs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="customise_environment.html">Customising your environment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="MemSurfer.html">Making MemSurfer Work</a></li>
-<li class="toctree-l1"><a class="reference internal" href="MemSurfer.html#environment-prereqs">Environment Prereqs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="MemSurfer.html#building">Building</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Making MemSurfer Work</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#environment-prereqs">Environment Prereqs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#building">Building</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -133,13 +135,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>&lt;no title&gt;</li>
+      <li>Making MemSurfer Work</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/patching_gcc.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/MemSurfer.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -176,6 +178,41 @@
     text-align: unset;
 }
 </style>
+<div class="section" id="making-memsurfer-work">
+<h1>Making MemSurfer Work<a class="headerlink" href="#making-memsurfer-work" title="Permalink to this headline">¶</a></h1>
+<p>You’ll need a GitHub account and sudo</p>
+<div class="section" id="environment-prereqs">
+<h2>Environment Prereqs<a class="headerlink" href="#environment-prereqs" title="Permalink to this headline">¶</a></h2>
+<p>get swig cython MPFR GMP and CGAL from the repos:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt install swig
+conda install cython
+sudo apt install libgmp-dev libmpfr-dev libcgal-dev
+</pre></div>
+</div>
+<p>clone the repo off the memsurfer github</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone --recursive git@github.com:LLNL/MemSurfer.git
+<span class="nv">MEM_HOME</span><span class="o">=</span><span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>/MemSurfer
+</pre></div>
+</div>
+</div>
+<div class="section" id="building">
+<h2>Building<a class="headerlink" href="#building" title="Permalink to this headline">¶</a></h2>
+<p>run their install script following their instructions</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> MemSurfer
+<span class="nb">export</span> <span class="nv">CC</span><span class="o">=</span><span class="sb">`</span>which gcc<span class="sb">`</span>
+<span class="nb">export</span> <span class="nv">CXX</span><span class="o">=</span><span class="sb">`</span>which g++<span class="sb">`</span>
+chmod +x install_deps.sh
+./install_deps.sh
+</pre></div>
+</div>
+<p>everything should work now</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> <span class="nv">$MEM_HOME</span>
+<span class="nv">CC</span><span class="o">=</span><span class="sb">`</span>which gcc<span class="sb">`</span> <span class="nv">CXX</span><span class="o">=</span><span class="sb">`</span>which g++<span class="sb">`</span> <span class="nv">LDCXXSHARED</span><span class="o">=</span><span class="s2">&quot;`which g++` -bundle -undefined dynamic_lookup&quot;</span>
+python setup.py install
+</pre></div>
+</div>
+</div>
+</div>
 
 
            </div>
@@ -186,7 +223,7 @@
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="MemSurfer.html" class="btn btn-neutral float-left" title="Making MemSurfer Work" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="customise_environment.html" class="btn btn-neutral float-left" title="Customising your environment" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
