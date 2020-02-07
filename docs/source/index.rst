@@ -11,3 +11,4 @@ Set-ups, shell environments, installations
    rest
    customise_environment
    MemSurfer
+   FATSLiM

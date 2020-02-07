@@ -1,6 +1,5 @@
 
 
-
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
@@ -9,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; Environment setups  documentation</title>
+  <title>Installing FATSLiM &mdash; Environment setups  documentation</title>
   
 
   
@@ -35,8 +34,9 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="index" title="Index" href="#" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Making MemSurfer Work" href="MemSurfer.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -81,12 +81,16 @@
             
             
               <p class="caption"><span class="caption-text">Docs</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="new_computer.html">Setting up a new computer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rest.html">How to edit these docs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="customise_environment.html">Customising your environment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="MemSurfer.html">Making MemSurfer Work</a></li>
-<li class="toctree-l1"><a class="reference internal" href="FATSLiM.html">Installing FATSLiM</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installing FATSLiM</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#make-a-new-conda-environment">Make a new conda environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#building">Building</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -132,12 +136,14 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Index</li>
+      <li>Installing FATSLiM</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
+            <a href="_sources/FATSLiM.rst.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
     
@@ -149,45 +155,63 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
 
-<h1 id="index">Index</h1>
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
 
-<div class="genindex-jumpbox">
- <a href="#D"><strong>D</strong></a>
- | <a href="#P"><strong>P</strong></a>
- | <a href="#U"><strong>U</strong></a>
- 
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="installing-fatslim">
+<h1>Installing FATSLiM<a class="headerlink" href="#installing-fatslim" title="Permalink to this headline">¶</a></h1>
+<p>You’ll need a conda and pip</p>
+<div class="section" id="make-a-new-conda-environment">
+<h2>Make a new conda environment<a class="headerlink" href="#make-a-new-conda-environment" title="Permalink to this headline">¶</a></h2>
+<p>make a new conda environment:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda create -name fatslim <span class="nv">python</span><span class="o">=</span><span class="m">3</span>.5
+</pre></div>
 </div>
-<h2 id="D">D</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="customise_environment.html#term-domain"><strong>domain</strong></a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="P">P</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="customise_environment.html#term-password"><strong>password</strong></a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="U">U</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="customise_environment.html#term-username"><strong>username</strong></a>
-</li>
-  </ul></td>
-</tr></table>
-
+</div>
+<div class="section" id="building">
+<h2>Building<a class="headerlink" href="#building" title="Permalink to this headline">¶</a></h2>
+<p>add numpy and the right cython</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install <span class="nv">cython</span><span class="o">==</span><span class="m">0</span>.16
+conda install numpy
+pip install fatslim
+</pre></div>
+</div>
+</div>
+</div>
 
 
            </div>
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="MemSurfer.html" class="btn btn-neutral float-left" title="Making MemSurfer Work" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
