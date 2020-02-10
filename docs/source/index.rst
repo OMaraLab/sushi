@@ -12,3 +12,4 @@ Set-ups, shell environments, installations
    customise_environment
    MemSurfer
    FATSLiM
+   Insane

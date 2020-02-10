@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>How to edit these docs &mdash; Environment setups  documentation</title>
+  <title>Installing Insane &mdash; Environment setups  documentation</title>
   
 
   
@@ -36,8 +36,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Customising your environment" href="customise_environment.html" />
-    <link rel="prev" title="Setting up a new computer" href="new_computer.html" /> 
+    <link rel="prev" title="Installing FATSLiM" href="FATSLiM.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -84,15 +83,15 @@
               <p class="caption"><span class="caption-text">Docs</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="new_computer.html">Setting up a new computer</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">How to edit these docs</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#conda-environment">Conda environment</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#building">Building</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="rest.html">How to edit these docs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="customise_environment.html">Customising your environment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="MemSurfer.html">Making MemSurfer Work</a></li>
 <li class="toctree-l1"><a class="reference internal" href="FATSLiM.html">Installing FATSLiM</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Insane.html">Installing Insane</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installing Insane</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#make-a-new-conda-environment">Make a new conda environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#building">Building</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -138,13 +137,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>How to edit these docs</li>
+      <li>Installing Insane</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/rest.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/Insane.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -181,40 +180,28 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="how-to-edit-these-docs">
-<span id="restructured-text-label"></span><h1>How to edit these docs<a class="headerlink" href="#how-to-edit-these-docs" title="Permalink to this headline">¶</a></h1>
-<p>You’ll need a GitHub account and push permissions for the <code class="docutils literal notranslate"><span class="pre">OMaralab/sushi</span></code> repo.</p>
-<div class="section" id="conda-environment">
-<h2>Conda environment<a class="headerlink" href="#conda-environment" title="Permalink to this headline">¶</a></h2>
-<p>Make a new conda environment:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda create --name docs
-conda activate docs
-</pre></div>
-</div>
-<p>Install sphinx, sphinx_rtd_theme, and sphinx-autobuild:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda install sphinx
-pip install sphinx_rtd_theme
-pip install sphinx-autobuild
-</pre></div>
-</div>
-<p>Download this repo:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone git@github.com:OMaraLab/sushi.git
-<span class="nb">cd</span> sushi/docs
+<div class="section" id="installing-insane">
+<h1>Installing Insane<a class="headerlink" href="#installing-insane" title="Permalink to this headline">¶</a></h1>
+<p>You’ll need conda and pip</p>
+<div class="section" id="make-a-new-conda-environment">
+<h2>Make a new conda environment<a class="headerlink" href="#make-a-new-conda-environment" title="Permalink to this headline">¶</a></h2>
+<p>make a new conda environment</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda create --name insane <span class="nv">python</span><span class="o">=</span><span class="m">2</span>.7
+conda activate insane
 </pre></div>
 </div>
 </div>
 <div class="section" id="building">
 <h2>Building<a class="headerlink" href="#building" title="Permalink to this headline">¶</a></h2>
-<p>Link pages to <code class="docutils literal notranslate"><span class="pre">index.rst</span></code>. You can write in Markdown or RestructuredText, I think. RestructuredText is more flexible while Markdown is much quicker. Check how your docs look with:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m sphinx_autobuild <span class="nb">source</span> build
+<p>add numpy and pip</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install numpy
+pip install insane
 </pre></div>
 </div>
-<p>To push back to GitHub, you need to make the files. I usually remove the <code class="docutils literal notranslate"><span class="pre">build</span></code> directory first to ensure everything is refreshed.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rm build
-make github
-git add .
-git commit -m <span class="s1">&#39;updated&#39;</span>
-git push origin master
+<p>Then make sure that the path it spits out is in your path.
+Often this is ~/.local/bin/insane</p>
+<p>add the following line to your bashrc</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:~/.local/bin/
 </pre></div>
 </div>
 </div>
@@ -228,10 +215,8 @@ git push origin master
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="customise_environment.html" class="btn btn-neutral float-right" title="Customising your environment" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-      
-        <a href="new_computer.html" class="btn btn-neutral float-left" title="Setting up a new computer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="FATSLiM.html" class="btn btn-neutral float-left" title="Installing FATSLiM" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
