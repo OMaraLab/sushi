@@ -1,0 +1,445 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Working remotely &mdash; Environment setups  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="How to edit these docs" href="rest.html" />
+    <link rel="prev" title="Setting up a new computer" href="new_computer.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Environment setups
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Docs</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="new_computer.html">Setting up a new computer</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Working remotely</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#connecting-via-ssh">Connecting via SSH</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#setting-up-keys">Setting up keys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setting-up-your-config-file">Setting up your config file</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#environments-for-remote-work">Environments for remote work</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#terminal-emulators">Terminal emulators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#continuous-terminal-sessions">Continuous terminal sessions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#remote-analysis">Remote analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#visual-forwarding">Visual forwarding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#text-editing">Text editing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#jupyter-notebooks">Jupyter notebooks</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#data-and-backups">Data and backups</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#version-control">Version control</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="rest.html">How to edit these docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customise_environment.html">Customising your environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MemSurfer.html">Making MemSurfer Work</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FATSLiM.html">Installing FATSLiM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Insane.html">Installing Insane</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Environment setups</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Working remotely</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/remote_work.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="working-remotely">
+<span id="remote-work-label"></span><h1>Working remotely<a class="headerlink" href="#working-remotely" title="Permalink to this headline">¶</a></h1>
+<p>This document is to help you use your remote (i.e. Research School of Chemistry) workstation from your local laptop. It’s targeted at people with Mac/Unix-based devices because I have no idea how to use Windows. If you know how to use Windows, please let me know so this can be updated.</p>
+<p><strong>Iodine</strong> is our local GPU cluster. We use it as a public SSH gateway to our local RSC network. You must already have an account set up on Iodine to use it (contact RSC IT, Lily, or Hugo for this).</p>
+<div class="section" id="connecting-via-ssh">
+<h2>Connecting via SSH<a class="headerlink" href="#connecting-via-ssh" title="Permalink to this headline">¶</a></h2>
+<p>Secure Shell (SSH) is a protocol for connecting between a client and a server. In this case your remote workstation is running a SSH server and your laptop, the client, will be connecting to it – but through the intermediary server, Iodine.</p>
+<div class="section" id="setting-up-keys">
+<h3>Setting up keys<a class="headerlink" href="#setting-up-keys" title="Permalink to this headline">¶</a></h3>
+<p>Your remote and local computers should already have SSH set up. You can probably skip a lot of this for the remote workstations and Iodine, as you’ve probably already set up your keys etc. when we set up your computer. However, check that your local machine is also set up.</p>
+<p>If not, you will need someone with admin permissions on Ubuntu:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt install openssh-server
+sudo systemctl <span class="nb">enable</span> ssh
+sudo systemctl start ssh
+</pre></div>
+</div>
+<p>SSH is pre-installed on Macs. You may need to turn it on:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo systemsetup -setremotelogin on
+</pre></div>
+</div>
+<p>Then, you need set up SSH keys on both your local laptop and Iodine, as we will be connecting through Iodine.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh-keygen -t rsa -b <span class="m">4096</span>
+</pre></div>
+</div>
+<p>Copy your Iodine key to your RSC computer while logged into Iodine:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh-copy-id username@destination
+</pre></div>
+</div>
+<p>And the same from your laptop to Iodine.</p>
+</div>
+<div class="section" id="setting-up-your-config-file">
+<h3>Setting up your config file<a class="headerlink" href="#setting-up-your-config-file" title="Permalink to this headline">¶</a></h3>
+<p>We want to make connecting to your RSC computer as painless as possible, so let’s set up our SSH config file. On both Mac and Ubuntu this will be located at <code class="docutils literal notranslate"><span class="pre">~/.ssh/config</span></code>. You may have to create it if it does not exist.</p>
+<p>Add the following entry for Iodine:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Host iodine
+    Hostname iodine.anu.edu.au
+    User my_iodine_username
+</pre></div>
+</div>
+<p>And another for your computer. Mine is called gavle. Your hostname will be your IP address, which you can get with <code class="docutils literal notranslate"><span class="pre">curl</span> <span class="pre">ifconfig.me</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Host gavle
+    Hostname xxx.xxx.xx.xxx
+    ProxyCommand ssh my_iodine_username@iodine nc %h %p
+    User lily
+    ForwardAgent yes
+    <span class="c1">#ForwardX11 yes</span>
+</pre></div>
+</div>
+<p>That last option controls whether you want to forward displays, e.g. VMD. You can turn it on by default by uncommenting that line, or you can manually connect with <code class="docutils literal notranslate"><span class="pre">ssh</span> <span class="pre">-X</span></code>. The ProxyCommand pipes your connection through Iodine to your computer.</p>
+<p>Now copy your key to your computer, directly from your laptop.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh-copy-id lily@gavle
+</pre></div>
+</div>
+<p>You should now be able to SSH directly into your computer without manually logging into Iodine.</p>
+</div>
+</div>
+<div class="section" id="environments-for-remote-work">
+<h2>Environments for remote work<a class="headerlink" href="#environments-for-remote-work" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="terminal-emulators">
+<h3>Terminal emulators<a class="headerlink" href="#terminal-emulators" title="Permalink to this headline">¶</a></h3>
+<p>From unhappy experience, it is <em>extremely easy</em> to get confused about where you are when you have multiple Terminal windows open, on different remote computers. For this reason you are <strong>strongly</strong> encouraged to use a terminal emulator with automatic profile switching.  I configure my terminal emulators to change themes when I am on Iodine, gavle, Gadi, and the shared drive.</p>
+<p>On Mac I use <a class="reference external" href="https://www.iterm2.com/">iTerm2</a> and on Ubuntu I use <a class="reference external" href="https://gnunn1.github.io/tilix-web/">Tilix</a> . On both you will need to download scripts for shell integration (<a class="reference external" href="https://www.iterm2.com/documentation-shell-integration.html">for iterm2</a> , <a class="reference external" href="https://github.com/gnunn1/tilix/wiki/Automatic-(Triggered)-Profile-Switching">for Tilix</a> )</p>
+</div>
+<div class="section" id="continuous-terminal-sessions">
+<h3>Continuous terminal sessions<a class="headerlink" href="#continuous-terminal-sessions" title="Permalink to this headline">¶</a></h3>
+<p>Working remotely is all well and good but having your process die every time your internet connection drops makes it unfeasible to do anything that will take a significant amount of time.</p>
+<p><a class="reference external" href="https://github.com/tmux/tmux/wiki">tmux</a> is a terminal multiplexer, allowing you to switch between different sessions within a terminal window, keep processes running in the background, and reattach to sessions to check on them. It’s very powerful and has <a class="reference external" href="https://www.hamvocke.com/blog/a-quick-and-easy-guide-to-tmux/">lots of advanced features</a> but I really only use it for running processes that I want to take a while and come back to. A session is like a different terminal window – you can switch conda environments, etc.</p>
+<p>It’s installed on most of the RSC computers, but if not, you will need admin permissions:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt install tmux
+</pre></div>
+</div>
+<p>To start a new session:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tmux new -s session-name
+</pre></div>
+</div>
+<p>You don’t <em>have</em> to name it, you can just type <code class="docutils literal notranslate"><span class="pre">tmux</span> <span class="pre">new</span></code>, but this typically means you then reattach to all of them trying to work out which session had the thing you were working on.</p>
+<p>To detach (while in the session)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tmux detach
+</pre></div>
+</div>
+<p>To re-attach:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tmux attach -t session-name
+</pre></div>
+</div>
+<p>(<code class="docutils literal notranslate"><span class="pre">tmux</span> <span class="pre">attach</span></code> re-attaches to your last open session).</p>
+<p>To see which sessions you have running:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tmux ls
+</pre></div>
+</div>
+<p>To kill a session:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tmux kill-session -t session-name
+</pre></div>
+</div>
+<p>I use it for stuff that takes forever (e.g. <code class="docutils literal notranslate"><span class="pre">gmx</span> <span class="pre">cluster</span></code>) or I want to go on indefinitely (e.g. starting a Jupyter server). Note that you may have to background your process to be able to detach properly (e.g. <code class="docutils literal notranslate"><span class="pre">jupyter</span> <span class="pre">notebook</span> <span class="pre">&amp;</span></code>).</p>
+</div>
+</div>
+<div class="section" id="remote-analysis">
+<h2>Remote analysis<a class="headerlink" href="#remote-analysis" title="Permalink to this headline">¶</a></h2>
+<p>Ok, now we’ve set it up so we can run command-line stuff reasonably comfortably. What about all the other stuff, like looking at trajectories through VMD, or plotting, or making more than one-line changes to files? My personal laptop can just about handle opening VS Code and Firefox before it starts melting down. It absolutely cannot store the TB of data that molecular dynamics tends to build up to.</p>
+<div class="section" id="visual-forwarding">
+<h3>Visual forwarding<a class="headerlink" href="#visual-forwarding" title="Permalink to this headline">¶</a></h3>
+<p>If you’re SSH-ing with X11 forwarding (<code class="docutils literal notranslate"><span class="pre">ssh</span> <span class="pre">-X</span></code>, you’ll be able to pipe stuff like VMD and xmgrace to your laptop. This requires a decent internet connection to not be miserable, but the option is there. Every RSC computer should be set up to allow X11 forwarding, but just in case, edit <code class="docutils literal notranslate"><span class="pre">/etc/ssh/sshd_config</span></code> (requires admin permissions) and set/uncomment:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>X11Forwarding yes
+</pre></div>
+</div>
+<p>The first time you SSH in you may get a message like:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/usr/bin/xauth:  file /home/lily/.Xauthority does not exist
+</pre></div>
+</div>
+<p>Try typing <code class="docutils literal notranslate"><span class="pre">xauth</span></code>, exiting, and seeing if it works now.</p>
+</div>
+<div class="section" id="text-editing">
+<h3>Text editing<a class="headerlink" href="#text-editing" title="Permalink to this headline">¶</a></h3>
+<p><strong>vim</strong></p>
+<p>Editing files with <code class="docutils literal notranslate"><span class="pre">vim</span></code> is a lot more pleasant if you configure it a bit. For example, my <code class="docutils literal notranslate"><span class="pre">~/.vimrc</span></code> is currently</p>
+<div class="highlight-vim notranslate"><div class="highlight"><pre><span></span><span class="nb">syntax</span> <span class="k">on</span>
+
+<span class="k">set</span> <span class="nb">softtabstop</span><span class="p">=</span><span class="m">4</span>               <span class="c">&quot; virtual tab stop</span>
+<span class="k">set</span> <span class="nb">tabstop</span><span class="p">=</span><span class="m">8</span>                   <span class="c">&quot; display files with tabs...</span>
+<span class="k">set</span> <span class="nb">shiftwidth</span><span class="p">=</span><span class="m">4</span>                <span class="c">&quot; spaces per indent</span>
+<span class="k">set</span> <span class="nb">smartindent</span>                 <span class="c">&quot; smart indent</span>
+<span class="k">set</span> <span class="nb">autoindent</span>                  <span class="c">&quot; same indent as line above</span>
+<span class="k">set</span> <span class="nb">expandtab</span>                   <span class="c">&quot; tab to space</span>
+<span class="k">set</span> <span class="nb">preserveindent</span>              <span class="c">&quot; preserve indents</span>
+
+
+<span class="k">set</span> <span class="nb">colorcolumn</span><span class="p">=</span><span class="m">80</span>              <span class="c">&quot; line at column 80 (pep8)</span>
+<span class="k">set</span> <span class="nb">mouse</span><span class="p">=</span><span class="k">a</span>                     <span class="c">&quot; use mouse</span>
+<span class="k">set</span> <span class="k">number</span>                      <span class="c">&quot; line numbers</span>
+<span class="k">set</span> <span class="nb">wrap</span>                        <span class="c">&quot; wrap long lines</span>
+</pre></div>
+</div>
+<p>Comment the <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">mouse=a</span></code> if you don’t like using your mouse to move the cursor. It means that if you highlight, you will enter visual mode and copy is replaced by <code class="docutils literal notranslate"><span class="pre">y</span></code> (yank) and paste is <code class="docutils literal notranslate"><span class="pre">p</span></code> (paste). Personally, I just use <code class="docutils literal notranslate"><span class="pre">less</span></code> if I don’t want mouse mode to activate.</p>
+<p><strong>Visual Studio</strong></p>
+<p>The alternative is using a non-commandline text editor. I use Visual Studio with the <a class="reference external" href="https://code.visualstudio.com/docs/remote/ssh">Remote SSH</a> extension. I’ve really liked it so far – if your internet connection drops, it will ask you to reload the window, but it won’t lose unsaved work unless you close the VS Code instance on your local laptop.</p>
+</div>
+<div class="section" id="jupyter-notebooks">
+<h3>Jupyter notebooks<a class="headerlink" href="#jupyter-notebooks" title="Permalink to this headline">¶</a></h3>
+<p>Jupyter notebooks run on a server, which means that you can access notebook servers from your laptop. First, set up your Jupyter configuration and your password on your RSC computer. Your configuration file should be at <code class="docutils literal notranslate"><span class="pre">~/.jupyter/jupyter_notebook_config.py</span></code>. If it does not exist, make a new one:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>jupyter notebook --generate-config
+</pre></div>
+</div>
+<p>And if you have not already, set up a password:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>jupyter notebook password
+</pre></div>
+</div>
+<p>You can re-run that command to reset a lost password or to change it.</p>
+<p>Then start a server in a <code class="docutils literal notranslate"><span class="pre">tmux</span></code> session to ensure that it persists beyond closing the terminal window or drops in internet:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tmux new -s jupyter
+jupyter notebook --port<span class="o">=</span><span class="m">8889</span>
+</pre></div>
+</div>
+<p>Now set-up an SSH tunnel to that port. To connect the 8889 port on your laptop to the 8889 port on your RSC computer, type:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh -N -f -L <span class="m">127</span>.0.0.1:8889:127.0.0.1:8889 lily@gavle
+</pre></div>
+</div>
+<p>Now if you open a web browser and go to <code class="docutils literal notranslate"><span class="pre">localhost:8889/</span></code>, it will ask you for a password. Type in the Jupyter password you have set, and <em>you’re in</em>. Any notebook that you create and edit is actually being created and edited on your remote computer. (Note: if you have JupyterLab installed, that’s another alternative to remote text editing to <code class="docutils literal notranslate"><span class="pre">vim</span></code> and VS Code described above).</p>
+<p>If your internet drops out, you might need to re-establish the tunnel. I have a command in my <code class="docutils literal notranslate"><span class="pre">~/.bash_aliases</span></code> to make this easier:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> tunnel <span class="o">{</span>
+    <span class="nv">port</span><span class="o">=</span><span class="nv">$1</span>
+    ssh -N -f -L <span class="m">127</span>.0.0.1:<span class="si">${</span><span class="nv">port</span><span class="si">}</span>:127.0.0.1:<span class="si">${</span><span class="nv">port</span><span class="si">}</span> lily@gavle
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>which I call by typing <code class="docutils literal notranslate"><span class="pre">tunnel</span> <span class="pre">8889</span></code>. Occasionally I also want to free up that port, so this is also in my <code class="docutils literal notranslate"><span class="pre">~/.bash_aliases</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> killport <span class="o">{</span>
+    <span class="nv">port</span><span class="o">=</span><span class="nv">$1</span>
+    lsof -ti:<span class="si">${</span><span class="nv">port</span><span class="si">}</span> <span class="p">|</span> xargs <span class="nb">kill</span> -9
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>and is called by typing <code class="docutils literal notranslate"><span class="pre">killport</span> <span class="pre">8889</span></code>. This kills <em>all</em> processes associated with that port, not just tunnels. Bash aliases are your friend in remote work.</p>
+</div>
+</div>
+<div class="section" id="data-and-backups">
+<h2>Data and backups<a class="headerlink" href="#data-and-backups" title="Permalink to this headline">¶</a></h2>
+<p>Working remotely is great when your remote computer is accessible. Our experience has been that it is unwise to rely blindly on university internet or server infrastructure.</p>
+<p>Follow the 3-2-1 rule for backups:</p>
+<ul class="simple">
+<li><p><strong>three</strong> copies of your data</p></li>
+<li><p><strong>two</strong> of the copies on different media</p></li>
+<li><p><strong>one</strong> of them should be off-site.</p></li>
+</ul>
+<p><strong>Use the shared drive to store your data</strong>. The shared server is in a different location and is maintained by central IT. If you have not already, install the ANU VPN so you can access the shared drive off-campus. However, don’t work off the shared drive (e.g. running analysis on it, reading/writing too many files, etc) because it’s really slow. Instead:</p>
+<p><strong>Copy any data you’re currently working on to your RSC computer</strong>. Don’t save it in your home directory (<code class="docutils literal notranslate"><span class="pre">~/Documents</span></code>), because our computers don’t come with that much space. We have an integrated hard drive with 1-2 TB storage, usually mounted at <code class="docutils literal notranslate"><span class="pre">/store</span></code>. Make a folder for yourself and work off that. However, we will lose access to both the shared drive and our RSC computers if the network goes down or there’s a power outage. So,</p>
+<p><strong>Copy your data to a portable hard drive and keep that with you.</strong> Once you’re into the analysis stage for that project, your data won’t change much so you won’t have to update this regularly.</p>
+<div class="section" id="version-control">
+<h3>Version control<a class="headerlink" href="#version-control" title="Permalink to this headline">¶</a></h3>
+<p>The best way to back up your data analysis is version control with <code class="docutils literal notranslate"><span class="pre">git</span></code>. If you’re a student, you can get a Pro GitHub account (and other stuff) for free with the <a class="reference external" href="https://education.github.com/pack">Github Student Developer Pack</a> . (Once you’re on GitHub, join the <a class="reference external" href="https://github.com/OMaraLab">OMaraLab</a> organisation!) With a Pro account, you can have private repositories. I use these to store my analysis scripts and notebooks (not images because GitHub has a file size limit).</p>
+<p>Alternatively, you can use OneDrive / Dropbox / other cloud storage services. All ANU staff and students have an Office365 subscription. On Ubuntu you can download <a class="reference external" href="https://github.com/skilion/onedrive">this free OneDrive client</a> that works quite well for me.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="rest.html" class="btn btn-neutral float-right" title="How to edit these docs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="new_computer.html" class="btn btn-neutral float-left" title="Setting up a new computer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Lily Wang, Katie Wilson, Hugo MacDermott-Opeskin, Megan O&#39;Mara
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

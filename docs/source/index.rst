@@ -8,6 +8,7 @@ Set-ups, shell environments, installations
    :caption: Docs
    
    new_computer
+   remote_work
    rest
    customise_environment
    MemSurfer
