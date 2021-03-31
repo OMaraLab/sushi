@@ -16,6 +16,21 @@ Connecting via SSH
 
 Secure Shell (SSH) is a protocol for connecting between a client and a server. In this case your remote workstation is running a SSH server and your laptop, the client, will be connecting to it -- but through the intermediary server, Iodine.
 
+**Windows errata** Windows doesn't install an SSH agent by default but it does include an optional implementation of OpenSSH that you can install
+
+    <https://www.hanselman.com/blog/how-to-use-windows-10s-builtin-openssh-to-automatically-ssh-into-a-remote-linux-machine> 
+
+The version of OpenSSH included in Windows is quite old and MicroSoft has not updated in in Windows update.
+
+To get the most recent version you can use the chocolatey package manager for Windows <https://chocolatey.org/install>
+
+Uninstall the Windows installer version by going to Settings / Apps / Optional features and uninstall OpenSSH 
+
+Then and then use the following command to install OpenSSH
+
+.. code-block:: powershell
+
+    choco install openssh -params  --confirm
 
 ---------------
 Setting up keys
@@ -52,6 +67,13 @@ Copy your Iodine key to your RSC computer while logged into Iodine:
     ssh-copy-id username@destination
 
 And the same from your laptop to Iodine.
+
+**Windows errata** The Windows implemantation of OpenSSH does not include ssh-copy-id, but you can use a powershell oneliner to do this;
+
+.. code-block:: powershell
+
+    type $env:USERPROFILE\.ssh\id_rsa.pub | ssh username@destination "cat >> .ssh/authorized_keys"
+
 
 ---------------------------
 Setting up your config file

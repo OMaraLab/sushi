@@ -29,6 +29,7 @@ Uninstall the Windows installer version by going to Settings / Apps / Optional f
 Then and then use the following command to install OpenSSH
 
 .. code-block:: powershell
+
     choco install openssh -params  --confirm
 
 ---------------
