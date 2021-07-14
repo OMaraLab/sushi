@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,6 +31,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
@@ -85,7 +88,7 @@
               
             
             
-              <p class="caption"><span class="caption-text">Docs</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Docs</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Setting up a new computer</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#obtain-a-usb-drive-with-ubuntu">Obtain a USB drive with Ubuntu</a></li>
@@ -141,6 +144,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#autodock-tools-and-vina">Autodock Tools and Vina</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pymol">PyMol</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#install-directly-in-conda">Install directly in conda</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#apt">apt</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#building-from-source">Building from source</a></li>
 </ul>
@@ -666,9 +670,21 @@ sudo ln -s /store/opt/MGLTools-1.5.6/bin/adt /usr/local/bin/adt
 </div>
 <div class="section" id="pymol">
 <h2>PyMol<a class="headerlink" href="#pymol" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="install-directly-in-conda">
+<h3>Install directly in conda<a class="headerlink" href="#install-directly-in-conda" title="Permalink to this headline">¶</a></h3>
+<p>The easiest way to install PyMol is probably to install the open-source version directly with conda. This involves installing third party packages.</p>
+<p>On linux, you can install from <a class="reference external" href="https://anaconda.org/conda-forge/pymol-open-source">conda-forge</a>:</p>
+<blockquote>
+<div><p>conda install -c conda-forge pymol-open-source</p>
+</div></blockquote>
+<p>The conda-forge package doesn’t include an OS X version, so you’ll need to find another package if you want to do this on a mac. Ada is using <a class="reference external" href="https://anaconda.org/tpeulen/pymol-open-source">this one</a> but use it at your own risk:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda install -c tpeulen pymol-open-source
+</pre></div>
+</div>
+</div>
 <div class="section" id="apt">
 <h3>apt<a class="headerlink" href="#apt" title="Permalink to this headline">¶</a></h3>
-<p>The quickest way to get the open-source version is probably to use <code class="docutils literal notranslate"><span class="pre">apt</span></code>.</p>
+<p>You can install the open-source version directly by using <code class="docutils literal notranslate"><span class="pre">apt</span></code>.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt install pymol
 </pre></div>
 </div>
