@@ -14,3 +14,4 @@ Set-ups, shell environments, installations
    MemSurfer
    FATSLiM
    Insane
+   archiving_files
