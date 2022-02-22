@@ -1,0 +1,280 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Archiving Files &mdash; Environment setups  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Installing Insane" href="Insane.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Environment setups
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Docs</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="new_computer.html">Setting up a new computer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="remote_work.html">Working remotely</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rest.html">How to edit these docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customise_environment.html">Customising your environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MemSurfer.html">Making MemSurfer Work</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FATSLiM.html">Installing FATSLiM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Insane.html">Installing Insane</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Archiving Files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#mdss">MDSS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#verifying-archive-integrity">Verifying archive integrity</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Environment setups</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Archiving Files</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/archiving_files.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="archiving-files">
+<h1>Archiving Files<a class="headerlink" href="#archiving-files" title="Permalink to this headline">¶</a></h1>
+<p>Its very important to save your raw unprocessed trajectories for reproducibility
+and legal reasons. The primary way of doing this is by archiving data on a long term storage drive.</p>
+<p>Our long term data policy is still under construction, however it is generally a good idea to follow the rule of 3</p>
+<ul class="simple">
+<li><p>3 copies of your data</p></li>
+<li><p>2 different locations</p></li>
+<li><p>1 copy offsite</p></li>
+</ul>
+<p>Most long term storage drives require data to be tarballed.</p>
+<div class="section" id="mdss">
+<h2>MDSS<a class="headerlink" href="#mdss" title="Permalink to this headline">¶</a></h2>
+<p>A great offsite long term storage option is the MDSS tape drive at NCI.
+You can use the netcp command to move stuff to MDSS easily:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>netcp -C -l <span class="nv">other</span><span class="o">=</span>mdss,mem<span class="o">=</span>160GB,walltime<span class="o">=</span><span class="m">10</span>:00:00 -z -t tarball.tar target destination
+</pre></div>
+</div>
+<p>where destination is a path on MDSS.</p>
+<p>This handy bash macro accomplishes this easily, you can add it to yout bashrc.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mdssput <span class="o">()</span> <span class="o">{</span>
+    netcp -C -l <span class="nv">other</span><span class="o">=</span>mdss,mem<span class="o">=</span>160GB,walltime<span class="o">=</span><span class="m">10</span>:00:00 -z -t <span class="si">${</span><span class="nv">1</span><span class="si">}</span>.tar <span class="nv">$1</span> <span class="nv">$2</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>It is <strong>VERY VERY</strong> important that you check that the job exits without errors.
+Check the .e and .o files whcih should be in the directory you launched the job from.</p>
+<p>You can also manually transfer your tarballed files directly to mdss.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mdss put tarball.tar destination
+</pre></div>
+</div>
+</div>
+<div class="section" id="verifying-archive-integrity">
+<h2>Verifying archive integrity<a class="headerlink" href="#verifying-archive-integrity" title="Permalink to this headline">¶</a></h2>
+<p>Everytime you transfer data remotely, there is a small but non-negligible chance of data loss.
+To minimise this use rsync rather than scp as it has error checking.</p>
+<p>Regardless, it is important to verify the intergity of your archive for long term storage.</p>
+<p>I reccomend several checks to verify that your archive is working as intended.</p>
+<p>The first one is to compute the md5sum of your tarball before and after it has been transferred.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>md5sum tarball.tar
+</pre></div>
+</div>
+<p>If the two do not match, you have lost some data somewhere.</p>
+<p>You should also untar your newly transferred tarball on /scratch to verify that everything is working as intended.
+You should also download a trajectory or three and see that they load ok in vmd or with <cite>gmx check</cite>.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="Insane.html" class="btn btn-neutral float-left" title="Installing Insane" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Lily Wang, Katie Wilson, Hugo MacDermott-Opeskin, Megan O&#39;Mara
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

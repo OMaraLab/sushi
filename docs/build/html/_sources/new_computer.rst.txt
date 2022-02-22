@@ -487,11 +487,27 @@ For Autodock Vina::
 PyMol
 =====
 
+-------------------------
+Install directly in conda
+-------------------------
+
+The easiest way to install PyMol is probably to install the open-source version directly with conda. This involves installing third party packages.
+
+On linux, you can install from `conda-forge <https://anaconda.org/conda-forge/pymol-open-source>`_:
+
+
+
+    conda install -c conda-forge pymol-open-source 
+
+The conda-forge package doesn't include an OS X version, so you'll need to find another package if you want to do this on a mac. Ada is using `this one <https://anaconda.org/tpeulen/pymol-open-source>`_ but use it at your own risk::
+
+    conda install -c tpeulen pymol-open-source
+
 ---
 apt
 ---
 
-The quickest way to get the open-source version is probably to use ``apt``. ::
+You can install the open-source version directly by using ``apt``. ::
 
     sudo apt install pymol
 
